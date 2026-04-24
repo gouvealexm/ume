@@ -9,20 +9,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0a0e1a;
-  --surface: #111827;
-  --surface2: #1a2235;
-  --border: #1e2d45;
-  --text: #e2e8f0;
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59,130,246,0.15);
-  --green: #10b981;
-  --green-glow: rgba(16,185,129,0.15);
-  --red: #ef4444;
-  --red-glow: rgba(239,68,68,0.12);
-  --purple: #8b5cf6;
+  --bg: #0d0f12;
+  --surface: #161b22;
+  --surface2: #1c2128;
+  --border: #21262d;
+  --text: #e6edf3;
+  --text-muted: #7d8590;
+  --text-dim: #adbac7;
+  --accent: #00ff88;
+  --accent-dim: #00cc6a;
+  --accent-glow: rgba(0,255,136,0.12);
+  --accent-bg: rgba(0,255,136,0.07);
+  --green: #00ff88;
+  --green-glow: rgba(0,255,136,0.12);
+  --red: #ff5555;
+  --red-glow: rgba(255,85,85,0.12);
+  --purple: #bd93f9;
+  --yellow: #f1c40f;
 }
 
 body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
@@ -33,6 +36,7 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
   min-width: 200px;
   background: var(--surface);
   border-right: 1px solid var(--border);
+  border-right-color: #1a2e1f;
   display: flex;
   flex-direction: column;
   padding: 28px 20px 24px;
@@ -49,7 +53,7 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
   letter-spacing: -0.5px;
   line-height: 1;
 }
-.logo-text span { color: var(--accent); }
+.logo-text span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 .logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 .dev-credit { margin-top: 24px; font-size: 10px; color: var(--text-muted); line-height: 1.5; }
 .dev-credit a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
@@ -62,10 +66,10 @@ header { margin-bottom: 24px; }
 header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
 header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 
-.nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; background: var(--surface); border-radius: 12px; padding: 8px; border: 1px solid var(--border); }
-.nav-btn { background: transparent; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-.nav-btn:hover { background: var(--surface2); color: var(--text); }
-.nav-btn.active { background: var(--accent); color: #fff; box-shadow: 0 0 12px var(--accent-glow); }
+.nav { display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 24px; background: transparent; border-radius: 0; padding: 0; border: none; border-bottom: 1px solid var(--border); }
+.nav-btn { background: transparent; border: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 10px 20px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; margin-bottom: -1px; }
+.nav-btn:hover { background: transparent; color: var(--text); }
+.nav-btn.active { background: transparent; color: var(--accent); border-bottom: 2px solid var(--accent); border-radius: 0; padding-bottom: 6px; text-shadow: 0 0 8px var(--accent-glow); }
 
 .panel { display: none; }
 .panel.active { display: block; }
@@ -76,7 +80,7 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 12px; cursor: pointer; user-select: none; transition: all 0.15s; }
 .card:hover { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
 .card.selected { border: 2px solid var(--accent); background: var(--surface2); box-shadow: 0 0 16px var(--accent-glow); }
-.card.selected .cname { color: #93c5fd; }
+.card.selected .cname { color: var(--accent); }
 
 .initials { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
 .cname { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.3; }
@@ -94,10 +98,10 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .m { border-radius: 10px; padding: 11px 13px; }
 .m .ml { font-size: 11px; margin-bottom: 3px; font-weight: 500; }
 .m .mv { font-size: 17px; font-weight: 600; }
-.mr { background: var(--red-glow); border: 1px solid rgba(239,68,68,0.2); } .mr .ml { color: #f87171; } .mr .mv { color: #fca5a5; }
-.mg { background: var(--green-glow); border: 1px solid rgba(16,185,129,0.2); } .mg .ml { color: #34d399; } .mg .mv { color: #6ee7b7; }
+.mr { background: rgba(255,85,85,0.07); border: 1px solid rgba(255,85,85,0.2); } .mr .ml { color: #ff5555; } .mr .mv { color: #ff8080; }
+.mg { background: rgba(0,255,136,0.07); border: 1px solid rgba(0,255,136,0.2); } .mg .ml { color: #00cc6a; } .mg .mv { color: #00ff88; }
 .mn { background: var(--surface2); border: 1px solid var(--border); } .mn .ml { color: var(--text-muted); } .mn .mv { color: var(--text); }
-.mb { background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.2); } .mb .ml { color: #60a5fa; } .mb .mv { color: #93c5fd; }
+.mb { background: rgba(0,255,136,0.07); border: 1px solid rgba(0,255,136,0.2); } .mb .ml { color: #00cc6a; } .mb .mv { color: #00ff88; }
 
 .team-block { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; background: var(--surface); }
 .team-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
@@ -124,11 +128,11 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .op-table tr:last-child td { border-bottom:none; }
 .op-table tr:hover td { background: var(--surface2); }
 
-.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--green-glow); color:#34d399; font-weight:600; border:1px solid rgba(16,185,129,0.2); }
-.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
+.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(0,255,136,0.1); color:#00ff88; font-weight:600; border:1px solid rgba(0,255,136,0.25); }
+.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(255,85,85,0.1); color:#ff5555; font-weight:600; border:1px solid rgba(255,85,85,0.25); }
 .badge-eq { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--surface2); color:var(--text-muted); border:1px solid var(--border); }
-.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
-.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--accent-glow); color:#60a5fa; font-weight:600; border:1px solid rgba(59,130,246,0.2); }
+.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(255,85,85,0.1); color:#ff5555; font-weight:600; border:1px solid rgba(255,85,85,0.25); }
+.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(0,255,136,0.1); color:#00ff88; font-weight:600; border:1px solid rgba(0,255,136,0.25); }
 
 .hslider-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; background:var(--surface2); border-radius:10px; padding:10px 14px; border:1px solid var(--border); }
 input[type=range] { accent-color: var(--accent); }
@@ -169,41 +173,41 @@ input[type=range] { accent-color: var(--accent); }
 
   <!-- P1: PERDA -->
   <div class="panel active" id="panel-perda">
-    <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione os operadores ausentes</div>
-    <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
-    <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
-    <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
-    <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
-    <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
+    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Selecione os operadores ausentes</div>
+    <div class="sec-label" style="color:#00ff88;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
+    <div class="sec-label" style="color:#00ff88;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
+    <div class="sec-label" style="color:#bd93f9;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
+    <div class="sec-label" style="color:#00cfff;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
+    <div class="sec-label" style="color:#0099cc;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
     <div class="hslider-row">
-      <label style="font-size:13px;color:#555;">Horas ausente hoje:</label>
+      <label style="font-size:13px;color:#adbac7;">Horas ausente hoje:</label>
       <input type="range" min="0.5" max="8" step="0.5" value="8" id="hslider" style="width:130px;">
-      <span style="font-size:13px;font-weight:600;color:#1a1a2e;min-width:28px;" id="hval">8h</span>
+      <span style="font-size:13px;font-weight:600;color:#00ff88;min-width:28px;" id="hval">8h</span>
     </div>
     <div class="result-box" id="p1-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
   </div>
 
   <!-- P2: MÉDIAS -->
   <div class="panel" id="panel-medias">
-    <div style="font-size:12px;color:#888;margin-bottom:10px;">Médias consolidadas Fevereiro + Março</div>
-    <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
-    <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
-    <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
-    <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
-    <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
+    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Médias consolidadas Fevereiro + Março</div>
+    <div class="sec-label" style="color:#00ff88;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
+    <div class="sec-label" style="color:#00ff88;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
+    <div class="sec-label" style="color:#bd93f9;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
+    <div class="sec-label" style="color:#00cfff;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
+    <div class="sec-label" style="color:#0099cc;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
   </div>
 
   <!-- P3: DIA DA SEMANA -->
   <div class="panel" id="panel-semana">
-    <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione operadores para ver produção por dia da semana</div>
-    <div class="sec-label" style="color:#60a5fa;">UME</div><div class="grid-cards" id="p3-ume"></div>
-    <div class="sec-label" style="color:#34d399;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
+    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Selecione operadores para ver produção por dia da semana</div>
+    <div class="sec-label" style="color:#00ff88;">UME</div><div class="grid-cards" id="p3-ume"></div>
+    <div class="sec-label" style="color:#00cfff;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
     <div class="result-box" id="p3-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
   </div>
 
   <!-- P4: MÊS A MÊS -->
   <div class="panel" id="panel-mes">
-    <div style="font-size:12px;color:#888;margin-bottom:14px;">Comparativo de faturamento por operador — Fevereiro vs Março</div>
+    <div style="font-size:12px;color:#7d8590;margin-bottom:14px;">Comparativo de faturamento por operador — Fevereiro vs Março</div>
     <div id="p4-content"></div>
   </div>
 </div>
@@ -219,11 +223,11 @@ const ops = [
   { name:'Kayke Araújo',     initials:'KA', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:18786,dias:16},  mar:{total:9241.93,dias:17},  equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
   { name:'Pamela Isabelle',  initials:'PI', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:29052,dias:16},  mar:{total:14813.61,dias:17}, equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
   { name:'Lauane Stephanie', initials:'LS', color:'#2e1065', tc:'#c4b5fd', fev:{total:0,dias:0},       mar:{total:1125.50,dias:10},  equipe:'UME',   sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-ume-wp',     p2:'p2-ume-wp',     p3:'p3-ume'   },
-  { name:'Adriano Correia',  initials:'AC', color:'#052e16', tc:'#6ee7b7', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Beatriz Santos',   initials:'BS', color:'#052e16', tc:'#6ee7b7', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Larissa Rosário',  initials:'LR', color:'#052e16', tc:'#6ee7b7', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Adriano Correia',  initials:'AC', color:'#051f2e', tc:'#00cfff', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Beatriz Santos',   initials:'BS', color:'#051f2e', tc:'#00cfff', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Larissa Rosário',  initials:'LR', color:'#051f2e', tc:'#00cfff', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
   { name:'Simone Gama',      initials:'SG', color:'#3b0a0a', tc:'#fca5a5', fev:{total:36851,dias:15},  mar:{total:29875.64,dias:10}, equipe:'ODRES', sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Talita Souza',     initials:'TS', color:'#052e16', tc:'#a7f3d0', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
+  { name:'Talita Souza',     initials:'TS', color:'#051f2e', tc:'#67e8f9', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
 ];
 
 const rawMar = {
@@ -244,8 +248,8 @@ const rawMar = {
 
 const calendario = [[0],[1],[2],[3],[4],[0],[1],[2],[3],[4],[0],[2],[3],[4],[0],[1],[2],[3],[4],[0],[1]];
 const diasNome = ['Segunda','Terça','Quarta','Quinta','Sexta'];
-const diasCor  = ['#eff6ff','#f0fdf4','#f5f3ff','#fffbeb','#fff7ed'];
-const diasTxt  = ['#93c5fd','#6ee7b7','#c4b5fd','#92400e','#9a3412'];
+const diasCor  = ['#0d1f35','#0a1f16','#1a0f35','#1f1500','#1f0f00'];
+const diasTxt  = ['#60a5fa','#00ff88','#c4b5fd','#f59e0b','#f97316'];
 const diasBar  = ['#3b82f6','#22c55e','#8b5cf6','#f59e0b','#f97316'];
 
 function calcMediaDia(nome){
@@ -459,11 +463,11 @@ function renderP4(){
         </td>
         <td>
           <div style="font-size:12px;">${fmtV(o.fev.total)}</div>
-          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.fev.total/mb*100).toFixed(0)}%;background:#93c5fd;"></div></div>
+          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.fev.total/mb*100).toFixed(0)}%;background:#3b82f6;"></div></div>
         </td>
         <td>
           <div style="font-size:12px;">${fmtV(o.mar.total)}</div>
-          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.mar.total/mb*100).toFixed(0)}%;background:#6ee7b7;"></div></div>
+          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.mar.total/mb*100).toFixed(0)}%;background:#00ff88;"></div></div>
         </td>
         <td class="center">${vBadge(o.fev.total,o.mar.total)}</td>
       </tr>`;
@@ -511,11 +515,11 @@ function renderP4(){
       </div>
     </div>
     <div style="display:flex;gap:12px;margin-bottom:12px;font-size:12px;color:#888;">
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#93c5fd;display:inline-block;"></span>Fevereiro</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#6ee7b7;display:inline-block;"></span>Março</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#3b82f6;display:inline-block;"></span>Fevereiro</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#00ff88;display:inline-block;"></span>Março</span>
     </div>
-    ${teamTable('UME','#60a5fa',umeOps)}
-    ${teamTable('ODRES','#34d399',odresOps)}
+    ${teamTable('UME','#00ff88',umeOps)}
+    ${teamTable('ODRES','#00cfff',odresOps)}
   `;
 }
 </script>
