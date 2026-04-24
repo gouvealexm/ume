@@ -3,29 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Operacional</title>
+<title>UME · Painel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════
+   BASE LAYOUT — app shell
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59,130,246,0.15);
+  --green: #10b981;
+  --green-glow: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --red-glow: rgba(239,68,68,0.12);
+  --purple: #8b5cf6;
+}
+
+body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 200px; min-width: 200px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 28px 16px 24px;
+  min-height: 100vh;
+  position: sticky; top: 0; height: 100vh;
+}
+.logo-wrap { margin-bottom: 32px; }
+.logo-text { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -0.5px; line-height: 1; }
+.logo-text span { color: var(--accent); }
+.logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+
+/* SIDEBAR NAV */
+.sb-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.sb-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted);
+  background: transparent; border: none;
+  cursor: pointer; transition: all .15s;
+  text-align: left; width: 100%;
+}
+.sb-btn:hover { background: var(--surface2); color: var(--text); }
+.sb-btn.active { background: rgba(59,130,246,.15); color: #93c5fd; }
+.sb-btn .sb-icon { font-size: 16px; flex-shrink: 0; }
+.sb-btn .sb-label { flex: 1; line-height: 1.3; }
+.sb-btn .sb-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
+.sb-btn.active .sb-sub { color: rgba(147,197,253,.6); }
+
+.dev-credit { margin-top: auto; padding-top: 16px; font-size: 10px; color: var(--text-muted); line-height: 1.5; border-top: 1px solid var(--border); }
+.dev-credit a { color: var(--accent); text-decoration: none; }
+.dev-credit a:hover { color: #93c5fd; text-decoration: underline; }
+
+/* MAIN */
+.main { flex: 1; overflow: auto; }
+.app-panel { display: none; min-height: 100vh; }
+.app-panel.active { display: block; }
+
+/* ═══════════════════════════════════════
+   PAINEL OPERACIONAL (index styles)
+═══════════════════════════════════════ */
+#panel-painel {
+  padding: 28px 24px;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0d0f12;
-  --surface: #161b22;
-  --surface2: #1c2128;
-  --border: #21262d;
-  --text: #e6edf3;
-  --text-muted: #7d8590;
-  --text-dim: #adbac7;
-  --accent: #00ff88;
-  --accent-dim: #00cc6a;
-  --accent-glow: rgba(0,255,136,0.12);
-  --accent-bg: rgba(0,255,136,0.07);
-  --green: #00ff88;
-  --green-glow: rgba(0,255,136,0.12);
-  --red: #ff5555;
-  --red-glow: rgba(255,85,85,0.12);
-  --purple: #bd93f9;
-  --yellow: #f1c40f;
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59,130,246,0.15);
+  --green: #10b981;
+  --green-glow: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --red-glow: rgba(239,68,68,0.12);
+  --purple: #8b5cf6;
 }
 
 body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
@@ -36,7 +107,6 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
   min-width: 200px;
   background: var(--surface);
   border-right: 1px solid var(--border);
-  border-right-color: #1a2e1f;
   display: flex;
   flex-direction: column;
   padding: 28px 20px 24px;
@@ -53,7 +123,7 @@ body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(
   letter-spacing: -0.5px;
   line-height: 1;
 }
-.logo-text span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+.logo-text span { color: var(--accent); }
 .logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
 .dev-credit { margin-top: 24px; font-size: 10px; color: var(--text-muted); line-height: 1.5; }
 .dev-credit a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
@@ -66,10 +136,10 @@ header { margin-bottom: 24px; }
 header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
 header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 
-.nav { display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 24px; background: transparent; border-radius: 0; padding: 0; border: none; border-bottom: 1px solid var(--border); }
-.nav-btn { background: transparent; border: none; border-bottom: 2px solid transparent; border-radius: 0; padding: 10px 20px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; margin-bottom: -1px; }
-.nav-btn:hover { background: transparent; color: var(--text); }
-.nav-btn.active { background: transparent; color: var(--accent); border-bottom: 2px solid var(--accent); border-radius: 0; padding-bottom: 6px; text-shadow: 0 0 8px var(--accent-glow); }
+.nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; background: var(--surface); border-radius: 12px; padding: 8px; border: 1px solid var(--border); }
+.nav-btn { background: transparent; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--surface2); color: var(--text); }
+.nav-btn.active { background: var(--accent); color: #fff; box-shadow: 0 0 12px var(--accent-glow); }
 
 .panel { display: none; }
 .panel.active { display: block; }
@@ -80,7 +150,7 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 12px; cursor: pointer; user-select: none; transition: all 0.15s; }
 .card:hover { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
 .card.selected { border: 2px solid var(--accent); background: var(--surface2); box-shadow: 0 0 16px var(--accent-glow); }
-.card.selected .cname { color: var(--accent); }
+.card.selected .cname { color: #93c5fd; }
 
 .initials { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
 .cname { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.3; }
@@ -98,10 +168,10 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .m { border-radius: 10px; padding: 11px 13px; }
 .m .ml { font-size: 11px; margin-bottom: 3px; font-weight: 500; }
 .m .mv { font-size: 17px; font-weight: 600; }
-.mr { background: rgba(255,85,85,0.07); border: 1px solid rgba(255,85,85,0.2); } .mr .ml { color: #ff5555; } .mr .mv { color: #ff8080; }
-.mg { background: rgba(0,255,136,0.07); border: 1px solid rgba(0,255,136,0.2); } .mg .ml { color: #00cc6a; } .mg .mv { color: #00ff88; }
+.mr { background: var(--red-glow); border: 1px solid rgba(239,68,68,0.2); } .mr .ml { color: #f87171; } .mr .mv { color: #fca5a5; }
+.mg { background: var(--green-glow); border: 1px solid rgba(16,185,129,0.2); } .mg .ml { color: #34d399; } .mg .mv { color: #6ee7b7; }
 .mn { background: var(--surface2); border: 1px solid var(--border); } .mn .ml { color: var(--text-muted); } .mn .mv { color: var(--text); }
-.mb { background: rgba(0,255,136,0.07); border: 1px solid rgba(0,255,136,0.2); } .mb .ml { color: #00cc6a; } .mb .mv { color: #00ff88; }
+.mb { background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.2); } .mb .ml { color: #60a5fa; } .mb .mv { color: #93c5fd; }
 
 .team-block { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; background: var(--surface); }
 .team-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
@@ -128,14 +198,213 @@ header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 .op-table tr:last-child td { border-bottom:none; }
 .op-table tr:hover td { background: var(--surface2); }
 
-.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(0,255,136,0.1); color:#00ff88; font-weight:600; border:1px solid rgba(0,255,136,0.25); }
-.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(255,85,85,0.1); color:#ff5555; font-weight:600; border:1px solid rgba(255,85,85,0.25); }
+.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--green-glow); color:#34d399; font-weight:600; border:1px solid rgba(16,185,129,0.2); }
+.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
 .badge-eq { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--surface2); color:var(--text-muted); border:1px solid var(--border); }
-.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(255,85,85,0.1); color:#ff5555; font-weight:600; border:1px solid rgba(255,85,85,0.25); }
-.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:rgba(0,255,136,0.1); color:#00ff88; font-weight:600; border:1px solid rgba(0,255,136,0.25); }
+.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
+.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--accent-glow); color:#60a5fa; font-weight:600; border:1px solid rgba(59,130,246,0.2); }
 
 .hslider-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; background:var(--surface2); border-radius:10px; padding:10px 14px; border:1px solid var(--border); }
 input[type=range] { accent-color: var(--accent); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+
+/* ═══════════════════════════════════════
+   ANÁLISE DISCADOR (analise styles — scoped)
+═══════════════════════════════════════ */
+.an-scope {
+  --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e28;--bg4:#212636;--bg5:#272c3d;
+  --border:#252a38;--border2:#323748;
+  --text:#e8eaf0;--text2:#9ba3b8;--text3:#5a6178;
+  --accent:#4f7cff;--accent2:rgba(79,124,255,.12);
+  --green:#22c55e;--gbg:#0b1f12;--gbd:#15472a;
+  --yellow:#f59e0b;--ybg:#1e1505;--ybd:#6b4009;
+  --red:#ef4444;--rbg:#1c0a0a;--rbd:#6b1c1c;
+  --purple:#a855f7;--pbg:#150d1f;--pbd:#4a1f7a;
+  --r:10px;--rs:6px;
+}
+.an-scope {background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+.an-scope /* ── HEADER ── */
+.hdr {background:var(--bg2);border-bottom:1px solid var(--border);padding:0 36px;display:flex;align-items:center;gap:14px;height:56px;position:sticky;top:0;z-index:300}
+.an-scope .logo {font-size:21px;font-weight:700;letter-spacing:-.5px}
+.an-scope .logo span {color:var(--accent)}
+.an-scope .hdr-sep {width:1px;height:22px;background:var(--border2)}
+.an-scope .hdr-lbl {font-size:13px;color:var(--text2)}
+.an-scope .chip {background:var(--bg4);border:1px solid var(--border2);color:var(--text2);font-size:11px;padding:3px 10px;border-radius:20px;font-family:'DM Mono',monospace;margin-left:auto}
+.an-scope .chip.ac {color:var(--accent);border-color:rgba(79,124,255,.3);background:rgba(79,124,255,.08)}
+.an-scope /* ── NAV DUAL ── */
+.nav-wrap {background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 36px;display:flex;flex-direction:column;gap:10px}
+.an-scope .nav-row {display:flex;gap:8px;align-items:center}
+.an-scope .nav-label {font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;min-width:64px}
+.an-scope .nbtn {display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--text2);background:var(--bg3);border:1px solid var(--border);cursor:pointer;transition:all .15s;white-space:nowrap}
+.an-scope .nbtn:hover {border-color:var(--border2);color:var(--text)}
+.an-scope .nbtn.active {background:var(--accent2);border-color:var(--accent);color:var(--text)}
+.an-scope .nbtn .dot {width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5}
+.an-scope .nbtn.active .dot {opacity:1}
+.an-scope .period-note {font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;padding:4px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs)}
+.an-scope /* ── CONTAINER ── */
+.wrap {max-width:1200px;margin:0 auto;padding:32px 32px 100px}
+.an-scope /* ── SECTION ── */
+.sec {margin-bottom:48px}
+.an-scope .sec-hd {display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.an-scope .sec-hd h2 {font-size:15px;font-weight:600;white-space:nowrap}
+.an-scope .sec-hd::after {content:'';flex:1;height:1px;background:var(--border)}
+.an-scope .divider {height:1px;background:var(--border);margin:40px 0}
+.an-scope .sub-title {font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.an-scope .sub-title::after {content:'';flex:1;height:1px;background:var(--border)}
+.an-scope /* ── EXEC BOX ── */
+.exec-box {background:linear-gradient(135deg,rgba(79,124,255,.07),rgba(168,85,247,.05));border:1px solid rgba(79,124,255,.22);border-radius:var(--r);padding:22px 26px;margin-bottom:32px}
+.an-scope .exec-box h3 {font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.an-scope .exec-box p {font-size:14px;color:var(--text2);line-height:1.75}
+.an-scope .exec-box strong {color:var(--text)}
+.an-scope .r {color:var(--red);font-weight:600}
+.an-scope .g {color:var(--green);font-weight:600}
+.an-scope .y {color:var(--yellow);font-weight:600}
+.an-scope /* ── SEMAPHORE ── */
+.sem-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:11px;margin-bottom:20px}
+.an-scope .sem-card {background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
+.an-scope .sem-card::before {content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
+.an-scope .sem-card.green::before {background:var(--green)}
+.an-scope .sem-card.yellow::before {background:var(--yellow)}
+.an-scope .sem-card.red::before {background:var(--red)}
+.an-scope .sem-card.gray::before {background:var(--text3)}
+.an-scope .sem-lbl {font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.an-scope .sem-val {font-size:28px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-1.5px;line-height:1;margin-bottom:5px}
+.an-scope .sem-card.green .sem-val {color:var(--green)}
+.an-scope .sem-card.yellow .sem-val {color:var(--yellow)}
+.an-scope .sem-card.red .sem-val {color:var(--red)}
+.an-scope .sem-card.gray .sem-val {color:var(--text2)}
+.an-scope .sem-row {display:flex;align-items:center;justify-content:space-between;gap:6px}
+.an-scope .sem-delta {font-size:11px;font-family:'DM Mono',monospace}
+.an-scope .sem-delta.up {color:var(--green)}
+.an-scope .sem-delta.dn {color:var(--red)}
+.an-scope .sem-delta.fl {color:var(--text3)}
+.an-scope .sem-bench {font-size:10px;color:var(--text3);margin-top:5px}
+.an-scope .badge {display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.an-scope .bg {background:var(--gbg);color:var(--green);border:1px solid var(--gbd)}
+.an-scope .by {background:var(--ybg);color:var(--yellow);border:1px solid var(--ybd)}
+.an-scope .br {background:var(--rbg);color:var(--red);border:1px solid var(--rbd)}
+.an-scope .bb {background:#0a1525;color:#3b82f6;border:1px solid #1e3660}
+.an-scope .bgr {background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
+.an-scope .bp {background:var(--pbg);color:var(--purple);border:1px solid var(--pbd)}
+.an-scope /* ── TABLES ── */
+.tbl-wrap {overflow-x:auto;border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);margin:12px 0}
+.an-scope table {width:100%;border-collapse:collapse;font-size:13px}
+.an-scope thead tr {background:var(--bg3);border-bottom:1px solid var(--border)}
+.an-scope th {padding:10px 14px;text-align:left;font-weight:600;color:var(--text2);font-size:11px;letter-spacing:.3px;white-space:nowrap}
+.an-scope td {padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:12px}
+.an-scope tr:last-child td {border-bottom:none}
+.an-scope tbody tr:hover {background:var(--bg3)}
+.an-scope td.lbl {font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500}
+.an-scope .cup {color:var(--green)}
+.an-scope .cdn {color:var(--red)}
+.an-scope .cfl {color:var(--text2)}
+.an-scope .cwn {color:var(--yellow);font-weight:600}
+.an-scope .ccr {color:var(--red);font-weight:600}
+.an-scope .cok {color:var(--green);font-weight:600}
+.an-scope tr.hl-r td {background:rgba(239,68,68,.04)}
+.an-scope tr.hl-y td {background:rgba(245,158,11,.04)}
+.an-scope tr.hl-g td {background:rgba(34,197,94,.04)}
+.an-scope tr.tot td {background:var(--bg3);font-weight:700}
+.an-scope /* ── ALERT CARDS ── */
+.alert {background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:14px;position:relative;overflow:hidden}
+.an-scope .alert::before {content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.an-scope .alert.cr::before {background:var(--red)}
+.an-scope .alert.wn::before {background:var(--yellow)}
+.an-scope .alert.ok::before {background:var(--green)}
+.an-scope .alert.inf::before {background:#3b82f6}
+.an-scope .al-hd {display:flex;align-items:flex-start;gap:11px;margin-bottom:14px}
+.an-scope .al-icon {font-size:19px;flex-shrink:0;margin-top:2px}
+.an-scope .al-title {font-size:15px;font-weight:700;letter-spacing:-.2px}
+.an-scope .al-sub {font-size:11px;color:var(--text2);margin-top:3px}
+.an-scope .fact {background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:13px 15px;font-size:13px;color:var(--text2);line-height:1.7;margin:12px 0}
+.an-scope .fact strong {color:var(--text)}
+.an-scope .fact .neg {color:var(--red);font-weight:600}
+.an-scope .fact em {color:var(--green);font-style:normal;font-weight:600}
+.an-scope .p5t {font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin:14px 0 8px}
+.an-scope .p5 {list-style:none;counter-reset:p5}
+.an-scope .p5 li {counter-increment:p5;display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.5}
+.an-scope .p5 li:last-child {border-bottom:none}
+.an-scope .p5 li::before {content:counter(p5);min-width:20px;height:20px;background:var(--bg4);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--text3);flex-shrink:0;margin-top:1px;font-family:'DM Mono',monospace}
+.an-scope .arr {color:var(--accent);font-weight:700;margin:0 2px}
+.an-scope /* ── INSIGHT CARDS ── */
+.ins-grid {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:800px) {.ins-grid{grid-template-columns:1fr}}
+.an-scope .ins {background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.an-scope .ins-hd {display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.an-scope .ins-num {width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0}
+.an-scope .ins-num.p {background:var(--pbg);color:var(--purple);border:1px solid var(--pbd)}
+.an-scope .ins-num.b {background:#0a1525;color:#3b82f6;border:1px solid #1e3660}
+.an-scope .ins-title {font-size:13px;font-weight:600}
+.an-scope .ins-body {font-size:12px;color:var(--text2);line-height:1.65}
+.an-scope .ins-body strong {color:var(--text)}
+.an-scope /* ── HEATMAP ── */
+.view-pills {display:flex;gap:6px;margin-bottom:14px}
+.an-scope .vpill {padding:6px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg3);border:1px solid var(--border);color:var(--text2);transition:all .15s}
+.an-scope .vpill.active {background:var(--accent2);border-color:var(--accent);color:var(--text)}
+.an-scope .hm-sum {display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:14px}
+.an-scope .hms {background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:11px 13px}
+.an-scope .hms-lbl {font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.an-scope .hms-val {font-size:18px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-1px}
+.an-scope .hms-sub {font-size:10px;color:var(--text2);margin-top:3px;font-family:'DM Mono',monospace}
+.an-scope .hms-bars {margin-top:7px;display:flex;flex-direction:column;gap:3px}
+.an-scope .hms-bar {padding:2px 7px;border-radius:3px;font-size:10px;font-family:'DM Mono',monospace}
+.an-scope .hm-wrap {overflow-x:auto}
+.an-scope .hmt {border-collapse:collapse;font-size:11px}
+.an-scope .hmt th {padding:6px 10px;text-align:center;color:var(--text3);font-weight:600;white-space:nowrap;background:var(--bg3);border:1px solid var(--border)}
+.an-scope .hmt td {padding:6px 10px;text-align:center;border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11px}
+.an-scope .hmt td.lbl {text-align:left;font-family:'DM Sans',monospace;font-weight:500;color:var(--text2);background:var(--bg3);white-space:nowrap;padding:6px 13px;font-size:12px}
+.an-scope .hg {background:rgba(34,197,94,.14);color:#4ade80}
+.an-scope .hy {background:rgba(245,158,11,.14);color:#fbbf24}
+.an-scope .hr {background:rgba(239,68,68,.14);color:#f87171}
+.an-scope .hgr {background:var(--bg3);color:var(--text3)}
+.an-scope .fact-note {background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-top:12px}
+.an-scope .fact-note strong {color:var(--text)}
+.an-scope /* ── PROJEÇÃO ── */
+.proj {background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px) {.proj{grid-template-columns:1fr}}
+.an-scope .proj-i {text-align:center}
+.an-scope .proj-l {font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.an-scope .proj-v {font-size:20px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-.5px}
+.an-scope .proj-s {font-size:10px;color:var(--text2);margin-top:4px}
+.an-scope /* ── CHECKLIST ── */
+.cl-section {margin-bottom:10px}
+.an-scope .cl-item {position:relative;display:flex;align-items:flex-start;gap:12px;padding:11px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:6px;transition:all .2s;cursor:default}
+.an-scope .cl-item.done {opacity:.5}
+.an-scope .cl-item.done .cl-text {text-decoration:line-through;color:var(--text3)}
+.an-scope .cl-cb {width:18px;height:18px;border:2px solid var(--border2);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;background:transparent}
+.an-scope .cl-cb:hover {border-color:var(--accent)}
+.an-scope .cl-cb.checked {background:var(--accent);border-color:var(--accent)}
+.an-scope .cl-cb.checked::after {content:'✓';font-size:11px;color:#fff;font-weight:700}
+.an-scope .cl-text {font-size:13px;color:var(--text2);line-height:1.5;flex:1}
+.an-scope .cl-tag {font-size:10px;font-weight:600;padding:1px 7px;border-radius:4px;margin-left:6px;white-space:nowrap;flex-shrink:0}
+.an-scope .cl-tag.u {background:var(--rbg);color:var(--red);border:1px solid var(--rbd)}
+.an-scope .cl-tag.m {background:var(--ybg);color:var(--yellow);border:1px solid var(--ybd)}
+.an-scope .cl-tag.ok {background:var(--gbg);color:var(--green);border:1px solid var(--gbd)}
+.an-scope /* comment bubble */
+.cl-comment-wrap {position:relative;margin-top:0}
+.an-scope .cl-comment-icon {width:20px;height:20px;border-radius:50%;border:1px solid var(--border2);background:var(--bg3);display:none;align-items:center;justify-content:center;cursor:pointer;font-size:11px;flex-shrink:0;transition:all .15s;margin-top:2px}
+.an-scope .cl-comment-icon:hover {border-color:var(--accent);background:var(--accent2)}
+.an-scope .cl-comment-icon.has-comment {display:flex;border-color:var(--accent);color:var(--accent)}
+.an-scope .cl-popover {display:none;position:absolute;right:0;top:28px;width:280px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:200}
+.an-scope .cl-popover.open {display:block}
+.an-scope .cl-popover-lbl {font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.an-scope .cl-popover-text {font-size:12px;color:var(--text2);line-height:1.6;white-space:pre-wrap}
+.an-scope .cl-popover-input {width:100%;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;padding:8px 10px;resize:vertical;min-height:70px;outline:none;transition:border-color .15s}
+.an-scope .cl-popover-input:focus {border-color:var(--accent)}
+.an-scope .cl-popover-actions {display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
+.an-scope .cl-save-btn {padding:5px 14px;background:var(--accent);border:none;border-radius:var(--rs);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.an-scope .cl-save-btn:hover {opacity:.85}
+.an-scope .cl-cancel-btn {padding:5px 14px;background:var(--bg5);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text2);font-size:12px;cursor:pointer}
+.an-scope /* scrollbar */
+::-webkit-scrollbar {width:5px;height:5px}
+.an-scope ::-webkit-scrollbar-track {background:var(--bg)}
+.an-scope ::-webkit-scrollbar-thumb {background:var(--border2);border-radius:3px}
 
 /* scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -146,90 +415,919 @@ input[type=range] { accent-color: var(--accent); }
 </head>
 <body>
 
+<!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
   <div class="logo-wrap">
     <div class="logo-text">ume<span>.</span></div>
     <div class="logo-sub">Painel Operacional</div>
   </div>
+
+  <nav class="sb-nav">
+    <button class="sb-btn active" id="sb-painel" onclick="switchApp('painel')">
+      <span class="sb-icon">📊</span>
+      <span class="sb-label">
+        Painel
+        <span class="sb-sub">Faturamento · Equipes</span>
+      </span>
+    </button>
+    <button class="sb-btn" id="sb-discador" onclick="switchApp('discador')">
+      <span class="sb-icon">📞</span>
+      <span class="sb-label">
+        Discador
+        <span class="sb-sub">Análise Fev · Mar · Abr</span>
+      </span>
+    </button>
+  </nav>
+
   <div class="dev-credit">
     Desenvolvido por<br>
     <a href="mailto:gustavo.pereira@ume.com.br">Gustavo Pereira</a>
   </div>
 </aside>
 
+<!-- ═══════════ MAIN ═══════════ -->
 <div class="main">
-<div class="container">
-  <header>
-    <h1>Painel Operacional</h1>
-    <p>Base: Fevereiro + Março 2026</p>
-  </header>
 
-  <div class="nav">
-    <button class="nav-btn active" onclick="showPanel('perda',this)">Perda por Ausência</button>
-    <button class="nav-btn" onclick="showPanel('medias',this)">Médias Fev+Mar</button>
-    <button class="nav-btn" onclick="showPanel('semana',this)">Produção por Dia</button>
-    <button class="nav-btn" onclick="showPanel('mes',this)">Mês a Mês</button>
-  </div>
-
-  <!-- P1: PERDA -->
-  <div class="panel active" id="panel-perda">
-    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Selecione os operadores ausentes</div>
-    <div class="sec-label" style="color:#00ff88;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
-    <div class="sec-label" style="color:#00ff88;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
-    <div class="sec-label" style="color:#bd93f9;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
-    <div class="sec-label" style="color:#00cfff;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
-    <div class="sec-label" style="color:#0099cc;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
-    <div class="hslider-row">
-      <label style="font-size:13px;color:#adbac7;">Horas ausente hoje:</label>
-      <input type="range" min="0.5" max="8" step="0.5" value="8" id="hslider" style="width:130px;">
-      <span style="font-size:13px;font-weight:600;color:#00ff88;min-width:28px;" id="hval">8h</span>
+  <!-- ── PAINEL OPERACIONAL ── -->
+  <div class="app-panel active" id="app-painel">
+    <div id="panel-painel">
+      <div class="container">
+        <header>
+          <h1>Painel Operacional</h1>
+          <p>Base: Fevereiro + Março 2026</p>
+        </header>
+        <div class="nav">
+          <button class="nav-btn active" onclick="showPanel('perda',this)">Perda por Ausência</button>
+          <button class="nav-btn" onclick="showPanel('medias',this)">Médias Fev+Mar</button>
+          <button class="nav-btn" onclick="showPanel('semana',this)">Produção por Dia</button>
+          <button class="nav-btn" onclick="showPanel('mes',this)">Mês a Mês</button>
+        </div>
+        <div class="panel active" id="panel-perda">
+          <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione os operadores ausentes</div>
+          <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
+          <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
+          <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
+          <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
+          <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
+          <div class="hslider-row">
+            <label style="font-size:13px;color:#555;">Horas ausente hoje:</label>
+            <input type="range" min="0.5" max="8" step="0.5" value="8" id="hslider" style="width:130px;">
+            <span style="font-size:13px;font-weight:600;color:#1a1a2e;min-width:28px;" id="hval">8h</span>
+          </div>
+          <div class="result-box" id="p1-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
+        </div>
+        <div class="panel" id="panel-medias">
+          <div style="font-size:12px;color:#888;margin-bottom:10px;">Médias consolidadas Fevereiro + Março</div>
+          <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
+          <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
+          <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
+          <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
+          <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
+        </div>
+        <div class="panel" id="panel-semana">
+          <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione operadores para ver produção por dia da semana</div>
+          <div class="sec-label" style="color:#60a5fa;">UME</div><div class="grid-cards" id="p3-ume"></div>
+          <div class="sec-label" style="color:#34d399;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
+          <div class="result-box" id="p3-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
+        </div>
+        <div class="panel" id="panel-mes">
+          <div style="font-size:12px;color:#888;margin-bottom:14px;">Comparativo de faturamento por operador — Fevereiro vs Março</div>
+          <div id="p4-content"></div>
+        </div>
+      </div>
     </div>
-    <div class="result-box" id="p1-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
   </div>
 
-  <!-- P2: MÉDIAS -->
-  <div class="panel" id="panel-medias">
-    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Médias consolidadas Fevereiro + Março</div>
-    <div class="sec-label" style="color:#00ff88;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
-    <div class="sec-label" style="color:#00ff88;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
-    <div class="sec-label" style="color:#bd93f9;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
-    <div class="sec-label" style="color:#00cfff;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
-    <div class="sec-label" style="color:#0099cc;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
+  <!-- ── ANÁLISE DISCADOR ── -->
+  <div class="app-panel" id="app-discador">
+    <div class="an-scope">
+      <!-- analise nav-wrap -->
+      <!-- NAV DUAL -->
+<nav class="nav-wrap">
+  <div class="nav-row">
+    <span class="nav-label">Período</span>
+    <button class="nbtn active" id="btn-fev-mar" onclick="setPeriod('fev_mar')">
+      <span class="dot"></span> Fev × Mar <span style="font-size:10px;color:var(--text3);margin-left:4px">meses fechados</span>
+    </button>
+    <button class="nbtn" id="btn-fev-mar-abr" onclick="setPeriod('fev_mar_abr')">
+      <span class="dot"></span> Fev × Mar × Abr <span style="font-size:10px;color:var(--text3);margin-left:4px">mesmo DU de Abr (15)</span>
+    </button>
+    <span class="period-note" id="period-note">Fev: 20 DU · Mar: 22 DU — meses fechados completos</span>
   </div>
-
-  <!-- P3: DIA DA SEMANA -->
-  <div class="panel" id="panel-semana">
-    <div style="font-size:12px;color:#7d8590;margin-bottom:10px;">Selecione operadores para ver produção por dia da semana</div>
-    <div class="sec-label" style="color:#00ff88;">UME</div><div class="grid-cards" id="p3-ume"></div>
-    <div class="sec-label" style="color:#00cfff;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
-    <div class="result-box" id="p3-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
+  <div class="nav-row">
+    <span class="nav-label">Operação</span>
+    <button class="nbtn active" id="btn-ume" onclick="setOp('ume')">
+      <span class="dot"></span> UME
+    </button>
+    <button class="nbtn" id="btn-odres" onclick="setOp('odres')">
+      <span class="dot"></span> Odres
+    </button>
   </div>
+</nav>
 
-  <!-- P4: MÊS A MÊS -->
-  <div class="panel" id="panel-mes">
-    <div style="font-size:12px;color:#7d8590;margin-bottom:14px;">Comparativo de faturamento por operador — Fevereiro vs Março</div>
-    <div id="p4-content"></div>
+<div class="wrap">
+
+<!-- ══════════════════ EXEC SUMMARY ══════════════════ -->
+<div class="exec-box" id="exec-box"></div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ SEMÁFORO ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>🚦 Semáforo de Métricas</h2></div>
+  <div class="sem-grid" id="sem-grid"></div>
+</div>
+
+<!-- ══════════════════ BENCHMARKS ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>Benchmarks de Referência</h2></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Métrica</th>
+        <th><span class="badge bg">🟢 Green</span></th>
+        <th><span class="badge bb">🎯 Desired</span></th>
+        <th><span class="badge by">🟡 Yellow</span></th>
+        <th><span class="badge br">🔴 Red</span></th>
+        <th id="bm-col1"></th>
+        <th id="bm-col2"></th>
+        <th id="bm-col3"></th>
+      </tr></thead>
+      <tbody id="bm-body"></tbody>
+    </table>
   </div>
 </div>
-</div> <!-- /main -->
+
+<!-- ══════════════════ FUNIL ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2 id="funil-title">Funil Consolidado</h2></div>
+  <div class="tbl-wrap"><table><thead id="funil-head"></thead><tbody id="funil-body"></tbody></table></div>
+  <div class="fact" id="funil-note"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ HEATMAP ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>📅 Heatmap de Tempos por Dia Útil</h2></div>
+  <div class="hm-sum" id="hm-sum"></div>
+  <div class="hm-wrap"><table class="hmt"><thead id="hmt-head"></thead><tbody id="hmt-body"></tbody></table></div>
+  <div class="fact-note" id="hm-note"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ ALERTAS ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2 id="alert-title">Alertas</h2></div>
+  <div id="alerts-wrap"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ PERFORMANCE OPERADORES ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>Performance por Operador — Fev+Mar</h2></div>
+  <div class="tbl-wrap"><table><thead id="perf-head"></thead><tbody id="perf-body"></tbody></table></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ INSIGHTS ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>💡 Insights Adicionais</h2></div>
+  <div class="ins-grid" id="insights-wrap"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ PROJEÇÃO ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>📈 Projeção de Impacto</h2></div>
+  <div class="fact" style="margin-bottom:14px">
+    <strong>Base do cálculo:</strong> Projeção baseada nos impactos financeiros individuais dos desligamentos de Abril (Vitória, Pamela, Simone) e afastamento da Raquel. Substituição leva em média 30 dias + 30 dias para produtividade plena → recuperação parcial apenas em Junho.
+  </div>
+  <div class="proj">
+    <div class="proj-i"><div class="proj-l">Risco UME (Abr)</div><div class="proj-v" style="color:var(--red)">R$ 55k</div><div class="proj-s">Vitória + Pamela + Raquel</div></div>
+    <div class="proj-i"><div class="proj-l">Risco Odres (Abr)</div><div class="proj-v" style="color:var(--red)">R$ 53k</div><div class="proj-s">Simone Gama</div></div>
+    <div class="proj-i"><div class="proj-l">Risco Total (Abr)</div><div class="proj-v" style="color:var(--red)">R$ 108k</div><div class="proj-s">Sem banco de reserva ativo</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════ PLANO DE CONTRAMEDIDAS ══════════════════ -->
+<div class="sec">
+  <div class="sec-hd"><h2>🟢 Plano de Contramedidas — Responsáveis e Prazos</h2></div>
+  <div id="checklist-wrap"></div>
+</div>
+
+</div><!-- /wrap -->
 
 <script>
-const ops = [
-  { name:'Andressa Bruna',   initials:'AB', color:'#1e3a5f', tc:'#ffffff', fev:{total:15291,dias:20},  mar:{total:15174.46,dias:21}, equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Raquel Moreira',   initials:'RM', color:'#1e3a5f', tc:'#ffffff', fev:{total:8108,dias:20},   mar:{total:3882.26,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Rayara Danielle',  initials:'RD', color:'#1e3a5f', tc:'#ffffff', fev:{total:5567,dias:20},   mar:{total:2670.92,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Vitória Ketelin',  initials:'VK', color:'#4a0e0e', tc:'#ffaaaa', fev:{total:40069,dias:15},  mar:{total:4702.85,dias:5},   equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Pamela Moreira',   initials:'PM', color:'#4a0e0e', tc:'#ffaaaa', fev:{total:8482,dias:15},   mar:{total:7336.73,dias:10},  equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Kayke Araújo',     initials:'KA', color:'#1e3a5f', tc:'#ffffff', fev:{total:18786,dias:16},  mar:{total:9241.93,dias:17},  equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
-  { name:'Pamela Isabelle',  initials:'PI', color:'#1e3a5f', tc:'#ffffff', fev:{total:29052,dias:16},  mar:{total:14813.61,dias:17}, equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
-  { name:'Lauane Stephanie', initials:'LS', color:'#3b1d6e', tc:'#ffffff', fev:{total:0,dias:0},       mar:{total:1125.50,dias:10},  equipe:'UME',   sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-ume-wp',     p2:'p2-ume-wp',     p3:'p3-ume'   },
-  { name:'Adriano Correia',  initials:'AC', color:'#0a3347', tc:'#ffffff', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Beatriz Santos',   initials:'BS', color:'#0a3347', tc:'#ffffff', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Larissa Rosário',  initials:'LR', color:'#0a3347', tc:'#ffffff', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Simone Gama',      initials:'SG', color:'#4a0e0e', tc:'#ffaaaa', fev:{total:36851,dias:15},  mar:{total:29875.64,dias:10}, equipe:'ODRES', sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Talita Souza',     initials:'TS', color:'#0a3347', tc:'#ffffff', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const D = {"fev_days": [{"data": "02/02", "dia": "seg", "op": 9, "lig": 561, "trab": 0.6495, "pausa": 0.3505, "falado": 0.1407, "ocioso": 0.5088}, {"data": "03/02", "dia": "ter", "op": 12, "lig": 825, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1752, "ocioso": 0.515}, {"data": "04/02", "dia": "qua", "op": 12, "lig": 527, "trab": 0.4243, "pausa": 0.5757, "falado": 0.1341, "ocioso": 0.2902}, {"data": "05/02", "dia": "qui", "op": 12, "lig": 576, "trab": 0.7949, "pausa": 0.2051, "falado": 0.1402, "ocioso": 0.6547}, {"data": "06/02", "dia": "sex", "op": 11, "lig": 1018, "trab": 0.7418, "pausa": 0.2582, "falado": 0.1877, "ocioso": 0.554}, {"data": "09/02", "dia": "seg", "op": 10, "lig": 720, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1818, "ocioso": 0.5084}, {"data": "10/02", "dia": "ter", "op": 11, "lig": 1148, "trab": 0.5751, "pausa": 0.4249, "falado": 0.2592, "ocioso": 0.3158}, {"data": "11/02", "dia": "qua", "op": 11, "lig": 809, "trab": 0.6176, "pausa": 0.3824, "falado": 0.1774, "ocioso": 0.4403}, {"data": "12/02", "dia": "qui", "op": 11, "lig": 767, "trab": 0.6107, "pausa": 0.3893, "falado": 0.1762, "ocioso": 0.4345}, {"data": "13/02", "dia": "sex", "op": 9, "lig": 341, "trab": 0.6248, "pausa": 0.3752, "falado": 0.08, "ocioso": 0.5447}, {"data": "16/02", "dia": "seg", "op": 6, "lig": 333, "trab": 0.791, "pausa": 0.209, "falado": 0.1025, "ocioso": 0.6885}, {"data": "17/02", "dia": "ter", "op": 6, "lig": 615, "trab": 0.7181, "pausa": 0.2819, "falado": 0.2037, "ocioso": 0.5144}, {"data": "18/02", "dia": "qua", "op": 12, "lig": 441, "trab": 0.84, "pausa": 0.16, "falado": 0.1509, "ocioso": 0.6891}, {"data": "19/02", "dia": "qui", "op": 13, "lig": 678, "trab": 0.5764, "pausa": 0.4236, "falado": 0.1324, "ocioso": 0.444}, {"data": "20/02", "dia": "sex", "op": 12, "lig": 925, "trab": 0.5917, "pausa": 0.4083, "falado": 0.1887, "ocioso": 0.4029}, {"data": "23/02", "dia": "seg", "op": 10, "lig": 770, "trab": 0.6037, "pausa": 0.3963, "falado": 0.1697, "ocioso": 0.434}, {"data": "24/02", "dia": "ter", "op": 10, "lig": 682, "trab": 0.6554, "pausa": 0.3446, "falado": 0.1551, "ocioso": 0.5003}, {"data": "25/02", "dia": "qua", "op": 10, "lig": 942, "trab": 0.6567, "pausa": 0.3433, "falado": 0.1766, "ocioso": 0.4801}, {"data": "26/02", "dia": "qui", "op": 10, "lig": 859, "trab": 0.6009, "pausa": 0.3991, "falado": 0.1707, "ocioso": 0.4302}, {"data": "27/02", "dia": "sex", "op": 11, "lig": 631, "trab": 0.5923, "pausa": 0.4077, "falado": 0.11, "ocioso": 0.4823}], "mar_days": [{"data": "02/03", "dia": "seg", "op": 8, "lig": 564, "trab": 0.5535, "pausa": 0.4465, "falado": 0.1867, "ocioso": 0.3669}, {"data": "03/03", "dia": "ter", "op": 10, "lig": 588, "trab": 0.5728, "pausa": 0.4272, "falado": 0.1124, "ocioso": 0.4604}, {"data": "04/03", "dia": "qua", "op": 9, "lig": 527, "trab": 0.6424, "pausa": 0.3576, "falado": 0.1295, "ocioso": 0.513}, {"data": "05/03", "dia": "qui", "op": 11, "lig": 480, "trab": 0.6245, "pausa": 0.3755, "falado": 0.0674, "ocioso": 0.5571}, {"data": "06/03", "dia": "sex", "op": 11, "lig": 573, "trab": 0.5383, "pausa": 0.4617, "falado": 0.1068, "ocioso": 0.4315}, {"data": "09/03", "dia": "seg", "op": 9, "lig": 439, "trab": 0.5905, "pausa": 0.4095, "falado": 0.1203, "ocioso": 0.4702}, {"data": "10/03", "dia": "ter", "op": 11, "lig": 335, "trab": 0.6172, "pausa": 0.3828, "falado": 0.1062, "ocioso": 0.511}, {"data": "11/03", "dia": "qua", "op": 10, "lig": 204, "trab": 0.6206, "pausa": 0.3794, "falado": 0.0555, "ocioso": 0.565}, {"data": "12/03", "dia": "qui", "op": 12, "lig": 646, "trab": 0.5877, "pausa": 0.4123, "falado": 0.1023, "ocioso": 0.4854}, {"data": "13/03", "dia": "sex", "op": 10, "lig": 160, "trab": 0.5788, "pausa": 0.4212, "falado": 0.0348, "ocioso": 0.544}, {"data": "16/03", "dia": "seg", "op": 10, "lig": 595, "trab": 0.7094, "pausa": 0.2906, "falado": 0.1655, "ocioso": 0.5439}, {"data": "17/03", "dia": "ter", "op": 12, "lig": 128, "trab": 0.6888, "pausa": 0.3112, "falado": 0.0334, "ocioso": 0.6555}, {"data": "18/03", "dia": "qua", "op": 12, "lig": 867, "trab": 0.6965, "pausa": 0.3035, "falado": 0.1726, "ocioso": 0.5239}, {"data": "19/03", "dia": "qui", "op": 12, "lig": 425, "trab": 0.6635, "pausa": 0.3365, "falado": 0.0997, "ocioso": 0.5638}, {"data": "20/03", "dia": "sex", "op": 12, "lig": 802, "trab": 0.6886, "pausa": 0.3114, "falado": 0.1226, "ocioso": 0.5659}, {"data": "23/03", "dia": "seg", "op": 10, "lig": 592, "trab": 0.6506, "pausa": 0.3494, "falado": 0.1095, "ocioso": 0.5411}, {"data": "24/03", "dia": "ter", "op": 11, "lig": 549, "trab": 0.6612, "pausa": 0.3388, "falado": 0.098, "ocioso": 0.5632}, {"data": "25/03", "dia": "qua", "op": 9, "lig": 249, "trab": 0.6482, "pausa": 0.3518, "falado": 0.0547, "ocioso": 0.5935}, {"data": "26/03", "dia": "qui", "op": 8, "lig": 255, "trab": 0.7123, "pausa": 0.2877, "falado": 0.068, "ocioso": 0.6443}, {"data": "27/03", "dia": "sex", "op": 9, "lig": 302, "trab": 0.4293, "pausa": 0.5707, "falado": 0.0807, "ocioso": 0.3487}, {"data": "30/03", "dia": "seg", "op": 7, "lig": 190, "trab": 0.712, "pausa": 0.288, "falado": 0.056, "ocioso": 0.6561}, {"data": "31/03", "dia": "ter", "op": 9, "lig": 426, "trab": 0.6892, "pausa": 0.3108, "falado": 0.0857, "ocioso": 0.6035}], "abr_days": [{"data": "01/04", "dia": "qua", "op": 9, "lig": 401, "trab": 0.6875, "pausa": 0.3125, "falado": 0.1482, "ocioso": 0.5393}, {"data": "02/04", "dia": "qui", "op": 8, "lig": 278, "trab": 0.6327, "pausa": 0.3673, "falado": 0.0661, "ocioso": 0.5666}, {"data": "03/04", "dia": "sex", "op": 2, "lig": 62, "trab": 0.8466, "pausa": 0.1534, "falado": 0.0403, "ocioso": 0.8063}, {"data": "06/04", "dia": "seg", "op": 6, "lig": 165, "trab": 0.7023, "pausa": 0.2977, "falado": 0.0346, "ocioso": 0.6677}, {"data": "07/04", "dia": "ter", "op": 8, "lig": 247, "trab": 0.6242, "pausa": 0.3758, "falado": 0.0406, "ocioso": 0.5836}, {"data": "08/04", "dia": "qua", "op": 9, "lig": 518, "trab": 0.6101, "pausa": 0.3899, "falado": 0.0886, "ocioso": 0.5215}, {"data": "09/04", "dia": "qui", "op": 8, "lig": 425, "trab": 0.5224, "pausa": 0.4776, "falado": 0.0776, "ocioso": 0.4448}, {"data": "10/04", "dia": "sex", "op": 8, "lig": 357, "trab": 0.5474, "pausa": 0.4526, "falado": 0.0673, "ocioso": 0.4802}, {"data": "13/04", "dia": "seg", "op": 6, "lig": 173, "trab": 0.5991, "pausa": 0.4009, "falado": 0.0342, "ocioso": 0.5649}, {"data": "14/04", "dia": "ter", "op": 8, "lig": 467, "trab": 0.7363, "pausa": 0.2637, "falado": 0.1067, "ocioso": 0.6296}, {"data": "15/04", "dia": "qua", "op": 9, "lig": 219, "trab": 0.5293, "pausa": 0.4707, "falado": 0.0382, "ocioso": 0.4911}, {"data": "16/04", "dia": "qui", "op": 8, "lig": 322, "trab": 0.7065, "pausa": 0.2935, "falado": 0.0556, "ocioso": 0.6509}, {"data": "17/04", "dia": "sex", "op": 9, "lig": 377, "trab": 0.6341, "pausa": 0.3659, "falado": 0.0624, "ocioso": 0.5718}, {"data": "20/04", "dia": "seg", "op": 7, "lig": 386, "trab": 0.6865, "pausa": 0.3135, "falado": 0.0827, "ocioso": 0.6038}, {"data": "21/04", "dia": "ter", "op": 3, "lig": 0, "trab": 0.5851, "pausa": 0.4149, "falado": 0.0, "ocioso": 0.5851}], "fev_eq": [{"data": "02/02", "dia": "seg", "op": 9, "lig": 561, "trab": 0.6495, "pausa": 0.3505, "falado": 0.1407, "ocioso": 0.5088}, {"data": "03/02", "dia": "ter", "op": 12, "lig": 825, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1752, "ocioso": 0.515}, {"data": "04/02", "dia": "qua", "op": 12, "lig": 527, "trab": 0.4243, "pausa": 0.5757, "falado": 0.1341, "ocioso": 0.2902}, {"data": "05/02", "dia": "qui", "op": 12, "lig": 576, "trab": 0.7949, "pausa": 0.2051, "falado": 0.1402, "ocioso": 0.6547}, {"data": "06/02", "dia": "sex", "op": 11, "lig": 1018, "trab": 0.7418, "pausa": 0.2582, "falado": 0.1877, "ocioso": 0.554}, {"data": "09/02", "dia": "seg", "op": 10, "lig": 720, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1818, "ocioso": 0.5084}, {"data": "10/02", "dia": "ter", "op": 11, "lig": 1148, "trab": 0.5751, "pausa": 0.4249, "falado": 0.2592, "ocioso": 0.3158}, {"data": "11/02", "dia": "qua", "op": 11, "lig": 809, "trab": 0.6176, "pausa": 0.3824, "falado": 0.1774, "ocioso": 0.4403}, {"data": "12/02", "dia": "qui", "op": 11, "lig": 767, "trab": 0.6107, "pausa": 0.3893, "falado": 0.1762, "ocioso": 0.4345}, {"data": "13/02", "dia": "sex", "op": 9, "lig": 341, "trab": 0.6248, "pausa": 0.3752, "falado": 0.08, "ocioso": 0.5447}, {"data": "16/02", "dia": "seg", "op": 6, "lig": 333, "trab": 0.791, "pausa": 0.209, "falado": 0.1025, "ocioso": 0.6885}, {"data": "17/02", "dia": "ter", "op": 6, "lig": 615, "trab": 0.7181, "pausa": 0.2819, "falado": 0.2037, "ocioso": 0.5144}, {"data": "18/02", "dia": "qua", "op": 12, "lig": 441, "trab": 0.84, "pausa": 0.16, "falado": 0.1509, "ocioso": 0.6891}, {"data": "19/02", "dia": "qui", "op": 13, "lig": 678, "trab": 0.5764, "pausa": 0.4236, "falado": 0.1324, "ocioso": 0.444}, {"data": "20/02", "dia": "sex", "op": 12, "lig": 925, "trab": 0.5917, "pausa": 0.4083, "falado": 0.1887, "ocioso": 0.4029}], "mar_eq": [{"data": "02/03", "dia": "seg", "op": 8, "lig": 564, "trab": 0.5535, "pausa": 0.4465, "falado": 0.1867, "ocioso": 0.3669}, {"data": "03/03", "dia": "ter", "op": 10, "lig": 588, "trab": 0.5728, "pausa": 0.4272, "falado": 0.1124, "ocioso": 0.4604}, {"data": "04/03", "dia": "qua", "op": 9, "lig": 527, "trab": 0.6424, "pausa": 0.3576, "falado": 0.1295, "ocioso": 0.513}, {"data": "05/03", "dia": "qui", "op": 11, "lig": 480, "trab": 0.6245, "pausa": 0.3755, "falado": 0.0674, "ocioso": 0.5571}, {"data": "06/03", "dia": "sex", "op": 11, "lig": 573, "trab": 0.5383, "pausa": 0.4617, "falado": 0.1068, "ocioso": 0.4315}, {"data": "09/03", "dia": "seg", "op": 9, "lig": 439, "trab": 0.5905, "pausa": 0.4095, "falado": 0.1203, "ocioso": 0.4702}, {"data": "10/03", "dia": "ter", "op": 11, "lig": 335, "trab": 0.6172, "pausa": 0.3828, "falado": 0.1062, "ocioso": 0.511}, {"data": "11/03", "dia": "qua", "op": 10, "lig": 204, "trab": 0.6206, "pausa": 0.3794, "falado": 0.0555, "ocioso": 0.565}, {"data": "12/03", "dia": "qui", "op": 12, "lig": 646, "trab": 0.5877, "pausa": 0.4123, "falado": 0.1023, "ocioso": 0.4854}, {"data": "13/03", "dia": "sex", "op": 10, "lig": 160, "trab": 0.5788, "pausa": 0.4212, "falado": 0.0348, "ocioso": 0.544}, {"data": "16/03", "dia": "seg", "op": 10, "lig": 595, "trab": 0.7094, "pausa": 0.2906, "falado": 0.1655, "ocioso": 0.5439}, {"data": "17/03", "dia": "ter", "op": 12, "lig": 128, "trab": 0.6888, "pausa": 0.3112, "falado": 0.0334, "ocioso": 0.6555}, {"data": "18/03", "dia": "qua", "op": 12, "lig": 867, "trab": 0.6965, "pausa": 0.3035, "falado": 0.1726, "ocioso": 0.5239}, {"data": "19/03", "dia": "qui", "op": 12, "lig": 425, "trab": 0.6635, "pausa": 0.3365, "falado": 0.0997, "ocioso": 0.5638}, {"data": "20/03", "dia": "sex", "op": 12, "lig": 802, "trab": 0.6886, "pausa": 0.3114, "falado": 0.1226, "ocioso": 0.5659}], "n_eq": 15, "ts_fev": {"du": 20, "lig_total": 14168, "trab": 0.6523, "pausa": 0.3477, "falado": 0.1606, "ocioso": 0.4916, "pausa_viol": 13}, "ts_mar": {"du": 22, "lig_total": 9896, "trab": 0.6307, "pausa": 0.3693, "falado": 0.0986, "ocioso": 0.5322, "pausa_viol": 13}, "ts_abr": {"du": 15, "lig_total": 4397, "trab": 0.6433, "pausa": 0.3567, "falado": 0.0629, "ocioso": 0.5805, "pausa_viol": 9}, "ts_fev_eq": {"du": 15, "lig_total": 10284, "trab": 0.6624, "pausa": 0.3376, "falado": 0.162, "ocioso": 0.5004, "pausa_viol": 8}, "ts_mar_eq": {"du": 15, "lig_total": 7333, "trab": 0.6249, "pausa": 0.3751, "falado": 0.1077, "ocioso": 0.5172, "pausa_viol": 10}, "funil_fev": {"mailing": 442376, "trabalhado": 26355, "pct_trab": 0.05957601678210391, "tentativas": 313877, "spin": 0.7095, "pct_alo": 0.0301, "pct_cpc": 0.4135, "pct_conv": 0.47, "alo": 9463, "cpc": 3913, "conversao": 1839, "pagamento": 1197, "receita": 224341.41, "ticket": 187.42, "telefonia": 2353.39}, "funil_mar": {"mailing": 471998, "trabalhado": 31355, "pct_trab": 0.06643036623036538, "tentativas": 247154, "spin": 0.5236, "pct_alo": 0.0237, "pct_cpc": 0.4312, "pct_conv": 0.3773, "alo": 5851, "cpc": 2523, "conversao": 952, "pagamento": 559, "receita": 109910.98, "ticket": 196.62, "telefonia": 1082.26}, "funil_abr": {"mailing": 509401, "trabalhado": 19346, "pct_trab": 0.037977938794780536, "tentativas": 139468, "spin": 0.2738, "pct_alo": 0.0245, "pct_cpc": 0.3936, "pct_conv": 0.3812, "alo": 3412, "cpc": 1343, "conversao": 512, "pagamento": 215, "receita": 39471.36, "ticket": 183.59, "telefonia": 620.09}};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let period = 'fev_mar';   // 'fev_mar' | 'fev_mar_abr'
+let op     = 'ume';       // 'ume' | 'odres'
+
+// ─────────────────────────────────────────────
+// STATIC CONTENT DATA
+// ─────────────────────────────────────────────
+const CONTENT = {
+  ume: {
+    exec: {
+      fev_mar: `Entre <strong>Fevereiro e Março fechados</strong>, a UME registrou queda severa de volume: Alôs caíram <span class="r">−38%</span>, pagamentos <span class="r">−54%</span> e receita <span class="r">−51%</span> — <strong>sem alerta formal ou ação corretiva</strong>. O ticket médio subiu de <span class="g">R$ 187 → R$ 197</span>, indicando que os operadores remanescentes convertem clientes de maior valor. <strong>Risco iminente:</strong> desligamentos de Vitória, Pamela e afastamento de Raquel em Abril representam <span class="r">R$ 55k/mês</span> em risco, sem protocolo de contingência ativo.`,
+      fev_mar_abr: `Comparando os <strong>mesmos 15 dias úteis</strong> de Fev, Mar e Abr, a UME mostra queda progressiva de volume em todas as etapas do funil. A conversão em Abril foi impactada diretamente pela redução de headcount — 3 das 6 operadoras saíram desde 01/04. <strong>Ponto positivo:</strong> os operadores que permaneceram mantiveram <span class="g">qualidade individual</span> — % Trabalhado estável e pausa melhorou.`
+    },
+    sem: {
+      fev_mar: [
+        {lbl:'CPC sobre Alô',    val:'45,0%', delta:'▲ vs Fev 41,4%', dclass:'up', status:'red',    bench:'Benchmark mín: 54%'},
+        {lbl:'Conversão s/ CPC', val:'37,7%', delta:'▼ vs Fev 47,0%', dclass:'dn', status:'red',    bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'10,8%', delta:'▼ vs Fev 16,1%', dclass:'dn', status:'red',    bench:'Benchmark mín: 19%'},
+        {lbl:'% Pausa',          val:'39,7%', delta:'▲ vs Fev 34,8%', dclass:'dn', status:'red',    bench:'Desired: ≤34% · 77% dias violando'},
+        {lbl:'% TP Trabalhado',  val:'60,3%', delta:'▼ vs Fev 65,2%', dclass:'dn', status:'red',    bench:'Benchmark mín: 63%'},
+        {lbl:'Pagamentos',       val:'554',   delta:'▼ −54% vs Fev',  dclass:'dn', status:'red',    bench:'Fev: 1.197'},
+        {lbl:'Receita',          val:'R$109k',delta:'▼ −51% vs Fev',  dclass:'dn', status:'red',    bench:'Fev: R$ 224k'},
+        {lbl:'THD Operadora',    val:'56,5%', delta:'(referência Mar)',dclass:'fl', status:'yellow', bench:'Odres: 71,8% 🔴'},
+      ],
+      fev_mar_abr: [
+        {lbl:'CPC sobre Alô',    val:'39,4%', delta:'▼ Fev 41,4%→Mar 45%→Abr 39%',dclass:'dn',status:'red',   bench:'Benchmark mín: 54%'},
+        {lbl:'Conversão s/ CPC', val:'38,1%', delta:'▼ vs Fev (mesmo DU)',          dclass:'dn',status:'red',   bench:'Benchmark mín: 56%'},
+        {lbl:'% Falado (médio)',  val:'6,3%',  delta:'▼ Abr vs Fev 16,2%',          dclass:'dn',status:'red',   bench:'Benchmark mín: 19%'},
+        {lbl:'% Pausa (Abr)',     val:'35,7%', delta:'▲ vs Mar eq. 37,5%',          dclass:'up',status:'yellow',bench:'Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',   val:'64,3%', delta:'▲ vs Mar eq. 62,5%',          dclass:'up',status:'yellow',bench:'Benchmark mín: 63%'},
+        {lbl:'Pagamentos (Abr)',  val:'215',   delta:'▼ vs Fev eq. ~900',           dclass:'dn',status:'red',   bench:'Impacto headcount Abr'},
+        {lbl:'Receita (Abr)',     val:'R$39k', delta:'▼ vs Fev eq.',                dclass:'dn',status:'red',   bench:'Fev mesmo DU: ~R$168k'},
+        {lbl:'Operadores Abr',    val:'~7,5',  delta:'▼ de ~10 em Fev/Mar',         dclass:'dn',status:'red',   bench:'Equipe reduzida desde 01/04'},
+      ],
+    },
+    bm: {
+      fev_mar: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'45,0% 🔴', v2:'', cl1:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'37,7% 🔴', v2:'', cl1:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'10,8% 🔴', v2:'', cl1:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'39,7% 🟡', v2:'', cl1:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'60,3% 🔴', v2:'', cl1:'ccr'},
+      ],
+      fev_mar_abr: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'45,0% 🔴',v2:'45,0% 🔴',v3:'39,4% 🔴',cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'47,0% 🔴',v2:'38,1% 🔴',v3:'38,1% 🔴',cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'16,2% 🔴',v2:'10,8% 🔴',v3:'6,3% 🔴', cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'33,8% 🟢',v2:'37,5% 🟡',v3:'35,7% 🟡',cl1:'cok',cl2:'cwn',cl3:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'66,2% 🟡',v2:'62,5% 🟡',v3:'64,3% 🟡',cl1:'cwn',cl2:'cwn',cl3:'cwn'},
+      ],
+    },
+    alerts: [
+      {type:'cr', icon:'🚨', title:'Alerta 1 — Redução de Headcount: Vitória + Pamela + Raquel',
+       sub:'Risco ativo desde 01/04 · Equipe passou de 6 para 3 operadoras ativas',
+       fact:'Em Março fechado, Pamela Moreira e Vitória Ketelin representavam juntas <span class="neg">36% de todo o volume de ligações</span> do time (Pamela 16,9% · Vitória 7,5%). Os desligamentos de Abril eliminam essa capacidade sem protocolo de cobertura. Raquel afastada de 11–19/04 agrava ainda mais. Impacto projetado: <span class="neg">R$ 55.008/mês</span>.',
+       p5:['Por que o volume caiu?<span class="arr">→</span>Equipe reduziu de 6 para 3 — desligamentos simultâneos sem banco de reserva',
+           'Por que o impacto é tão alto?<span class="arr">→</span>Vitória sozinha respondia por R$ 44.771/mês (21,8% do fat. mês)',
+           'Por que sem substituição imediata?<span class="arr">→</span>Modelo reativo — contrata só quando há vaga aberta',
+           'Por que o discador não compensou?<span class="arr">→</span>Intensidade não foi reconfigurada para os 3 restantes cobrirem o volume',
+           'Por que sem protocolo?<span class="arr">→</span>Operação não tem plano formal de cobertura para perda de headcount']},
+      {type:'cr', icon:'🔴', title:'Alerta 2 — CPC sobre Alô abaixo do benchmark',
+       sub:'CPC em 45,0% em Março — benchmark mínimo é 54%',
+       fact:'O CPC melhorou levemente de Fev (41,4%) para Mar (45,0%), mas continua abaixo do mínimo de 54%. A queda de 53% nos Alôs vs Fevereiro é o principal driver — menos oportunidades chegando, mesmo com discador ativo.',
+       p5:['Por que o CPC está abaixo?<span class="arr">→</span>Volume de Alôs caiu 53% vs Fev — menos oportunidades',
+           'Por que menos Alôs?<span class="arr">→</span>Tentativas caíram 44% · Spin caiu de 0,71 para 0,52',
+           'Por que o Spin caiu?<span class="arr">→</span>Discador menos agressivo ou base com maior bloqueio',
+           'Por que sem ajuste no discador?<span class="arr">→</span>Sem protocolo de reconfiguração automática',
+           'Por que sem alerta?<span class="arr">→</span>Monitoramento de CPC não está formalizado com gatilho automático']},
+      {type:'wn', icon:'🟡', title:'Alerta 3 — % Tempo Falado em Red Alert',
+       sub:'10,8% em Março — 8pp abaixo do benchmark mínimo (19%) · queda de 33% vs Fevereiro',
+       fact:'Em 77% dos dias úteis de Março a pausa esteve acima de 34%. O % Falado caiu de 16,1% (Fev) para 10,8% (Mar) — o discador não entrega ligações suficientes, gerando ociosidade estagnada em ~49%.',
+       p5:['Por que % Falado tão baixo?<span class="arr">→</span>Ociosidade em 49% — discador não entrega Alôs suficientes',
+           'Por que menos Alôs?<span class="arr">→</span>Tentativas 44% menores e Spin em queda',
+           'Por que pausa alta em 77% dos dias?<span class="arr">→</span>Sem controle em tempo real pelo supervisor',
+           'Por que sem controle?<span class="arr">→</span>SLA de pausa individual não formalizado',
+           'Por que sem alerta?<span class="arr">→</span>Sistema não tem configuração de alerta por operador']},
+    ],
+    perf: {
+      head: ['Operador','CPC% Fev+Mar','Conv% Fev+Mar','Lig Fev+Mar','% Time','Status'],
+      rows: [
+        ['Andressa Bruna','—','—','2.011','11,1%','<span class="badge bgr">Sem dado individual</span>'],
+        ['Kayke Araujo','~40%','~50%','1.005','5,6%','<span class="badge br">🔴 Red CPC</span>'],
+        ['Pamela Isabelle','~31%','~43%','1.420','7,8%','<span class="badge br">🔴 Red CPC</span>'],
+        ['Rayara Danielle','~17%','~53%','744','4,1%','<span class="badge br">🔴 CPC Crítico</span>'],
+        ['Raquel Moreira','~32%','~47%','1.105','6,1%','<span class="badge by">⚠️ Risco afastamento</span>'],
+        ['Vitória Ketelin ✗','—','—','1.363','7,5%','<span class="badge br">Risco desligamento Abr</span>'],
+        ['Pamela Moreira ✗','—','—','3.053','16,9%','<span class="badge br">Risco desligamento Abr</span>'],
+      ]
+    },
+    insights: [
+      {n:'7',t:'p',title:'Queda estrutural já em Março, antes de Abril',body:'Com meses fechados, Março vs Fevereiro revela: receita <strong>−51%</strong>, Alôs <strong>−38%</strong>, pagamentos <strong>−54%</strong> — sem alerta formal. O Spin caiu de 0,71→0,52, indicando degradação do discador ou da base antes dos desligamentos de Abril.'},
+      {n:'8',t:'p',title:'Ticket médio subiu — qualidade de conversão melhorou',body:'Ticket médio: <strong>R$187 → R$197</strong>. ROI sobre telefonia: 95x → 101x. Os operadores estão convertendo clientes de maior valor — padrão que merece investigação e replicação.'},
+      {n:'9',t:'p',title:'"Atende e Desliga" — 38,3% das tabulações',body:'O maior desfecho negativo do daily Fev+Mar é "Atende e Desliga" (38,3% do total). Indica problema de <strong>abordagem/script</strong>, independente de headcount. Nenhuma ação mapeada para esse indicador.'},
+      {n:'10',t:'p',title:'Simone + Pamela = 36% do volume total do time',body:'No período fechado Fev+Mar: Simone (19%) + Pamela Moreira (16,9%) = <strong>36% de toda a capacidade operacional</strong>. Saída simultânea sem protocolo = catástrofe de volume.'},
+      {n:'11',t:'b',title:'PDI Kayke + Pamela Isabelle — Red CPC por 2 meses',body:'Kayke (38% CPC) e Pamela Isabelle (32% CPC) em Red há dois meses. Alto CPC de conversão sugere que o problema é na <strong>abordagem inicial</strong>, não na negociação. Escuta + feedback até 02/05.'},
+      {n:'12',t:'b',title:'PDI Beatris Santos — dois problemas simultâneos',body:'CPC em queda (42%→32%) + maior pausa individual. PDI rápido: escuta de 5 ligações até 30/04, alerta de pausa individual ativado, check-in diário primeiros 5 dias de Maio. Meta: CPC ≥40% e pausa ≤34% até 09/05.'},
+    ],
+  },
+
+  odres: {
+    exec: {
+      fev_mar: `A Odres em <strong>Março fechado</strong> já operava com sinais críticos: CPC em 53,5% (abaixo do mínimo de 54%), % Falado em apenas <span class="r">7%</span> e THD de Operadora em <span class="r">71,8%</span> — 3 em cada 4 ligações bloqueadas. A tabulação "Ligação Muda/Caixa Postal" representava <span class="r">24,8%</span> das ocorrências, indicando saturação de base em curso. <strong>Risco iminente:</strong> desligamento de Simone Gama em Abril representa <span class="r">R$ 53.381/mês</span> — maior impacto financeiro individual de todos os discadores.`,
+      fev_mar_abr: `Comparando os <strong>mesmos 15 dias úteis</strong>, a Odres em Abril sofreu colapso de CPC (53,5%→26,3%) impulsionado pela saturação de base — <span class="r">47% das ligações</span> vão para caixa postal. Com 73,7% de bloqueio de operadora + 47% caixa postal, o discador entrega pouquíssimas oportunidades reais de fala, resultando em <span class="r">51% de ociosidade</span>.`
+    },
+    sem: {
+      fev_mar: [
+        {lbl:'CPC sobre Alô',    val:'53,5%', delta:'(referência Mar)',  dclass:'fl', status:'yellow', bench:'Benchmark mín: 54% — 0,5pp abaixo'},
+        {lbl:'Conversão s/ CPC', val:'45,1%', delta:'(referência Mar)',  dclass:'fl', status:'yellow', bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'7%',    delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'Benchmark mín: 15% — metade do mínimo'},
+        {lbl:'% Pausa',          val:'40%',   delta:'(referência Mar)',  dclass:'dn', status:'red',    bench:'Red: ≥40% · Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',  val:'49%',   delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'Benchmark mín: 63% — 14pp abaixo'},
+        {lbl:'Lig. Muda/CP',     val:'24,8%', delta:'Tendência ↑',       dclass:'dn', status:'yellow', bench:'Fev+Mar · Meta: manter <20%'},
+        {lbl:'THD Operadora',    val:'71,8%', delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'3 em cada 4 ligações bloqueadas'},
+        {lbl:'Receita Mar',      val:'R$17k', delta:'99 pagamentos',     dclass:'fl', status:'red',    bench:'Risco Simone em Abril: −R$53k'},
+      ],
+      fev_mar_abr: [
+        {lbl:'CPC sobre Alô',    val:'26,3%', delta:'▼ de 53,5% em Mar',dclass:'dn', status:'red',    bench:'Benchmark mín: 54% — queda de 27pp'},
+        {lbl:'Conversão s/ CPC', val:'52,3%', delta:'▲ de 45,1% em Mar',dclass:'up', status:'yellow', bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'7%',    delta:'estagnado',         dclass:'fl', status:'red',    bench:'Benchmark mín: 15%'},
+        {lbl:'% Pausa',          val:'32%',   delta:'▼ de 40% em Mar',  dclass:'up', status:'yellow', bench:'Melhora · Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',  val:'58%',   delta:'▲ de 49% em Mar',  dclass:'up', status:'red',    bench:'Benchmark mín: 63% — ainda abaixo'},
+        {lbl:'Lig. Muda/CP',     val:'47%',   delta:'▲ 21pp vs Mar',    dclass:'dn', status:'red',    bench:'Meta: reduzir a <30%'},
+        {lbl:'THD Operadora',    val:'73,7%', delta:'▲ 2pp vs Mar',     dclass:'dn', status:'red',    bench:'3 em cada 4 ligações bloqueadas'},
+        {lbl:'Receita Abr',      val:'R$2k',  delta:'▼ −89% vs Mar',    dclass:'dn', status:'red',    bench:'13 pagamentos · Mar: R$17k'},
+      ],
+    },
+    bm: {
+      fev_mar: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'53,5% 🟡', cl1:'cwn'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'45,1% 🔴', cl1:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'7% 🔴',    cl1:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'40% 🔴',   cl1:'ccr'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'49% 🔴',   cl1:'ccr'},
+      ],
+      fev_mar_abr: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'53,5% 🟡',v2:'53,5% 🟡',v3:'26,3% 🔴',cl1:'cwn',cl2:'cwn',cl3:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'—',       v2:'45,1% 🔴',v3:'52,3% 🟡',cl1:'',  cl2:'ccr',cl3:'cwn'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'—',       v2:'7% 🔴',   v3:'7% 🔴',  cl1:'',  cl2:'ccr',cl3:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'—',       v2:'40% 🔴',  v3:'32% 🟡', cl1:'',  cl2:'ccr',cl3:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'—',       v2:'49% 🔴',  v3:'58% 🔴', cl1:'',  cl2:'ccr',cl3:'ccr'},
+      ],
+    },
+    alerts: [
+      {type:'cr', icon:'🚨', title:'Alerta Headcount — Simone Gama Desligada',
+       sub:'Risco desde 01/04 · Maior impacto financeiro individual — 26% do faturamento mensal',
+       fact:'No período fechado Fev+Mar, Simone Gama foi responsável por <span class="neg">19% de todo o volume de ligações</span> do time (3.442 de 18.091 totais). Seu desligamento em Abril representa perda projetada de <span class="neg">R$ 53.381/mês</span> — o maior impacto individual entre todos os discadores analisados.',
+       p5:['Por que o volume está em risco?<span class="arr">→</span>Simone respondia por 19% do volume total — sem par de backup',
+           'Por que impacto tão alto?<span class="arr">→</span>Era a principal geradora de receita da Odres (26% fat. mensal)',
+           'Por que sem substituição?<span class="arr">→</span>Sem banco de reserva — modelo reativo de contratação',
+           'Por que sem cobertura no discador?<span class="arr">→</span>Intensidade não foi aumentada para os demais operadores',
+           'Por que sem protocolo?<span class="arr">→</span>Operação não tem plano de contingência para perda de headcount']},
+      {type:'cr', icon:'🔴', title:'Alerta 4 — CPC despencou: 53,5% → 26,3% (Abr)',
+       sub:'Ligação Muda/Caixa Postal explodiu de 26% → 47% — base saturada',
+       fact:'3 em cada 4 ligações não chegam ao cliente (THD Operadora 73,7%). Das que passam, <span class="neg">47%</span> caem em caixa postal. No daily Fev+Mar, Lig. Muda/Caixa Postal já representava 24,8% das tabulações — a tendência de saturação estava em curso.',
+       p5:['Por que o CPC despencou?<span class="arr">→</span>47% das ligações que chegam caem em caixa postal — sem contato real',
+           'Por que 47% de caixa postal?<span class="arr">→</span>Base saturada — mesmos clientes discados por 15 dias consecutivos',
+           'Por que mesmos clientes?<span class="arr">→</span>Base alocada 1–14 dias de atraso sem critério de exclusão',
+           'Por que uma só campanha?<span class="arr">→</span>Inadimplência Odres alta — atuando dentro dos ofensores Odres',
+           'Por que inadimplência alta?<span class="arr">→</span>CPFs com 3+ ciclos de inadimplência permanecem na fila ativa sem segmentação']},
+      {type:'wn', icon:'🟡', title:'Alerta 5 — % Pausa e Tempo Trabalhado críticos',
+       sub:'Pausa 40% (Red) e TP Trabalhado 49% em Março — ambos abaixo do benchmark',
+       fact:'Ociosidade em 41% — operadores esperando ligação que não chega. Com 71,8% de bloqueio de operadora + crescente caixa postal, o discador entrega pouquíssimas oportunidades reais. Beatris Santos tem a maior pausa individual.',
+       p5:['Por que % Falado em 7%?<span class="arr">→</span>Ociosidade 41% — discador não entrega Alôs suficientes',
+           'Por que tão poucos Alôs?<span class="arr">→</span>71,8% bloqueado por operadora + base saturando',
+           'Por que pausa acima do Desired?<span class="arr">→</span>Sem controle em tempo real pelo supervisor',
+           'Por que sem controle?<span class="arr">→</span>Alerta de pausa individual não configurado',
+           'Por que sem alerta?<span class="arr">→</span>SLA de pausa individual não formalizado']},
+    ],
+    perf: {
+      head: ['Operador','CPC% Fev+Mar','Conv% Fev+Mar','Lig Fev+Mar','% Time','Status'],
+      rows: [
+        ['Adriano Correia','~27%','~30%','2.446','13,5%','<span class="badge br">🔴 CPC Crítico</span>'],
+        ['Larissa de Mello','~56%','~55%','992','5,5%','<span class="badge bg">✅ Top Performer</span>'],
+        ['Beatris Santos','~42%','~43%','2.375','13,1%','<span class="badge br">🔴 Red CPC + Pausa alta</span>'],
+        ['Simone Gama ✗','—','—','3.442','19,0%','<span class="badge br">Risco desligamento Abr</span>'],
+      ]
+    },
+    insights: [
+      {n:'7',t:'p',title:'Base saturada — tendência visível desde Fev+Mar',body:'No daily Fev+Mar, "Ligação Muda/Caixa Postal" já era <strong>24,8%</strong> das tabulações. Em Abril essa proporção dobrou para 47%. A saturação com mesmos clientes discados repetidamente já estava em curso.'},
+      {n:'8',t:'p',title:'Simone = 19% do volume — risco de concentração',body:'Simone Gama respondeu por <strong>3.442 ligações (19%)</strong> do total do time no período Fev+Mar. Uma única operadora representando quase 1/5 da operação é um risco de concentração crítico sem par de backup.'},
+      {n:'9',t:'p',title:'Larissa de Mello — referência de performance',body:'Única operadora com CPC acima do benchmark (~56%). Conversão de ~55%. É a <strong>única operadora em nível Green</strong> na Odres. Seu comportamento de abordagem deve ser mapeado e replicado para o time.'},
+      {n:'10',t:'p',title:'"Atende e Desliga" — problema de script',body:'Das tabulações Fev+Mar, <strong>38,3%</strong> terminaram em "Atende e Desliga". Independente de headcount ou base, esse indicador aponta para problema de abordagem inicial. Escuta de ligações urgente.'},
+      {n:'11',t:'b',title:'PDI Beatris Santos — dois problemas simultâneos',body:'CPC em queda (42%→32%) + maior pausa individual. PDI: escuta de 5 ligações até 30/04, alerta de pausa individual ativado, check-in diário em Maio. Meta: <strong>CPC ≥40% e pausa ≤34% até 09/05</strong>.'},
+      {n:'12',t:'b',title:'AMD pode reduzir custo sem perder oportunidades',body:'Com 47% de caixa postal em Abril, AMD (detecção automática) eliminaria ~47% do custo de telefonia sem perder oportunidades reais. Já listado como concluído — confirmar se está ativo e funcionando na Odres.'},
+    ],
+  },
+};
+
+// FUNIL DATA
+const FUNIL = {
+  fev_mar: {
+    cols_ume:   ['UME Fev','UME Mar','Δ'],
+    cols_odres: ['Odres Mar'],
+    rows: [
+      {lbl:'Mailing',    ume:['442.376','471.998','<span class="cup">+6,7%</span>'],   odres:['77.287']},
+      {lbl:'Tentativas', ume:['313.877','175.636','<span class="cdn">−44%</span>'],    odres:['15.463'], hlr:true},
+      {lbl:'Alô',        ume:['9.463','4.434 (2,5%)','<span class="cdn">−53%</span>'],odres:['439 (2,8%)'], hlr:true},
+      {lbl:'CPC',        ume:['3.913 (41,4%)','1.994 (45,0%)','<span class="cdn">−49%</span>'],odres:['235 (53,5%)'], hlr:true},
+      {lbl:'Conversão',  ume:['1.839 (47,0%)','759 (38,1%)','<span class="cdn">−9,3pp🔴</span>'],odres:['106 (45,1%)'], hly:true},
+      {lbl:'Pagamento',  ume:['1.197 · R$224k','554 · R$109k','<span class="cdn">−54% · −51% R$</span>'],odres:['99 · R$17k'], hlr:true},
+    ],
+    note_ume:   '<strong>⚠️ Atenção:</strong> A queda de Fevereiro para Março (−51% de receita, −54% de pagamentos) sinalizava deterioração grave — <strong>não foi alertada formalmente</strong>. Os desligamentos em Abril agravam uma tendência que já estava em curso.',
+    note_odres: '<strong>⚠️ Atenção:</strong> Odres em Março já operava com CPC abaixo do benchmark (53,5% vs 54% mín). A tabulação "Lig. Muda/Caixa Postal" em 24,8% indicava saturação de base em andamento.',
+  },
+  fev_mar_abr: {
+    cols_ume:   ['UME Fev (15 DU)','UME Mar (15 DU)','UME Abr (15 DU)'],
+    cols_odres: ['Odres Mar (15 DU)','Odres Abr (15 DU)','Δ'],
+    rows: [
+      {lbl:'Mailing',    ume:['442.376','471.998','509.401'],          odres:['77.287','94.558','<span class="cup">+22%</span>']},
+      {lbl:'Tentativas', ume:['~235k','~131k','~70k'],                 odres:['~10k','~10k','estável'], hlr:true},
+      {lbl:'Alô',        ume:['~7.100','~3.300','~1.700'],             odres:['~300','~220','<span class="cdn">−24%</span>'], hlr:true},
+      {lbl:'CPC',        ume:['~2.940 (~41%)','~1.340 (~41%)','~670 (~39%)'],odres:['~160 (53,5%)','~58 (26,3%)','<span class="cdn">−27pp🔴</span>'], hlr:true},
+      {lbl:'Conversão',  ume:['~1.380 (47%)','~515 (38%)','~195 (29%)']   ,odres:['~72 (45%)','~30 (52%)','<span class="cup">+7pp✅</span>'], hly:true},
+      {lbl:'Pagamento',  ume:['~900 · ~R$168k','~370 · ~R$73k','215 · R$39k'],odres:['~67 · ~R$11k','13 · R$2k','<span class="cdn">−87%</span>'], hlr:true},
+    ],
+    note_ume:   '<strong>Comparativo equiparado (15 DU):</strong> A UME mostra queda progressiva em todo o funil de Fev→Mar→Abr. Em Abril, o headcount reduzido (3 operadoras ativas vs 6) é o principal driver da queda de volume.',
+    note_odres: '<strong>Comparativo equiparado (15 DU):</strong> A Odres em Abril sofreu colapso de CPC (53,5%→26,3%) por saturação de base. A conversão subiu — quem passou pelo filtro converte melhor — mas o volume total despencou.',
+  },
+};
+
+// CHECKLIST
+const CHECKLIST = [
+  {section:'UME — Headcount e Volume', items:[
+    {id:'cl01', text:'Monitorar horas logadas semanalmente — alerta ao supervisor se cair abaixo do mínimo · Monitorar na TTIP com Adriano', resp:'Adriano', prazo:'Toda Seg', tag:'m'},
+    {id:'cl02', text:'Acompanhar reintegração de Raquel a partir de 20/04 com monitoramento diário [Solicitar report à Rayara]', resp:'Rayara', prazo:'Diário 20/04+', tag:'m'},
+    {id:'cl03', text:'Escuta de ligações Kayke Araujo e Pamela Isabelle (Red CPC há 2 meses) — feedback individual, meta CPC ≥54% em 2 semanas', resp:'Supervisor UME', prazo:'02/05', tag:'u'},
+    {id:'cl04', text:'Reconfigurar discador para aumentar intensidade quando equipe estiver abaixo do quadro completo', resp:'Gustavo', prazo:'Imediato', tag:'u'},
+    {id:'cl05', text:'Iniciar recrutamento preventivo — não depender de equipe mínima', resp:'RH / Gestão', prazo:'Imediato', tag:'u'},
+  ]},
+  {section:'Odres — Qualidade de Contato', items:[
+    {id:'cl06', text:'Analisar histórico por DDD/horário e ajustar janela de discagem para horários de maior receptividade', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl07', text:'Criar regra na base: 2x Lig. Muda no dia → sai da fila (volta amanhã) · 5x na semana → bloquear telefone', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl08', text:'Randomização de Discagem ↔ Pontal', resp:'Gustavo', prazo:'02/05', tag:'u'},
+    {id:'cl09', text:'Configurar AMD (detecção automática de caixa postal) para encerrar ligação sem desperdiçar tempo do operador', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl10', text:'Mapear CPFs com 3+ ciclos de inadimplência — criar fila separada com abordagem diferenciada', resp:'Gustavo / Adriano', prazo:'05/05', tag:'m'},
+    {id:'cl11', text:'Meta: reduzir Ligação Muda/Caixa Postal de 47% para abaixo de 30% em 2 semanas', resp:'Gustavo', prazo:'15/05', tag:'u'},
+  ]},
+  {section:'Ambos — Monitoramento Diário', items:[
+    {id:'cl12', text:'Monitorar CPC diariamente — alerta ao supervisor se cair abaixo de 54%', resp:'Supervisor UME + Odres', prazo:'28/04', tag:'u'},
+    {id:'cl13', text:'Formalizar SLA de pausa máxima: ≤34% por operador com alerta em tempo real ao passar de 35%', resp:'Gestão', prazo:'29/04', tag:'u'},
+    {id:'cl14', text:'PDI Beatris Santos (Odres): escuta 5 ligações até 30/04 · alerta pausa individual · check-in diário Maio · Meta: CPC ≥40% e pausa ≤34% até 09/05', resp:'Supervisor Odres', prazo:'30/04', tag:'u'},
+    {id:'cl15', text:'Feedback Rayara Danielle (UME): CPC Crítico (17%) mesmo com conversão excelente — investigar se é problema de lista/fila ou abordagem inicial', resp:'Supervisor UME', prazo:'30/04', tag:'m'},
+    {id:'cl16', text:'Escuta de 10 ligações tabuladas como "Atende e Desliga" por operador — investigar padrão de script', resp:'Supervisor Geral', prazo:'02/05', tag:'m'},
+    {id:'cl17', text:'Redundância de Telefonia', resp:'A definir', prazo:'A definir', tag:'m'},
+    {id:'cl18', text:'Investigar causa da queda de Spin entre Fev e Mar (0,71→0,52)', resp:'Gustavo', prazo:'05/05', tag:'m'},
+  ]},
 ];
 
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+const pct  = v => v == null ? '—' : (v*100).toFixed(1)+'%';
+const fmtN = v => v.toLocaleString('pt-BR');
+const $ = id => document.getElementById(id);
+
+function semColor(metric, val) {
+  if (val == null) return 'gray';
+  if (metric === 'pausa') {
+    return val <= 0.31 ? 'green' : val <= 0.37 ? 'yellow' : 'red';
+  }
+  if (metric === 'falado') {
+    return val >= 0.23 ? 'green' : val >= 0.15 ? 'yellow' : 'red';
+  }
+  if (metric === 'trab') {
+    return val >= 0.69 ? 'green' : val >= 0.60 ? 'yellow' : 'red';
+  }
+  return 'gray';
+}
+function hmClass(metric, val) {
+  const c = semColor(metric, val);
+  return c === 'green' ? 'hg' : c === 'yellow' ? 'hy' : c === 'red' ? 'hr' : 'hgr';
+}
+function avg(arr, key) {
+  const v = arr.filter(d => d[key] != null).map(d => d[key]);
+  return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null;
+}
+
+// ─────────────────────────────────────────────
+// RENDER FUNCTIONS
+// ─────────────────────────────────────────────
+function renderExec() {
+  const c = CONTENT[op].exec[period];
+  $('exec-box').innerHTML = `<h3>Resumo Executivo</h3><p>${c}</p>`;
+}
+
+function renderSem() {
+  const cards = CONTENT[op].sem[period];
+  $('sem-grid').innerHTML = cards.map(c => `
+    <div class="sem-card ${c.status}">
+      <div class="sem-lbl">${c.lbl}</div>
+      <div class="sem-val">${c.val}</div>
+      <div class="sem-row">
+        <span class="sem-delta ${c.dclass}">${c.delta}</span>
+        <span class="badge ${c.status==='green'?'bg':c.status==='yellow'?'by':c.status==='red'?'br':'bgr'}">${c.status==='green'?'🟢 Green':c.status==='yellow'?'🟡 Yellow':c.status==='red'?'🔴 Red':'—'}</span>
+      </div>
+      <div class="sem-bench">${c.bench}</div>
+    </div>`).join('');
+}
+
+function renderBM() {
+  const bm = CONTENT[op].bm[period];
+  const is3 = period === 'fev_mar_abr';
+  const opName = op === 'ume' ? 'UME' : 'Odres';
+  $('bm-col1').textContent = is3 ? `${opName} Fev (eq.)` : `${opName} Mar`;
+  $('bm-col2').textContent = is3 ? `${opName} Mar (eq.)` : '';
+  $('bm-col3').textContent = is3 ? `${opName} Abr` : '';
+  $('bm-body').innerHTML = bm.map(r => `<tr>
+    <td class="lbl">${r.m}</td>
+    <td>${r.g}</td><td>${r.d}</td><td>${r.y}</td><td>${r.r}</td>
+    <td class="${r.cl1||''}">${r.v1||'—'}</td>
+    ${is3?`<td class="${r.cl2||''}">${r.v2||'—'}</td><td class="${r.cl3||''}">${r.v3||'—'}</td>`:''}
+  </tr>`).join('');
+}
+
+function renderFunil() {
+  const f = FUNIL[period];
+  const opName = op === 'ume' ? 'ume' : 'odres';
+  const cols = opName === 'ume' ? f.cols_ume : f.cols_odres;
+  const note = opName === 'ume' ? f.note_ume : f.note_odres;
+  const title = period === 'fev_mar' ? 'Funil Consolidado — Meses Fechados' : `Funil Consolidado — Mesmo DU (${D.n_eq} dias úteis)`;
+  $('funil-title').textContent = title;
+  $('funil-head').innerHTML = `<tr><th>Etapa</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>`;
+  $('funil-body').innerHTML = f.rows.map(r => {
+    const vals = opName === 'ume' ? r.ume : r.odres;
+    const cls = r.hlr ? 'hl-r' : r.hly ? 'hl-y' : '';
+    return `<tr class="${cls}"><td class="lbl">${r.lbl}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`;
+  }).join('');
+  $('funil-note').innerHTML = note;
+}
+
+function renderHeatmap() {
+  let groups;
+  if (period === 'fev_mar') {
+    groups = [
+      {label:`Fevereiro (${D.ts_fev.du} DU)`,    days: D.fev_days},
+      {label:`Março (${D.ts_mar.du} DU)`,         days: D.mar_days},
+    ];
+  } else {
+    groups = [
+      {label:`Fev (${D.n_eq} DU eq.)`,  days: D.fev_eq},
+      {label:`Mar (${D.n_eq} DU eq.)`,  days: D.mar_eq},
+      {label:`Abr (${D.ts_abr.du} DU)`, days: D.abr_days},
+    ];
+  }
+
+  // Summary cards
+  $('hm-sum').innerHTML = groups.map(g => {
+    const t = avg(g.days,'trab'), p = avg(g.days,'pausa'), f = avg(g.days,'falado');
+    const lig = g.days.reduce((a,d)=>a+d.lig,0);
+    const pViol = g.days.filter(d=>d.pausa!=null&&d.pausa>0.34).length;
+    return `<div class="hms">
+      <div class="hms-lbl">${g.label}</div>
+      <div class="hms-val">${fmtN(lig)}</div>
+      <div class="hms-sub">ligações totais</div>
+      <div class="hms-bars">
+        <div class="hms-bar ${hmClass('trab',t)}">Trab: ${pct(t)}</div>
+        <div class="hms-bar ${hmClass('pausa',p)}">Pausa: ${pct(p)} (${pViol}/${g.days.filter(d=>d.pausa!=null).length} dias &gt;34%)</div>
+        <div class="hms-bar ${hmClass('falado',f)}">Falado: ${pct(f)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Table
+  const maxR = Math.max(...groups.map(g=>g.days.length));
+  const thCols = groups.map(g=>`<th colspan="3" style="text-align:center;background:var(--bg4);border:1px solid var(--border)">${g.label}</th>`).join('');
+  const thSub  = groups.map(()=>`<th>Trab%</th><th>Pausa%</th><th>Falado%</th>`).join('');
+  $('hmt-head').innerHTML = `<tr><th>DU</th>${thCols}</tr><tr><th></th>${thSub}</tr>`;
+
+  let rows = '';
+  for (let i=0;i<maxR;i++) {
+    let cells = `<td class="lbl">DU ${String(i+1).padStart(2,'0')}</td>`;
+    groups.forEach(g => {
+      const d = g.days[i];
+      if (!d) { cells += `<td class="hgr">—</td><td class="hgr">—</td><td class="hgr">—</td>`; return; }
+      cells += `
+        <td class="${hmClass('trab',d.trab)}" title="${d.data} ${d.dia}">${pct(d.trab)}</td>
+        <td class="${hmClass('pausa',d.pausa)}" title="Op:${d.op} · Lig:${fmtN(d.lig)}">${pct(d.pausa)}</td>
+        <td class="${hmClass('falado',d.falado)}">${pct(d.falado)}</td>`;
+    });
+    rows += `<tr>${cells}</tr>`;
+  }
+  $('hmt-body').innerHTML = rows;
+
+  // Note
+  let noteHTML = '<strong>Leitura por grupo:</strong> ';
+  groups.forEach(g => {
+    const p = avg(g.days,'pausa'), f = avg(g.days,'falado');
+    const pViol = g.days.filter(d=>d.pausa!=null&&d.pausa>0.34).length;
+    const pDen  = g.days.filter(d=>d.pausa!=null).length;
+    const pc = p>0.37?'var(--red)':p>0.34?'var(--yellow)':'var(--green)';
+    const fc = f<0.15?'var(--red)':f<0.19?'var(--yellow)':'var(--green)';
+    noteHTML += `<strong>${g.label}</strong>: pausa média <span style="color:${pc}">${pct(p)}</span> (${pViol}/${pDen} dias acima de 34%) · falado médio <span style="color:${fc}">${pct(f)}</span>. &nbsp;`;
+  });
+  $('hm-note').innerHTML = noteHTML;
+}
+
+function renderAlerts() {
+  const alerts = CONTENT[op].alerts;
+  $('alert-title').textContent = `Alertas — ${op==='ume'?'UME':'Odres'}`;
+  $('alerts-wrap').innerHTML = alerts.map(a => `
+    <div class="alert ${a.type}">
+      <div class="al-hd">
+        <div class="al-icon">${a.icon}</div>
+        <div>
+          <div class="al-title">${a.title}</div>
+          <div class="al-sub">${a.sub}</div>
+        </div>
+      </div>
+      <div class="fact">${a.fact}</div>
+      <div class="p5t">5 Porquês</div>
+      <ul class="p5">${a.p5.map(p=>`<li>${p}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+function renderPerf() {
+  const p = CONTENT[op].perf;
+  $('perf-head').innerHTML = `<tr>${p.head.map(h=>`<th>${h}</th>`).join('')}</tr>`;
+  $('perf-body').innerHTML = p.rows.map(r => `<tr>${r.map((c,i)=>`<td ${i===0?'class="lbl"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+
+function renderInsights() {
+  const ins = CONTENT[op].insights;
+  $('insights-wrap').innerHTML = ins.map(i => `
+    <div class="ins">
+      <div class="ins-hd">
+        <div class="ins-num ${i.t}">${i.n}</div>
+        <div class="ins-title">${i.title}</div>
+      </div>
+      <div class="ins-body">${i.body}</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// CHECKLIST
+// ─────────────────────────────────────────────
+let clState = {}; // {id: {checked, comment}}
+
+async function loadClState() {
+  try {
+    const r = await window.storage.get('checklist_state', true);
+    if (r && r.value) clState = JSON.parse(r.value);
+  } catch(e) { clState = {}; }
+}
+
+async function saveClState() {
+  try {
+    await window.storage.set('checklist_state', JSON.stringify(clState), true);
+  } catch(e) {}
+}
+
+function renderChecklist() {
+  const wrap = $('checklist-wrap');
+  wrap.innerHTML = '';
+  CHECKLIST.forEach(sec => {
+    const secDiv = document.createElement('div');
+    secDiv.className = 'cl-section';
+    secDiv.innerHTML = `<div class="sub-title">${sec.section}</div>`;
+    sec.items.forEach(item => {
+      const state = clState[item.id] || {checked:false, comment:''};
+      const div = document.createElement('div');
+      div.className = 'cl-item' + (state.checked?' done':'');
+      div.id = 'cl-wrap-'+item.id;
+
+      const tagMap = {u:'<span class="cl-tag u">Alta</span>', m:'<span class="cl-tag m">Média</span>', ok:'<span class="cl-tag ok">Baixa</span>'};
+      const hasComment = state.comment && state.comment.trim().length > 0;
+
+      div.innerHTML = `
+        <div class="cl-cb${state.checked?' checked':''}" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
+        <div class="cl-text">
+          ${item.text}
+          <span style="color:var(--text3);font-size:11px;margin-left:8px">· ${item.resp} · ${item.prazo}</span>
+          ${tagMap[item.tag]||''}
+        </div>
+        <div class="cl-comment-wrap">
+          <div class="cl-comment-icon${hasComment?' has-comment':''}" id="icon-${item.id}" 
+               title="${hasComment?state.comment:''}"
+               onclick="togglePopover('${item.id}')">💬</div>
+          <div class="cl-popover" id="pop-${item.id}">
+            <div class="cl-popover-lbl">O que foi feito?</div>
+            ${hasComment && !state._editing
+              ? `<div class="cl-popover-text" id="ptxt-${item.id}">${state.comment}</div>
+                 <div class="cl-popover-actions">
+                   <button class="cl-cancel-btn" onclick="editComment('${item.id}')">✏️ Editar</button>
+                   <button class="cl-cancel-btn" onclick="closePopover('${item.id}')">Fechar</button>
+                 </div>`
+              : `<textarea class="cl-popover-input" id="pinput-${item.id}" placeholder="Descreva o que foi feito...">${state.comment||''}</textarea>
+                 <div class="cl-popover-actions">
+                   <button class="cl-cancel-btn" onclick="closePopover('${item.id}')">Cancelar</button>
+                   <button class="cl-save-btn" onclick="saveComment('${item.id}')">Salvar</button>
+                 </div>`
+            }
+          </div>
+        </div>`;
+      secDiv.appendChild(div);
+    });
+    wrap.appendChild(secDiv);
+  });
+
+  // Close popover on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.cl-comment-wrap')) {
+      document.querySelectorAll('.cl-popover.open').forEach(p => p.classList.remove('open'));
+    }
+  }, {capture:false});
+}
+
+async function toggleCheck(id) {
+  if (!clState[id]) clState[id] = {checked:false,comment:''};
+  clState[id].checked = !clState[id].checked;
+  await saveClState();
+
+  const wrap = $('cl-wrap-'+id);
+  const cb   = $('cb-'+id);
+  const icon = $('icon-'+id);
+
+  if (clState[id].checked) {
+    wrap.classList.add('done');
+    cb.classList.add('checked');
+    // auto-open comment popover
+    icon.classList.add('has-comment');
+    icon.style.display='flex';
+    openPopoverForEdit(id);
+  } else {
+    wrap.classList.remove('done');
+    cb.classList.remove('checked');
+    if (!clState[id].comment) icon.style.display='none';
+  }
+}
+
+function openPopoverForEdit(id) {
+  closeAllPopovers();
+  const pop = $('pop-'+id);
+  const state = clState[id]||{};
+  pop.innerHTML = `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <textarea class="cl-popover-input" id="pinput-${id}" placeholder="Descreva o que foi feito...">${state.comment||''}</textarea>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+      <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+    </div>`;
+  pop.classList.add('open');
+  setTimeout(()=>{ const t=$('pinput-'+id); if(t)t.focus(); },50);
+}
+
+function togglePopover(id) {
+  const pop = $('pop-'+id);
+  const isOpen = pop.classList.contains('open');
+  closeAllPopovers();
+  if (!isOpen) {
+    const state = clState[id]||{};
+    const hasComment = state.comment && state.comment.trim().length>0;
+    if (hasComment) {
+      pop.innerHTML = `
+        <div class="cl-popover-lbl">O que foi feito?</div>
+        <div class="cl-popover-text">${state.comment}</div>
+        <div class="cl-popover-actions">
+          <button class="cl-cancel-btn" onclick="editComment('${id}')">✏️ Editar</button>
+          <button class="cl-cancel-btn" onclick="closePopover('${id}')">Fechar</button>
+        </div>`;
+    } else {
+      pop.innerHTML = `
+        <div class="cl-popover-lbl">O que foi feito?</div>
+        <textarea class="cl-popover-input" id="pinput-${id}" placeholder="Descreva o que foi feito..."></textarea>
+        <div class="cl-popover-actions">
+          <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+          <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+        </div>`;
+    }
+    pop.classList.add('open');
+    setTimeout(()=>{ const t=$('pinput-'+id); if(t)t.focus(); },50);
+  }
+}
+
+function editComment(id) {
+  const state = clState[id]||{};
+  const pop = $('pop-'+id);
+  pop.innerHTML = `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <textarea class="cl-popover-input" id="pinput-${id}">${state.comment||''}</textarea>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+      <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+    </div>`;
+  setTimeout(()=>{ const t=$('pinput-${id}'); if(t)t.focus(); },50);
+}
+
+async function saveComment(id) {
+  const input = $('pinput-'+id);
+  if (!input) return;
+  const val = input.value.trim();
+  if (!clState[id]) clState[id] = {checked:false, comment:''};
+  clState[id].comment = val;
+  await saveClState();
+  const icon = $('icon-'+id);
+  if (val) {
+    icon.classList.add('has-comment');
+    icon.title = val;
+    icon.style.display='flex';
+  } else {
+    icon.classList.remove('has-comment');
+  }
+  closePopover(id);
+  // Re-render popover to read-only mode
+  const pop = $('pop-'+id);
+  pop.innerHTML = val ? `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <div class="cl-popover-text">${val}</div>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="editComment('${id}')">✏️ Editar</button>
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Fechar</button>
+    </div>` : '';
+}
+
+function closePopover(id) { const p=$('pop-'+id); if(p) p.classList.remove('open'); }
+function closeAllPopovers() { document.querySelectorAll('.cl-popover.open').forEach(p=>p.classList.remove('open')); }
+
+// ─────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────
+function setPeriod(p) {
+  period = p;
+  document.querySelectorAll('[id^="btn-fev"]').forEach(b=>b.classList.remove('active'));
+  $('btn-'+p.replace('_','-')).classList.add('active');
+  const notes = {
+    fev_mar:     'Fev: 20 DU · Mar: 22 DU — meses fechados completos',
+    fev_mar_abr: `Fev: ${D.n_eq} DU · Mar: ${D.n_eq} DU · Abr: ${D.n_eq} DU — mesmo período equiparado`,
+  };
+  $('period-note').textContent = notes[p];
+  renderAll();
+}
+
+function setOp(o) {
+  op = o;
+  $('btn-ume').classList.toggle('active', o==='ume');
+  $('btn-odres').classList.toggle('active', o==='odres');
+  renderAll();
+}
+
+function renderAll() {
+  renderExec();
+  renderSem();
+  renderBM();
+  renderFunil();
+  renderHeatmap();
+  renderAlerts();
+  renderPerf();
+  renderInsights();
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+(async () => {
+  await loadClState();
+  renderAll();
+  renderChecklist();
+})();
+</script>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+// ── App switcher ──
+function switchApp(name) {
+  document.querySelectorAll('.app-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('app-' + name).classList.add('active');
+  document.getElementById('sb-' + name).classList.add('active');
+  // Init discador on first open
+  if (name === 'discador' && !window._discadorInited) {
+    window._discadorInited = true;
+    if (typeof initDiscador === 'function') initDiscador();
+  }
+}
+</script>
+
+<!-- Painel Operacional JS -->
+<script>
+const ops = [
+  { name:'Andressa Bruna',   initials:'AB', color:'#bfdbfe', tc:'#93c5fd', fev:{total:15291,dias:20},  mar:{total:15174.46,dias:21}, equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Raquel Moreira',   initials:'RM', color:'#bfdbfe', tc:'#93c5fd', fev:{total:8108,dias:20},   mar:{total:3882.26,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Rayara Danielle',  initials:'RD', color:'#bfdbfe', tc:'#93c5fd', fev:{total:5567,dias:20},   mar:{total:2670.92,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Vitória Ketelin',  initials:'VK', color:'#3b0a0a', tc:'#fca5a5', fev:{total:40069,dias:15},  mar:{total:4702.85,dias:5},   equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Pamela Moreira',   initials:'PM', color:'#3b0a0a', tc:'#fca5a5', fev:{total:8482,dias:15},   mar:{total:7336.73,dias:10},  equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Kayke Araújo',     initials:'KA', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:18786,dias:16},  mar:{total:9241.93,dias:17},  equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
+  { name:'Pamela Isabelle',  initials:'PI', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:29052,dias:16},  mar:{total:14813.61,dias:17}, equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
+  { name:'Lauane Stephanie', initials:'LS', color:'#2e1065', tc:'#c4b5fd', fev:{total:0,dias:0},       mar:{total:1125.50,dias:10},  equipe:'UME',   sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-ume-wp',     p2:'p2-ume-wp',     p3:'p3-ume'   },
+  { name:'Adriano Correia',  initials:'AC', color:'#052e16', tc:'#6ee7b7', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Beatriz Santos',   initials:'BS', color:'#052e16', tc:'#6ee7b7', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Larissa Rosário',  initials:'LR', color:'#052e16', tc:'#6ee7b7', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Simone Gama',      initials:'SG', color:'#3b0a0a', tc:'#fca5a5', fev:{total:36851,dias:15},  mar:{total:29875.64,dias:10}, equipe:'ODRES', sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Talita Souza',     initials:'TS', color:'#052e16', tc:'#a7f3d0', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
+];
 const rawMar = {
   'Andressa Bruna':  [2418.6,0,410.5,0,1014.4,1546.5,0,264.24,1210.74,69.64,3217.78,1406.28,0,266.53,0,928.39,565.91,200.09,385.73,100,398,516.13],
   'Raquel Moreira':  [0,0,0,1734.75,326.62,141,0,0,518.35,0,0,0,0,506.78,0,654.76,0,0,0,0,0,0],
@@ -245,20 +1343,17 @@ const rawMar = {
   'Simone Gama':     [6321.53,3516.43,3345.01,932.54,1747.32,4858.88,191,0,890.3,0,1960.28,1092.72,908.38,801.46,0,791.46,893.91,1028.21,0,0,0,0],
   'Talita Souza':    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 };
-
 const calendario = [[0],[1],[2],[3],[4],[0],[1],[2],[3],[4],[0],[2],[3],[4],[0],[1],[2],[3],[4],[0],[1]];
 const diasNome = ['Segunda','Terça','Quarta','Quinta','Sexta'];
-const diasCor  = ['#0d1f35','#0a1f16','#1a0f35','#1f1500','#1f0f00'];
-const diasTxt  = ['#60a5fa','#00ff88','#c4b5fd','#f59e0b','#f97316'];
+const diasCor  = ['#eff6ff','#f0fdf4','#f5f3ff','#fffbeb','#fff7ed'];
+const diasTxt  = ['#93c5fd','#6ee7b7','#c4b5fd','#92400e','#9a3412'];
 const diasBar  = ['#3b82f6','#22c55e','#8b5cf6','#f59e0b','#f97316'];
-
 function calcMediaDia(nome){
   const vals=rawMar[nome]||[];
   const soma=[0,0,0,0,0],cont=[0,0,0,0,0];
   calendario.forEach(([ds],i)=>{const v=vals[i]||0;if(v>0){soma[ds]+=v;cont[ds]++;}});
   return soma.map((s,i)=>cont[i]>0?s/cont[i]:0);
 }
-
 ops.forEach(op=>{
   op.mediaDia=calcMediaDia(op.name);
   const td=op.fev.dias+op.mar.dias;
@@ -266,25 +1361,21 @@ ops.forEach(op=>{
   op.mediaHora=op.mediaDiaCons/8;
   op.mensalEst=op.mediaDiaCons*(op.sub==='Jovem Aprendiz'?17:20);
 });
-
 const totalMensal=ops.reduce((s,o)=>s+o.mensalEst,0);
 const totalDia=ops.reduce((s,o)=>s+o.mediaDiaCons,0);
 const fmt  = v=>v>0?'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
 const fmt0 = v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
 const fmtV = v=>v===0?'—':'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const pct  = v=>(v*100).toFixed(1)+'%';
-
 const selP1=new Set(),selP3=new Set();
 let horas=8;
-
 function showPanel(id,btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#panel-painel .panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#panel-painel .nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   btn.classList.add('active');
   if(id==='mes')renderP4();
 }
-
 function buildCard(op,i,container,selSet,renderFn,mode){
   const cont=document.getElementById(container);
   if(!cont)return;
@@ -293,10 +1384,10 @@ function buildCard(op,i,container,selSet,renderFn,mode){
   let valsHtml='';
   if(mode==='medias'){
     valsHtml=`<div class="cvals">
-      <span>Fev: <b style="color:#e6edf3">${op.fev.total>0?fmt(op.fev.total):'—'}</b></span>
-      <span>Mar: <b style="color:#e6edf3">${op.mar.total>0?fmt(op.mar.total):'—'}</b></span>
-      <span>Média/dia: <b style="color:#e6edf3">${op.mediaDiaCons>0?fmt(op.mediaDiaCons):'—'}</b></span>
-      <span>Média/hora: <b style="color:#e6edf3">${op.mediaHora>0?fmt(op.mediaHora):'—'}</b></span>
+      <span>Fev: <b style="color:#1a1a2e">${op.fev.total>0?fmt(op.fev.total):'—'}</b></span>
+      <span>Mar: <b style="color:#1a1a2e">${op.mar.total>0?fmt(op.mar.total):'—'}</b></span>
+      <span>Média/dia: <b style="color:#1a1a2e">${op.mediaDiaCons>0?fmt(op.mediaDiaCons):'—'}</b></span>
+      <span>Média/hora: <b style="color:#1a1a2e">${op.mediaHora>0?fmt(op.mediaHora):'—'}</b></span>
     </div>`;
   }
   div.innerHTML=`
@@ -314,19 +1405,16 @@ function buildCard(op,i,container,selSet,renderFn,mode){
   }
   cont.appendChild(div);
 }
-
 ops.forEach((op,i)=>{
   buildCard(op,i,op.p1,selP1,renderP1,'');
   buildCard(op,i,op.p2,null,null,'medias');
   buildCard(op,i,op.p3,selP3,renderP3,'');
 });
-
 document.getElementById('hslider').addEventListener('input',e=>{
   horas=parseFloat(e.target.value);
   document.getElementById('hval').textContent=horas+'h';
   renderP1();
 });
-
 function teamBlockP1(label,barColor,sel){
   if(!sel.length)return'';
   const pDia=sel.reduce((s,o)=>s+o.mediaDiaCons,0);
@@ -360,7 +1448,6 @@ function teamBlockP1(label,barColor,sel){
     </div>`).join('')}
   </div>`;
 }
-
 function renderP1(){
   const box=document.getElementById('p1-result');
   if(selP1.size===0){box.innerHTML='<div class="empty">Selecione um ou mais operadores acima</div>';return;}
@@ -392,7 +1479,6 @@ function renderP1(){
     ${teamBlockP1('ODRES — WhatsApp','#276749',oW)}
   `;
 }
-
 function renderP3(){
   const box=document.getElementById('p3-result');
   if(selP3.size===0){box.innerHTML='<div class="empty">Selecione um ou mais operadores acima</div>';return;}
@@ -422,7 +1508,6 @@ function renderP3(){
     <div style="font-size:11px;color:#bbb;margin-top:8px;">Média dos dias com produção em março.</div>
   `;
 }
-
 function renderP4(){
   const cont=document.getElementById('p4-content');
   const totalFev=ops.reduce((s,o)=>s+o.fev.total,0);
@@ -436,7 +1521,6 @@ function renderP4(){
   const odresMar=odresOps.reduce((s,o)=>s+o.mar.total,0);
   const varUme=umeFev>0?((umeMar-umeFev)/umeFev*100):0;
   const varOdres=odresFev>0?((odresMar-odresFev)/odresFev*100):0;
-
   function vBadge(fev,mar){
     if(fev===0&&mar===0)return'<span class="badge-eq">—</span>';
     if(fev===0)return'<span class="badge-new">novo</span>';
@@ -444,7 +1528,6 @@ function renderP4(){
     const v=(mar-fev)/fev*100;
     return v>=0?`<span class="badge-up">+${v.toFixed(1)}%</span>`:`<span class="badge-dn">${v.toFixed(1)}%</span>`;
   }
-
   function teamTable(label,color,teamOps){
     const tFev=teamOps.reduce((s,o)=>s+o.fev.total,0);
     const tMar=teamOps.reduce((s,o)=>s+o.mar.total,0);
@@ -463,11 +1546,11 @@ function renderP4(){
         </td>
         <td>
           <div style="font-size:12px;">${fmtV(o.fev.total)}</div>
-          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.fev.total/mb*100).toFixed(0)}%;background:#3b82f6;"></div></div>
+          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.fev.total/mb*100).toFixed(0)}%;background:#93c5fd;"></div></div>
         </td>
         <td>
           <div style="font-size:12px;">${fmtV(o.mar.total)}</div>
-          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.mar.total/mb*100).toFixed(0)}%;background:#00ff88;"></div></div>
+          <div class="pct-bar-bg" style="margin-top:3px;"><div class="pct-bar" style="width:${(o.mar.total/mb*100).toFixed(0)}%;background:#6ee7b7;"></div></div>
         </td>
         <td class="center">${vBadge(o.fev.total,o.mar.total)}</td>
       </tr>`;
@@ -490,7 +1573,6 @@ function renderP4(){
       </div>
     </div>`;
   }
-
   cont.innerHTML=`
     <div class="g4" style="margin-bottom:16px;">
       <div class="m mb"><div class="ml">Total Fevereiro</div><div class="mv">${fmt0(totalFev)}</div></div>
@@ -515,13 +1597,686 @@ function renderP4(){
       </div>
     </div>
     <div style="display:flex;gap:12px;margin-bottom:12px;font-size:12px;color:#888;">
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#3b82f6;display:inline-block;"></span>Fevereiro</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#00ff88;display:inline-block;"></span>Março</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#93c5fd;display:inline-block;"></span>Fevereiro</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#6ee7b7;display:inline-block;"></span>Março</span>
     </div>
-    ${teamTable('UME','#00ff88',umeOps)}
-    ${teamTable('ODRES','#00cfff',odresOps)}
+    ${teamTable('UME','#60a5fa',umeOps)}
+    ${teamTable('ODRES','#34d399',odresOps)}
   `;
 }
+</script>
+
+<!-- Análise Discador JS -->
+<script>
+function initDiscador() {
+  if (typeof renderAll === "function") { renderAll(); renderChecklist(); }
+}
+
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const D = {"fev_days": [{"data": "02/02", "dia": "seg", "op": 9, "lig": 561, "trab": 0.6495, "pausa": 0.3505, "falado": 0.1407, "ocioso": 0.5088}, {"data": "03/02", "dia": "ter", "op": 12, "lig": 825, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1752, "ocioso": 0.515}, {"data": "04/02", "dia": "qua", "op": 12, "lig": 527, "trab": 0.4243, "pausa": 0.5757, "falado": 0.1341, "ocioso": 0.2902}, {"data": "05/02", "dia": "qui", "op": 12, "lig": 576, "trab": 0.7949, "pausa": 0.2051, "falado": 0.1402, "ocioso": 0.6547}, {"data": "06/02", "dia": "sex", "op": 11, "lig": 1018, "trab": 0.7418, "pausa": 0.2582, "falado": 0.1877, "ocioso": 0.554}, {"data": "09/02", "dia": "seg", "op": 10, "lig": 720, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1818, "ocioso": 0.5084}, {"data": "10/02", "dia": "ter", "op": 11, "lig": 1148, "trab": 0.5751, "pausa": 0.4249, "falado": 0.2592, "ocioso": 0.3158}, {"data": "11/02", "dia": "qua", "op": 11, "lig": 809, "trab": 0.6176, "pausa": 0.3824, "falado": 0.1774, "ocioso": 0.4403}, {"data": "12/02", "dia": "qui", "op": 11, "lig": 767, "trab": 0.6107, "pausa": 0.3893, "falado": 0.1762, "ocioso": 0.4345}, {"data": "13/02", "dia": "sex", "op": 9, "lig": 341, "trab": 0.6248, "pausa": 0.3752, "falado": 0.08, "ocioso": 0.5447}, {"data": "16/02", "dia": "seg", "op": 6, "lig": 333, "trab": 0.791, "pausa": 0.209, "falado": 0.1025, "ocioso": 0.6885}, {"data": "17/02", "dia": "ter", "op": 6, "lig": 615, "trab": 0.7181, "pausa": 0.2819, "falado": 0.2037, "ocioso": 0.5144}, {"data": "18/02", "dia": "qua", "op": 12, "lig": 441, "trab": 0.84, "pausa": 0.16, "falado": 0.1509, "ocioso": 0.6891}, {"data": "19/02", "dia": "qui", "op": 13, "lig": 678, "trab": 0.5764, "pausa": 0.4236, "falado": 0.1324, "ocioso": 0.444}, {"data": "20/02", "dia": "sex", "op": 12, "lig": 925, "trab": 0.5917, "pausa": 0.4083, "falado": 0.1887, "ocioso": 0.4029}, {"data": "23/02", "dia": "seg", "op": 10, "lig": 770, "trab": 0.6037, "pausa": 0.3963, "falado": 0.1697, "ocioso": 0.434}, {"data": "24/02", "dia": "ter", "op": 10, "lig": 682, "trab": 0.6554, "pausa": 0.3446, "falado": 0.1551, "ocioso": 0.5003}, {"data": "25/02", "dia": "qua", "op": 10, "lig": 942, "trab": 0.6567, "pausa": 0.3433, "falado": 0.1766, "ocioso": 0.4801}, {"data": "26/02", "dia": "qui", "op": 10, "lig": 859, "trab": 0.6009, "pausa": 0.3991, "falado": 0.1707, "ocioso": 0.4302}, {"data": "27/02", "dia": "sex", "op": 11, "lig": 631, "trab": 0.5923, "pausa": 0.4077, "falado": 0.11, "ocioso": 0.4823}], "mar_days": [{"data": "02/03", "dia": "seg", "op": 8, "lig": 564, "trab": 0.5535, "pausa": 0.4465, "falado": 0.1867, "ocioso": 0.3669}, {"data": "03/03", "dia": "ter", "op": 10, "lig": 588, "trab": 0.5728, "pausa": 0.4272, "falado": 0.1124, "ocioso": 0.4604}, {"data": "04/03", "dia": "qua", "op": 9, "lig": 527, "trab": 0.6424, "pausa": 0.3576, "falado": 0.1295, "ocioso": 0.513}, {"data": "05/03", "dia": "qui", "op": 11, "lig": 480, "trab": 0.6245, "pausa": 0.3755, "falado": 0.0674, "ocioso": 0.5571}, {"data": "06/03", "dia": "sex", "op": 11, "lig": 573, "trab": 0.5383, "pausa": 0.4617, "falado": 0.1068, "ocioso": 0.4315}, {"data": "09/03", "dia": "seg", "op": 9, "lig": 439, "trab": 0.5905, "pausa": 0.4095, "falado": 0.1203, "ocioso": 0.4702}, {"data": "10/03", "dia": "ter", "op": 11, "lig": 335, "trab": 0.6172, "pausa": 0.3828, "falado": 0.1062, "ocioso": 0.511}, {"data": "11/03", "dia": "qua", "op": 10, "lig": 204, "trab": 0.6206, "pausa": 0.3794, "falado": 0.0555, "ocioso": 0.565}, {"data": "12/03", "dia": "qui", "op": 12, "lig": 646, "trab": 0.5877, "pausa": 0.4123, "falado": 0.1023, "ocioso": 0.4854}, {"data": "13/03", "dia": "sex", "op": 10, "lig": 160, "trab": 0.5788, "pausa": 0.4212, "falado": 0.0348, "ocioso": 0.544}, {"data": "16/03", "dia": "seg", "op": 10, "lig": 595, "trab": 0.7094, "pausa": 0.2906, "falado": 0.1655, "ocioso": 0.5439}, {"data": "17/03", "dia": "ter", "op": 12, "lig": 128, "trab": 0.6888, "pausa": 0.3112, "falado": 0.0334, "ocioso": 0.6555}, {"data": "18/03", "dia": "qua", "op": 12, "lig": 867, "trab": 0.6965, "pausa": 0.3035, "falado": 0.1726, "ocioso": 0.5239}, {"data": "19/03", "dia": "qui", "op": 12, "lig": 425, "trab": 0.6635, "pausa": 0.3365, "falado": 0.0997, "ocioso": 0.5638}, {"data": "20/03", "dia": "sex", "op": 12, "lig": 802, "trab": 0.6886, "pausa": 0.3114, "falado": 0.1226, "ocioso": 0.5659}, {"data": "23/03", "dia": "seg", "op": 10, "lig": 592, "trab": 0.6506, "pausa": 0.3494, "falado": 0.1095, "ocioso": 0.5411}, {"data": "24/03", "dia": "ter", "op": 11, "lig": 549, "trab": 0.6612, "pausa": 0.3388, "falado": 0.098, "ocioso": 0.5632}, {"data": "25/03", "dia": "qua", "op": 9, "lig": 249, "trab": 0.6482, "pausa": 0.3518, "falado": 0.0547, "ocioso": 0.5935}, {"data": "26/03", "dia": "qui", "op": 8, "lig": 255, "trab": 0.7123, "pausa": 0.2877, "falado": 0.068, "ocioso": 0.6443}, {"data": "27/03", "dia": "sex", "op": 9, "lig": 302, "trab": 0.4293, "pausa": 0.5707, "falado": 0.0807, "ocioso": 0.3487}, {"data": "30/03", "dia": "seg", "op": 7, "lig": 190, "trab": 0.712, "pausa": 0.288, "falado": 0.056, "ocioso": 0.6561}, {"data": "31/03", "dia": "ter", "op": 9, "lig": 426, "trab": 0.6892, "pausa": 0.3108, "falado": 0.0857, "ocioso": 0.6035}], "abr_days": [{"data": "01/04", "dia": "qua", "op": 9, "lig": 401, "trab": 0.6875, "pausa": 0.3125, "falado": 0.1482, "ocioso": 0.5393}, {"data": "02/04", "dia": "qui", "op": 8, "lig": 278, "trab": 0.6327, "pausa": 0.3673, "falado": 0.0661, "ocioso": 0.5666}, {"data": "03/04", "dia": "sex", "op": 2, "lig": 62, "trab": 0.8466, "pausa": 0.1534, "falado": 0.0403, "ocioso": 0.8063}, {"data": "06/04", "dia": "seg", "op": 6, "lig": 165, "trab": 0.7023, "pausa": 0.2977, "falado": 0.0346, "ocioso": 0.6677}, {"data": "07/04", "dia": "ter", "op": 8, "lig": 247, "trab": 0.6242, "pausa": 0.3758, "falado": 0.0406, "ocioso": 0.5836}, {"data": "08/04", "dia": "qua", "op": 9, "lig": 518, "trab": 0.6101, "pausa": 0.3899, "falado": 0.0886, "ocioso": 0.5215}, {"data": "09/04", "dia": "qui", "op": 8, "lig": 425, "trab": 0.5224, "pausa": 0.4776, "falado": 0.0776, "ocioso": 0.4448}, {"data": "10/04", "dia": "sex", "op": 8, "lig": 357, "trab": 0.5474, "pausa": 0.4526, "falado": 0.0673, "ocioso": 0.4802}, {"data": "13/04", "dia": "seg", "op": 6, "lig": 173, "trab": 0.5991, "pausa": 0.4009, "falado": 0.0342, "ocioso": 0.5649}, {"data": "14/04", "dia": "ter", "op": 8, "lig": 467, "trab": 0.7363, "pausa": 0.2637, "falado": 0.1067, "ocioso": 0.6296}, {"data": "15/04", "dia": "qua", "op": 9, "lig": 219, "trab": 0.5293, "pausa": 0.4707, "falado": 0.0382, "ocioso": 0.4911}, {"data": "16/04", "dia": "qui", "op": 8, "lig": 322, "trab": 0.7065, "pausa": 0.2935, "falado": 0.0556, "ocioso": 0.6509}, {"data": "17/04", "dia": "sex", "op": 9, "lig": 377, "trab": 0.6341, "pausa": 0.3659, "falado": 0.0624, "ocioso": 0.5718}, {"data": "20/04", "dia": "seg", "op": 7, "lig": 386, "trab": 0.6865, "pausa": 0.3135, "falado": 0.0827, "ocioso": 0.6038}, {"data": "21/04", "dia": "ter", "op": 3, "lig": 0, "trab": 0.5851, "pausa": 0.4149, "falado": 0.0, "ocioso": 0.5851}], "fev_eq": [{"data": "02/02", "dia": "seg", "op": 9, "lig": 561, "trab": 0.6495, "pausa": 0.3505, "falado": 0.1407, "ocioso": 0.5088}, {"data": "03/02", "dia": "ter", "op": 12, "lig": 825, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1752, "ocioso": 0.515}, {"data": "04/02", "dia": "qua", "op": 12, "lig": 527, "trab": 0.4243, "pausa": 0.5757, "falado": 0.1341, "ocioso": 0.2902}, {"data": "05/02", "dia": "qui", "op": 12, "lig": 576, "trab": 0.7949, "pausa": 0.2051, "falado": 0.1402, "ocioso": 0.6547}, {"data": "06/02", "dia": "sex", "op": 11, "lig": 1018, "trab": 0.7418, "pausa": 0.2582, "falado": 0.1877, "ocioso": 0.554}, {"data": "09/02", "dia": "seg", "op": 10, "lig": 720, "trab": 0.6902, "pausa": 0.3098, "falado": 0.1818, "ocioso": 0.5084}, {"data": "10/02", "dia": "ter", "op": 11, "lig": 1148, "trab": 0.5751, "pausa": 0.4249, "falado": 0.2592, "ocioso": 0.3158}, {"data": "11/02", "dia": "qua", "op": 11, "lig": 809, "trab": 0.6176, "pausa": 0.3824, "falado": 0.1774, "ocioso": 0.4403}, {"data": "12/02", "dia": "qui", "op": 11, "lig": 767, "trab": 0.6107, "pausa": 0.3893, "falado": 0.1762, "ocioso": 0.4345}, {"data": "13/02", "dia": "sex", "op": 9, "lig": 341, "trab": 0.6248, "pausa": 0.3752, "falado": 0.08, "ocioso": 0.5447}, {"data": "16/02", "dia": "seg", "op": 6, "lig": 333, "trab": 0.791, "pausa": 0.209, "falado": 0.1025, "ocioso": 0.6885}, {"data": "17/02", "dia": "ter", "op": 6, "lig": 615, "trab": 0.7181, "pausa": 0.2819, "falado": 0.2037, "ocioso": 0.5144}, {"data": "18/02", "dia": "qua", "op": 12, "lig": 441, "trab": 0.84, "pausa": 0.16, "falado": 0.1509, "ocioso": 0.6891}, {"data": "19/02", "dia": "qui", "op": 13, "lig": 678, "trab": 0.5764, "pausa": 0.4236, "falado": 0.1324, "ocioso": 0.444}, {"data": "20/02", "dia": "sex", "op": 12, "lig": 925, "trab": 0.5917, "pausa": 0.4083, "falado": 0.1887, "ocioso": 0.4029}], "mar_eq": [{"data": "02/03", "dia": "seg", "op": 8, "lig": 564, "trab": 0.5535, "pausa": 0.4465, "falado": 0.1867, "ocioso": 0.3669}, {"data": "03/03", "dia": "ter", "op": 10, "lig": 588, "trab": 0.5728, "pausa": 0.4272, "falado": 0.1124, "ocioso": 0.4604}, {"data": "04/03", "dia": "qua", "op": 9, "lig": 527, "trab": 0.6424, "pausa": 0.3576, "falado": 0.1295, "ocioso": 0.513}, {"data": "05/03", "dia": "qui", "op": 11, "lig": 480, "trab": 0.6245, "pausa": 0.3755, "falado": 0.0674, "ocioso": 0.5571}, {"data": "06/03", "dia": "sex", "op": 11, "lig": 573, "trab": 0.5383, "pausa": 0.4617, "falado": 0.1068, "ocioso": 0.4315}, {"data": "09/03", "dia": "seg", "op": 9, "lig": 439, "trab": 0.5905, "pausa": 0.4095, "falado": 0.1203, "ocioso": 0.4702}, {"data": "10/03", "dia": "ter", "op": 11, "lig": 335, "trab": 0.6172, "pausa": 0.3828, "falado": 0.1062, "ocioso": 0.511}, {"data": "11/03", "dia": "qua", "op": 10, "lig": 204, "trab": 0.6206, "pausa": 0.3794, "falado": 0.0555, "ocioso": 0.565}, {"data": "12/03", "dia": "qui", "op": 12, "lig": 646, "trab": 0.5877, "pausa": 0.4123, "falado": 0.1023, "ocioso": 0.4854}, {"data": "13/03", "dia": "sex", "op": 10, "lig": 160, "trab": 0.5788, "pausa": 0.4212, "falado": 0.0348, "ocioso": 0.544}, {"data": "16/03", "dia": "seg", "op": 10, "lig": 595, "trab": 0.7094, "pausa": 0.2906, "falado": 0.1655, "ocioso": 0.5439}, {"data": "17/03", "dia": "ter", "op": 12, "lig": 128, "trab": 0.6888, "pausa": 0.3112, "falado": 0.0334, "ocioso": 0.6555}, {"data": "18/03", "dia": "qua", "op": 12, "lig": 867, "trab": 0.6965, "pausa": 0.3035, "falado": 0.1726, "ocioso": 0.5239}, {"data": "19/03", "dia": "qui", "op": 12, "lig": 425, "trab": 0.6635, "pausa": 0.3365, "falado": 0.0997, "ocioso": 0.5638}, {"data": "20/03", "dia": "sex", "op": 12, "lig": 802, "trab": 0.6886, "pausa": 0.3114, "falado": 0.1226, "ocioso": 0.5659}], "n_eq": 15, "ts_fev": {"du": 20, "lig_total": 14168, "trab": 0.6523, "pausa": 0.3477, "falado": 0.1606, "ocioso": 0.4916, "pausa_viol": 13}, "ts_mar": {"du": 22, "lig_total": 9896, "trab": 0.6307, "pausa": 0.3693, "falado": 0.0986, "ocioso": 0.5322, "pausa_viol": 13}, "ts_abr": {"du": 15, "lig_total": 4397, "trab": 0.6433, "pausa": 0.3567, "falado": 0.0629, "ocioso": 0.5805, "pausa_viol": 9}, "ts_fev_eq": {"du": 15, "lig_total": 10284, "trab": 0.6624, "pausa": 0.3376, "falado": 0.162, "ocioso": 0.5004, "pausa_viol": 8}, "ts_mar_eq": {"du": 15, "lig_total": 7333, "trab": 0.6249, "pausa": 0.3751, "falado": 0.1077, "ocioso": 0.5172, "pausa_viol": 10}, "funil_fev": {"mailing": 442376, "trabalhado": 26355, "pct_trab": 0.05957601678210391, "tentativas": 313877, "spin": 0.7095, "pct_alo": 0.0301, "pct_cpc": 0.4135, "pct_conv": 0.47, "alo": 9463, "cpc": 3913, "conversao": 1839, "pagamento": 1197, "receita": 224341.41, "ticket": 187.42, "telefonia": 2353.39}, "funil_mar": {"mailing": 471998, "trabalhado": 31355, "pct_trab": 0.06643036623036538, "tentativas": 247154, "spin": 0.5236, "pct_alo": 0.0237, "pct_cpc": 0.4312, "pct_conv": 0.3773, "alo": 5851, "cpc": 2523, "conversao": 952, "pagamento": 559, "receita": 109910.98, "ticket": 196.62, "telefonia": 1082.26}, "funil_abr": {"mailing": 509401, "trabalhado": 19346, "pct_trab": 0.037977938794780536, "tentativas": 139468, "spin": 0.2738, "pct_alo": 0.0245, "pct_cpc": 0.3936, "pct_conv": 0.3812, "alo": 3412, "cpc": 1343, "conversao": 512, "pagamento": 215, "receita": 39471.36, "ticket": 183.59, "telefonia": 620.09}};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let period = 'fev_mar';   // 'fev_mar' | 'fev_mar_abr'
+let op     = 'ume';       // 'ume' | 'odres'
+
+// ─────────────────────────────────────────────
+// STATIC CONTENT DATA
+// ─────────────────────────────────────────────
+const CONTENT = {
+  ume: {
+    exec: {
+      fev_mar: `Entre <strong>Fevereiro e Março fechados</strong>, a UME registrou queda severa de volume: Alôs caíram <span class="r">−38%</span>, pagamentos <span class="r">−54%</span> e receita <span class="r">−51%</span> — <strong>sem alerta formal ou ação corretiva</strong>. O ticket médio subiu de <span class="g">R$ 187 → R$ 197</span>, indicando que os operadores remanescentes convertem clientes de maior valor. <strong>Risco iminente:</strong> desligamentos de Vitória, Pamela e afastamento de Raquel em Abril representam <span class="r">R$ 55k/mês</span> em risco, sem protocolo de contingência ativo.`,
+      fev_mar_abr: `Comparando os <strong>mesmos 15 dias úteis</strong> de Fev, Mar e Abr, a UME mostra queda progressiva de volume em todas as etapas do funil. A conversão em Abril foi impactada diretamente pela redução de headcount — 3 das 6 operadoras saíram desde 01/04. <strong>Ponto positivo:</strong> os operadores que permaneceram mantiveram <span class="g">qualidade individual</span> — % Trabalhado estável e pausa melhorou.`
+    },
+    sem: {
+      fev_mar: [
+        {lbl:'CPC sobre Alô',    val:'45,0%', delta:'▲ vs Fev 41,4%', dclass:'up', status:'red',    bench:'Benchmark mín: 54%'},
+        {lbl:'Conversão s/ CPC', val:'37,7%', delta:'▼ vs Fev 47,0%', dclass:'dn', status:'red',    bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'10,8%', delta:'▼ vs Fev 16,1%', dclass:'dn', status:'red',    bench:'Benchmark mín: 19%'},
+        {lbl:'% Pausa',          val:'39,7%', delta:'▲ vs Fev 34,8%', dclass:'dn', status:'red',    bench:'Desired: ≤34% · 77% dias violando'},
+        {lbl:'% TP Trabalhado',  val:'60,3%', delta:'▼ vs Fev 65,2%', dclass:'dn', status:'red',    bench:'Benchmark mín: 63%'},
+        {lbl:'Pagamentos',       val:'554',   delta:'▼ −54% vs Fev',  dclass:'dn', status:'red',    bench:'Fev: 1.197'},
+        {lbl:'Receita',          val:'R$109k',delta:'▼ −51% vs Fev',  dclass:'dn', status:'red',    bench:'Fev: R$ 224k'},
+        {lbl:'THD Operadora',    val:'56,5%', delta:'(referência Mar)',dclass:'fl', status:'yellow', bench:'Odres: 71,8% 🔴'},
+      ],
+      fev_mar_abr: [
+        {lbl:'CPC sobre Alô',    val:'39,4%', delta:'▼ Fev 41,4%→Mar 45%→Abr 39%',dclass:'dn',status:'red',   bench:'Benchmark mín: 54%'},
+        {lbl:'Conversão s/ CPC', val:'38,1%', delta:'▼ vs Fev (mesmo DU)',          dclass:'dn',status:'red',   bench:'Benchmark mín: 56%'},
+        {lbl:'% Falado (médio)',  val:'6,3%',  delta:'▼ Abr vs Fev 16,2%',          dclass:'dn',status:'red',   bench:'Benchmark mín: 19%'},
+        {lbl:'% Pausa (Abr)',     val:'35,7%', delta:'▲ vs Mar eq. 37,5%',          dclass:'up',status:'yellow',bench:'Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',   val:'64,3%', delta:'▲ vs Mar eq. 62,5%',          dclass:'up',status:'yellow',bench:'Benchmark mín: 63%'},
+        {lbl:'Pagamentos (Abr)',  val:'215',   delta:'▼ vs Fev eq. ~900',           dclass:'dn',status:'red',   bench:'Impacto headcount Abr'},
+        {lbl:'Receita (Abr)',     val:'R$39k', delta:'▼ vs Fev eq.',                dclass:'dn',status:'red',   bench:'Fev mesmo DU: ~R$168k'},
+        {lbl:'Operadores Abr',    val:'~7,5',  delta:'▼ de ~10 em Fev/Mar',         dclass:'dn',status:'red',   bench:'Equipe reduzida desde 01/04'},
+      ],
+    },
+    bm: {
+      fev_mar: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'45,0% 🔴', v2:'', cl1:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'37,7% 🔴', v2:'', cl1:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'10,8% 🔴', v2:'', cl1:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'39,7% 🟡', v2:'', cl1:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'60,3% 🔴', v2:'', cl1:'ccr'},
+      ],
+      fev_mar_abr: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'45,0% 🔴',v2:'45,0% 🔴',v3:'39,4% 🔴',cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'47,0% 🔴',v2:'38,1% 🔴',v3:'38,1% 🔴',cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'16,2% 🔴',v2:'10,8% 🔴',v3:'6,3% 🔴', cl1:'ccr',cl2:'ccr',cl3:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'33,8% 🟢',v2:'37,5% 🟡',v3:'35,7% 🟡',cl1:'cok',cl2:'cwn',cl3:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'66,2% 🟡',v2:'62,5% 🟡',v3:'64,3% 🟡',cl1:'cwn',cl2:'cwn',cl3:'cwn'},
+      ],
+    },
+    alerts: [
+      {type:'cr', icon:'🚨', title:'Alerta 1 — Redução de Headcount: Vitória + Pamela + Raquel',
+       sub:'Risco ativo desde 01/04 · Equipe passou de 6 para 3 operadoras ativas',
+       fact:'Em Março fechado, Pamela Moreira e Vitória Ketelin representavam juntas <span class="neg">36% de todo o volume de ligações</span> do time (Pamela 16,9% · Vitória 7,5%). Os desligamentos de Abril eliminam essa capacidade sem protocolo de cobertura. Raquel afastada de 11–19/04 agrava ainda mais. Impacto projetado: <span class="neg">R$ 55.008/mês</span>.',
+       p5:['Por que o volume caiu?<span class="arr">→</span>Equipe reduziu de 6 para 3 — desligamentos simultâneos sem banco de reserva',
+           'Por que o impacto é tão alto?<span class="arr">→</span>Vitória sozinha respondia por R$ 44.771/mês (21,8% do fat. mês)',
+           'Por que sem substituição imediata?<span class="arr">→</span>Modelo reativo — contrata só quando há vaga aberta',
+           'Por que o discador não compensou?<span class="arr">→</span>Intensidade não foi reconfigurada para os 3 restantes cobrirem o volume',
+           'Por que sem protocolo?<span class="arr">→</span>Operação não tem plano formal de cobertura para perda de headcount']},
+      {type:'cr', icon:'🔴', title:'Alerta 2 — CPC sobre Alô abaixo do benchmark',
+       sub:'CPC em 45,0% em Março — benchmark mínimo é 54%',
+       fact:'O CPC melhorou levemente de Fev (41,4%) para Mar (45,0%), mas continua abaixo do mínimo de 54%. A queda de 53% nos Alôs vs Fevereiro é o principal driver — menos oportunidades chegando, mesmo com discador ativo.',
+       p5:['Por que o CPC está abaixo?<span class="arr">→</span>Volume de Alôs caiu 53% vs Fev — menos oportunidades',
+           'Por que menos Alôs?<span class="arr">→</span>Tentativas caíram 44% · Spin caiu de 0,71 para 0,52',
+           'Por que o Spin caiu?<span class="arr">→</span>Discador menos agressivo ou base com maior bloqueio',
+           'Por que sem ajuste no discador?<span class="arr">→</span>Sem protocolo de reconfiguração automática',
+           'Por que sem alerta?<span class="arr">→</span>Monitoramento de CPC não está formalizado com gatilho automático']},
+      {type:'wn', icon:'🟡', title:'Alerta 3 — % Tempo Falado em Red Alert',
+       sub:'10,8% em Março — 8pp abaixo do benchmark mínimo (19%) · queda de 33% vs Fevereiro',
+       fact:'Em 77% dos dias úteis de Março a pausa esteve acima de 34%. O % Falado caiu de 16,1% (Fev) para 10,8% (Mar) — o discador não entrega ligações suficientes, gerando ociosidade estagnada em ~49%.',
+       p5:['Por que % Falado tão baixo?<span class="arr">→</span>Ociosidade em 49% — discador não entrega Alôs suficientes',
+           'Por que menos Alôs?<span class="arr">→</span>Tentativas 44% menores e Spin em queda',
+           'Por que pausa alta em 77% dos dias?<span class="arr">→</span>Sem controle em tempo real pelo supervisor',
+           'Por que sem controle?<span class="arr">→</span>SLA de pausa individual não formalizado',
+           'Por que sem alerta?<span class="arr">→</span>Sistema não tem configuração de alerta por operador']},
+    ],
+    perf: {
+      head: ['Operador','CPC% Fev+Mar','Conv% Fev+Mar','Lig Fev+Mar','% Time','Status'],
+      rows: [
+        ['Andressa Bruna','—','—','2.011','11,1%','<span class="badge bgr">Sem dado individual</span>'],
+        ['Kayke Araujo','~40%','~50%','1.005','5,6%','<span class="badge br">🔴 Red CPC</span>'],
+        ['Pamela Isabelle','~31%','~43%','1.420','7,8%','<span class="badge br">🔴 Red CPC</span>'],
+        ['Rayara Danielle','~17%','~53%','744','4,1%','<span class="badge br">🔴 CPC Crítico</span>'],
+        ['Raquel Moreira','~32%','~47%','1.105','6,1%','<span class="badge by">⚠️ Risco afastamento</span>'],
+        ['Vitória Ketelin ✗','—','—','1.363','7,5%','<span class="badge br">Risco desligamento Abr</span>'],
+        ['Pamela Moreira ✗','—','—','3.053','16,9%','<span class="badge br">Risco desligamento Abr</span>'],
+      ]
+    },
+    insights: [
+      {n:'7',t:'p',title:'Queda estrutural já em Março, antes de Abril',body:'Com meses fechados, Março vs Fevereiro revela: receita <strong>−51%</strong>, Alôs <strong>−38%</strong>, pagamentos <strong>−54%</strong> — sem alerta formal. O Spin caiu de 0,71→0,52, indicando degradação do discador ou da base antes dos desligamentos de Abril.'},
+      {n:'8',t:'p',title:'Ticket médio subiu — qualidade de conversão melhorou',body:'Ticket médio: <strong>R$187 → R$197</strong>. ROI sobre telefonia: 95x → 101x. Os operadores estão convertendo clientes de maior valor — padrão que merece investigação e replicação.'},
+      {n:'9',t:'p',title:'"Atende e Desliga" — 38,3% das tabulações',body:'O maior desfecho negativo do daily Fev+Mar é "Atende e Desliga" (38,3% do total). Indica problema de <strong>abordagem/script</strong>, independente de headcount. Nenhuma ação mapeada para esse indicador.'},
+      {n:'10',t:'p',title:'Simone + Pamela = 36% do volume total do time',body:'No período fechado Fev+Mar: Simone (19%) + Pamela Moreira (16,9%) = <strong>36% de toda a capacidade operacional</strong>. Saída simultânea sem protocolo = catástrofe de volume.'},
+      {n:'11',t:'b',title:'PDI Kayke + Pamela Isabelle — Red CPC por 2 meses',body:'Kayke (38% CPC) e Pamela Isabelle (32% CPC) em Red há dois meses. Alto CPC de conversão sugere que o problema é na <strong>abordagem inicial</strong>, não na negociação. Escuta + feedback até 02/05.'},
+      {n:'12',t:'b',title:'PDI Beatris Santos — dois problemas simultâneos',body:'CPC em queda (42%→32%) + maior pausa individual. PDI rápido: escuta de 5 ligações até 30/04, alerta de pausa individual ativado, check-in diário primeiros 5 dias de Maio. Meta: CPC ≥40% e pausa ≤34% até 09/05.'},
+    ],
+  },
+
+  odres: {
+    exec: {
+      fev_mar: `A Odres em <strong>Março fechado</strong> já operava com sinais críticos: CPC em 53,5% (abaixo do mínimo de 54%), % Falado em apenas <span class="r">7%</span> e THD de Operadora em <span class="r">71,8%</span> — 3 em cada 4 ligações bloqueadas. A tabulação "Ligação Muda/Caixa Postal" representava <span class="r">24,8%</span> das ocorrências, indicando saturação de base em curso. <strong>Risco iminente:</strong> desligamento de Simone Gama em Abril representa <span class="r">R$ 53.381/mês</span> — maior impacto financeiro individual de todos os discadores.`,
+      fev_mar_abr: `Comparando os <strong>mesmos 15 dias úteis</strong>, a Odres em Abril sofreu colapso de CPC (53,5%→26,3%) impulsionado pela saturação de base — <span class="r">47% das ligações</span> vão para caixa postal. Com 73,7% de bloqueio de operadora + 47% caixa postal, o discador entrega pouquíssimas oportunidades reais de fala, resultando em <span class="r">51% de ociosidade</span>.`
+    },
+    sem: {
+      fev_mar: [
+        {lbl:'CPC sobre Alô',    val:'53,5%', delta:'(referência Mar)',  dclass:'fl', status:'yellow', bench:'Benchmark mín: 54% — 0,5pp abaixo'},
+        {lbl:'Conversão s/ CPC', val:'45,1%', delta:'(referência Mar)',  dclass:'fl', status:'yellow', bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'7%',    delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'Benchmark mín: 15% — metade do mínimo'},
+        {lbl:'% Pausa',          val:'40%',   delta:'(referência Mar)',  dclass:'dn', status:'red',    bench:'Red: ≥40% · Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',  val:'49%',   delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'Benchmark mín: 63% — 14pp abaixo'},
+        {lbl:'Lig. Muda/CP',     val:'24,8%', delta:'Tendência ↑',       dclass:'dn', status:'yellow', bench:'Fev+Mar · Meta: manter <20%'},
+        {lbl:'THD Operadora',    val:'71,8%', delta:'(referência Mar)',  dclass:'fl', status:'red',    bench:'3 em cada 4 ligações bloqueadas'},
+        {lbl:'Receita Mar',      val:'R$17k', delta:'99 pagamentos',     dclass:'fl', status:'red',    bench:'Risco Simone em Abril: −R$53k'},
+      ],
+      fev_mar_abr: [
+        {lbl:'CPC sobre Alô',    val:'26,3%', delta:'▼ de 53,5% em Mar',dclass:'dn', status:'red',    bench:'Benchmark mín: 54% — queda de 27pp'},
+        {lbl:'Conversão s/ CPC', val:'52,3%', delta:'▲ de 45,1% em Mar',dclass:'up', status:'yellow', bench:'Benchmark mín: 56%'},
+        {lbl:'% Tempo Falado',   val:'7%',    delta:'estagnado',         dclass:'fl', status:'red',    bench:'Benchmark mín: 15%'},
+        {lbl:'% Pausa',          val:'32%',   delta:'▼ de 40% em Mar',  dclass:'up', status:'yellow', bench:'Melhora · Desired: ≤34%'},
+        {lbl:'% TP Trabalhado',  val:'58%',   delta:'▲ de 49% em Mar',  dclass:'up', status:'red',    bench:'Benchmark mín: 63% — ainda abaixo'},
+        {lbl:'Lig. Muda/CP',     val:'47%',   delta:'▲ 21pp vs Mar',    dclass:'dn', status:'red',    bench:'Meta: reduzir a <30%'},
+        {lbl:'THD Operadora',    val:'73,7%', delta:'▲ 2pp vs Mar',     dclass:'dn', status:'red',    bench:'3 em cada 4 ligações bloqueadas'},
+        {lbl:'Receita Abr',      val:'R$2k',  delta:'▼ −89% vs Mar',    dclass:'dn', status:'red',    bench:'13 pagamentos · Mar: R$17k'},
+      ],
+    },
+    bm: {
+      fev_mar: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'53,5% 🟡', cl1:'cwn'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'45,1% 🔴', cl1:'ccr'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'7% 🔴',    cl1:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'40% 🔴',   cl1:'ccr'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'49% 🔴',   cl1:'ccr'},
+      ],
+      fev_mar_abr: [
+        {m:'CPC sobre Alô',   g:'≥64%',d:'62%',y:'59%',r:'≤54%', v1:'53,5% 🟡',v2:'53,5% 🟡',v3:'26,3% 🔴',cl1:'cwn',cl2:'cwn',cl3:'ccr'},
+        {m:'Conversão s/ CPC',g:'≥66%',d:'64%',y:'61%',r:'≤56%', v1:'—',       v2:'45,1% 🔴',v3:'52,3% 🟡',cl1:'',  cl2:'ccr',cl3:'cwn'},
+        {m:'% Tempo Falado',  g:'≥23%',d:'21%',y:'19%',r:'≤15%', v1:'—',       v2:'7% 🔴',   v3:'7% 🔴',  cl1:'',  cl2:'ccr',cl3:'ccr'},
+        {m:'% Pausa',         g:'≤31%',d:'34%',y:'37%',r:'≥40%', v1:'—',       v2:'40% 🔴',  v3:'32% 🟡', cl1:'',  cl2:'ccr',cl3:'cwn'},
+        {m:'% TP Trabalhado', g:'≥69%',d:'66%',y:'63%',r:'≤60%', v1:'—',       v2:'49% 🔴',  v3:'58% 🔴', cl1:'',  cl2:'ccr',cl3:'ccr'},
+      ],
+    },
+    alerts: [
+      {type:'cr', icon:'🚨', title:'Alerta Headcount — Simone Gama Desligada',
+       sub:'Risco desde 01/04 · Maior impacto financeiro individual — 26% do faturamento mensal',
+       fact:'No período fechado Fev+Mar, Simone Gama foi responsável por <span class="neg">19% de todo o volume de ligações</span> do time (3.442 de 18.091 totais). Seu desligamento em Abril representa perda projetada de <span class="neg">R$ 53.381/mês</span> — o maior impacto individual entre todos os discadores analisados.',
+       p5:['Por que o volume está em risco?<span class="arr">→</span>Simone respondia por 19% do volume total — sem par de backup',
+           'Por que impacto tão alto?<span class="arr">→</span>Era a principal geradora de receita da Odres (26% fat. mensal)',
+           'Por que sem substituição?<span class="arr">→</span>Sem banco de reserva — modelo reativo de contratação',
+           'Por que sem cobertura no discador?<span class="arr">→</span>Intensidade não foi aumentada para os demais operadores',
+           'Por que sem protocolo?<span class="arr">→</span>Operação não tem plano de contingência para perda de headcount']},
+      {type:'cr', icon:'🔴', title:'Alerta 4 — CPC despencou: 53,5% → 26,3% (Abr)',
+       sub:'Ligação Muda/Caixa Postal explodiu de 26% → 47% — base saturada',
+       fact:'3 em cada 4 ligações não chegam ao cliente (THD Operadora 73,7%). Das que passam, <span class="neg">47%</span> caem em caixa postal. No daily Fev+Mar, Lig. Muda/Caixa Postal já representava 24,8% das tabulações — a tendência de saturação estava em curso.',
+       p5:['Por que o CPC despencou?<span class="arr">→</span>47% das ligações que chegam caem em caixa postal — sem contato real',
+           'Por que 47% de caixa postal?<span class="arr">→</span>Base saturada — mesmos clientes discados por 15 dias consecutivos',
+           'Por que mesmos clientes?<span class="arr">→</span>Base alocada 1–14 dias de atraso sem critério de exclusão',
+           'Por que uma só campanha?<span class="arr">→</span>Inadimplência Odres alta — atuando dentro dos ofensores Odres',
+           'Por que inadimplência alta?<span class="arr">→</span>CPFs com 3+ ciclos de inadimplência permanecem na fila ativa sem segmentação']},
+      {type:'wn', icon:'🟡', title:'Alerta 5 — % Pausa e Tempo Trabalhado críticos',
+       sub:'Pausa 40% (Red) e TP Trabalhado 49% em Março — ambos abaixo do benchmark',
+       fact:'Ociosidade em 41% — operadores esperando ligação que não chega. Com 71,8% de bloqueio de operadora + crescente caixa postal, o discador entrega pouquíssimas oportunidades reais. Beatris Santos tem a maior pausa individual.',
+       p5:['Por que % Falado em 7%?<span class="arr">→</span>Ociosidade 41% — discador não entrega Alôs suficientes',
+           'Por que tão poucos Alôs?<span class="arr">→</span>71,8% bloqueado por operadora + base saturando',
+           'Por que pausa acima do Desired?<span class="arr">→</span>Sem controle em tempo real pelo supervisor',
+           'Por que sem controle?<span class="arr">→</span>Alerta de pausa individual não configurado',
+           'Por que sem alerta?<span class="arr">→</span>SLA de pausa individual não formalizado']},
+    ],
+    perf: {
+      head: ['Operador','CPC% Fev+Mar','Conv% Fev+Mar','Lig Fev+Mar','% Time','Status'],
+      rows: [
+        ['Adriano Correia','~27%','~30%','2.446','13,5%','<span class="badge br">🔴 CPC Crítico</span>'],
+        ['Larissa de Mello','~56%','~55%','992','5,5%','<span class="badge bg">✅ Top Performer</span>'],
+        ['Beatris Santos','~42%','~43%','2.375','13,1%','<span class="badge br">🔴 Red CPC + Pausa alta</span>'],
+        ['Simone Gama ✗','—','—','3.442','19,0%','<span class="badge br">Risco desligamento Abr</span>'],
+      ]
+    },
+    insights: [
+      {n:'7',t:'p',title:'Base saturada — tendência visível desde Fev+Mar',body:'No daily Fev+Mar, "Ligação Muda/Caixa Postal" já era <strong>24,8%</strong> das tabulações. Em Abril essa proporção dobrou para 47%. A saturação com mesmos clientes discados repetidamente já estava em curso.'},
+      {n:'8',t:'p',title:'Simone = 19% do volume — risco de concentração',body:'Simone Gama respondeu por <strong>3.442 ligações (19%)</strong> do total do time no período Fev+Mar. Uma única operadora representando quase 1/5 da operação é um risco de concentração crítico sem par de backup.'},
+      {n:'9',t:'p',title:'Larissa de Mello — referência de performance',body:'Única operadora com CPC acima do benchmark (~56%). Conversão de ~55%. É a <strong>única operadora em nível Green</strong> na Odres. Seu comportamento de abordagem deve ser mapeado e replicado para o time.'},
+      {n:'10',t:'p',title:'"Atende e Desliga" — problema de script',body:'Das tabulações Fev+Mar, <strong>38,3%</strong> terminaram em "Atende e Desliga". Independente de headcount ou base, esse indicador aponta para problema de abordagem inicial. Escuta de ligações urgente.'},
+      {n:'11',t:'b',title:'PDI Beatris Santos — dois problemas simultâneos',body:'CPC em queda (42%→32%) + maior pausa individual. PDI: escuta de 5 ligações até 30/04, alerta de pausa individual ativado, check-in diário em Maio. Meta: <strong>CPC ≥40% e pausa ≤34% até 09/05</strong>.'},
+      {n:'12',t:'b',title:'AMD pode reduzir custo sem perder oportunidades',body:'Com 47% de caixa postal em Abril, AMD (detecção automática) eliminaria ~47% do custo de telefonia sem perder oportunidades reais. Já listado como concluído — confirmar se está ativo e funcionando na Odres.'},
+    ],
+  },
+};
+
+// FUNIL DATA
+const FUNIL = {
+  fev_mar: {
+    cols_ume:   ['UME Fev','UME Mar','Δ'],
+    cols_odres: ['Odres Mar'],
+    rows: [
+      {lbl:'Mailing',    ume:['442.376','471.998','<span class="cup">+6,7%</span>'],   odres:['77.287']},
+      {lbl:'Tentativas', ume:['313.877','175.636','<span class="cdn">−44%</span>'],    odres:['15.463'], hlr:true},
+      {lbl:'Alô',        ume:['9.463','4.434 (2,5%)','<span class="cdn">−53%</span>'],odres:['439 (2,8%)'], hlr:true},
+      {lbl:'CPC',        ume:['3.913 (41,4%)','1.994 (45,0%)','<span class="cdn">−49%</span>'],odres:['235 (53,5%)'], hlr:true},
+      {lbl:'Conversão',  ume:['1.839 (47,0%)','759 (38,1%)','<span class="cdn">−9,3pp🔴</span>'],odres:['106 (45,1%)'], hly:true},
+      {lbl:'Pagamento',  ume:['1.197 · R$224k','554 · R$109k','<span class="cdn">−54% · −51% R$</span>'],odres:['99 · R$17k'], hlr:true},
+    ],
+    note_ume:   '<strong>⚠️ Atenção:</strong> A queda de Fevereiro para Março (−51% de receita, −54% de pagamentos) sinalizava deterioração grave — <strong>não foi alertada formalmente</strong>. Os desligamentos em Abril agravam uma tendência que já estava em curso.',
+    note_odres: '<strong>⚠️ Atenção:</strong> Odres em Março já operava com CPC abaixo do benchmark (53,5% vs 54% mín). A tabulação "Lig. Muda/Caixa Postal" em 24,8% indicava saturação de base em andamento.',
+  },
+  fev_mar_abr: {
+    cols_ume:   ['UME Fev (15 DU)','UME Mar (15 DU)','UME Abr (15 DU)'],
+    cols_odres: ['Odres Mar (15 DU)','Odres Abr (15 DU)','Δ'],
+    rows: [
+      {lbl:'Mailing',    ume:['442.376','471.998','509.401'],          odres:['77.287','94.558','<span class="cup">+22%</span>']},
+      {lbl:'Tentativas', ume:['~235k','~131k','~70k'],                 odres:['~10k','~10k','estável'], hlr:true},
+      {lbl:'Alô',        ume:['~7.100','~3.300','~1.700'],             odres:['~300','~220','<span class="cdn">−24%</span>'], hlr:true},
+      {lbl:'CPC',        ume:['~2.940 (~41%)','~1.340 (~41%)','~670 (~39%)'],odres:['~160 (53,5%)','~58 (26,3%)','<span class="cdn">−27pp🔴</span>'], hlr:true},
+      {lbl:'Conversão',  ume:['~1.380 (47%)','~515 (38%)','~195 (29%)']   ,odres:['~72 (45%)','~30 (52%)','<span class="cup">+7pp✅</span>'], hly:true},
+      {lbl:'Pagamento',  ume:['~900 · ~R$168k','~370 · ~R$73k','215 · R$39k'],odres:['~67 · ~R$11k','13 · R$2k','<span class="cdn">−87%</span>'], hlr:true},
+    ],
+    note_ume:   '<strong>Comparativo equiparado (15 DU):</strong> A UME mostra queda progressiva em todo o funil de Fev→Mar→Abr. Em Abril, o headcount reduzido (3 operadoras ativas vs 6) é o principal driver da queda de volume.',
+    note_odres: '<strong>Comparativo equiparado (15 DU):</strong> A Odres em Abril sofreu colapso de CPC (53,5%→26,3%) por saturação de base. A conversão subiu — quem passou pelo filtro converte melhor — mas o volume total despencou.',
+  },
+};
+
+// CHECKLIST
+const CHECKLIST = [
+  {section:'UME — Headcount e Volume', items:[
+    {id:'cl01', text:'Monitorar horas logadas semanalmente — alerta ao supervisor se cair abaixo do mínimo · Monitorar na TTIP com Adriano', resp:'Adriano', prazo:'Toda Seg', tag:'m'},
+    {id:'cl02', text:'Acompanhar reintegração de Raquel a partir de 20/04 com monitoramento diário [Solicitar report à Rayara]', resp:'Rayara', prazo:'Diário 20/04+', tag:'m'},
+    {id:'cl03', text:'Escuta de ligações Kayke Araujo e Pamela Isabelle (Red CPC há 2 meses) — feedback individual, meta CPC ≥54% em 2 semanas', resp:'Supervisor UME', prazo:'02/05', tag:'u'},
+    {id:'cl04', text:'Reconfigurar discador para aumentar intensidade quando equipe estiver abaixo do quadro completo', resp:'Gustavo', prazo:'Imediato', tag:'u'},
+    {id:'cl05', text:'Iniciar recrutamento preventivo — não depender de equipe mínima', resp:'RH / Gestão', prazo:'Imediato', tag:'u'},
+  ]},
+  {section:'Odres — Qualidade de Contato', items:[
+    {id:'cl06', text:'Analisar histórico por DDD/horário e ajustar janela de discagem para horários de maior receptividade', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl07', text:'Criar regra na base: 2x Lig. Muda no dia → sai da fila (volta amanhã) · 5x na semana → bloquear telefone', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl08', text:'Randomização de Discagem ↔ Pontal', resp:'Gustavo', prazo:'02/05', tag:'u'},
+    {id:'cl09', text:'Configurar AMD (detecção automática de caixa postal) para encerrar ligação sem desperdiçar tempo do operador', resp:'Gustavo', prazo:'30/04', tag:'u'},
+    {id:'cl10', text:'Mapear CPFs com 3+ ciclos de inadimplência — criar fila separada com abordagem diferenciada', resp:'Gustavo / Adriano', prazo:'05/05', tag:'m'},
+    {id:'cl11', text:'Meta: reduzir Ligação Muda/Caixa Postal de 47% para abaixo de 30% em 2 semanas', resp:'Gustavo', prazo:'15/05', tag:'u'},
+  ]},
+  {section:'Ambos — Monitoramento Diário', items:[
+    {id:'cl12', text:'Monitorar CPC diariamente — alerta ao supervisor se cair abaixo de 54%', resp:'Supervisor UME + Odres', prazo:'28/04', tag:'u'},
+    {id:'cl13', text:'Formalizar SLA de pausa máxima: ≤34% por operador com alerta em tempo real ao passar de 35%', resp:'Gestão', prazo:'29/04', tag:'u'},
+    {id:'cl14', text:'PDI Beatris Santos (Odres): escuta 5 ligações até 30/04 · alerta pausa individual · check-in diário Maio · Meta: CPC ≥40% e pausa ≤34% até 09/05', resp:'Supervisor Odres', prazo:'30/04', tag:'u'},
+    {id:'cl15', text:'Feedback Rayara Danielle (UME): CPC Crítico (17%) mesmo com conversão excelente — investigar se é problema de lista/fila ou abordagem inicial', resp:'Supervisor UME', prazo:'30/04', tag:'m'},
+    {id:'cl16', text:'Escuta de 10 ligações tabuladas como "Atende e Desliga" por operador — investigar padrão de script', resp:'Supervisor Geral', prazo:'02/05', tag:'m'},
+    {id:'cl17', text:'Redundância de Telefonia', resp:'A definir', prazo:'A definir', tag:'m'},
+    {id:'cl18', text:'Investigar causa da queda de Spin entre Fev e Mar (0,71→0,52)', resp:'Gustavo', prazo:'05/05', tag:'m'},
+  ]},
+];
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+const pct  = v => v == null ? '—' : (v*100).toFixed(1)+'%';
+const fmtN = v => v.toLocaleString('pt-BR');
+const $ = id => document.getElementById(id);
+
+function semColor(metric, val) {
+  if (val == null) return 'gray';
+  if (metric === 'pausa') {
+    return val <= 0.31 ? 'green' : val <= 0.37 ? 'yellow' : 'red';
+  }
+  if (metric === 'falado') {
+    return val >= 0.23 ? 'green' : val >= 0.15 ? 'yellow' : 'red';
+  }
+  if (metric === 'trab') {
+    return val >= 0.69 ? 'green' : val >= 0.60 ? 'yellow' : 'red';
+  }
+  return 'gray';
+}
+function hmClass(metric, val) {
+  const c = semColor(metric, val);
+  return c === 'green' ? 'hg' : c === 'yellow' ? 'hy' : c === 'red' ? 'hr' : 'hgr';
+}
+function avg(arr, key) {
+  const v = arr.filter(d => d[key] != null).map(d => d[key]);
+  return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null;
+}
+
+// ─────────────────────────────────────────────
+// RENDER FUNCTIONS
+// ─────────────────────────────────────────────
+function renderExec() {
+  const c = CONTENT[op].exec[period];
+  $('exec-box').innerHTML = `<h3>Resumo Executivo</h3><p>${c}</p>`;
+}
+
+function renderSem() {
+  const cards = CONTENT[op].sem[period];
+  $('sem-grid').innerHTML = cards.map(c => `
+    <div class="sem-card ${c.status}">
+      <div class="sem-lbl">${c.lbl}</div>
+      <div class="sem-val">${c.val}</div>
+      <div class="sem-row">
+        <span class="sem-delta ${c.dclass}">${c.delta}</span>
+        <span class="badge ${c.status==='green'?'bg':c.status==='yellow'?'by':c.status==='red'?'br':'bgr'}">${c.status==='green'?'🟢 Green':c.status==='yellow'?'🟡 Yellow':c.status==='red'?'🔴 Red':'—'}</span>
+      </div>
+      <div class="sem-bench">${c.bench}</div>
+    </div>`).join('');
+}
+
+function renderBM() {
+  const bm = CONTENT[op].bm[period];
+  const is3 = period === 'fev_mar_abr';
+  const opName = op === 'ume' ? 'UME' : 'Odres';
+  $('bm-col1').textContent = is3 ? `${opName} Fev (eq.)` : `${opName} Mar`;
+  $('bm-col2').textContent = is3 ? `${opName} Mar (eq.)` : '';
+  $('bm-col3').textContent = is3 ? `${opName} Abr` : '';
+  $('bm-body').innerHTML = bm.map(r => `<tr>
+    <td class="lbl">${r.m}</td>
+    <td>${r.g}</td><td>${r.d}</td><td>${r.y}</td><td>${r.r}</td>
+    <td class="${r.cl1||''}">${r.v1||'—'}</td>
+    ${is3?`<td class="${r.cl2||''}">${r.v2||'—'}</td><td class="${r.cl3||''}">${r.v3||'—'}</td>`:''}
+  </tr>`).join('');
+}
+
+function renderFunil() {
+  const f = FUNIL[period];
+  const opName = op === 'ume' ? 'ume' : 'odres';
+  const cols = opName === 'ume' ? f.cols_ume : f.cols_odres;
+  const note = opName === 'ume' ? f.note_ume : f.note_odres;
+  const title = period === 'fev_mar' ? 'Funil Consolidado — Meses Fechados' : `Funil Consolidado — Mesmo DU (${D.n_eq} dias úteis)`;
+  $('funil-title').textContent = title;
+  $('funil-head').innerHTML = `<tr><th>Etapa</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr>`;
+  $('funil-body').innerHTML = f.rows.map(r => {
+    const vals = opName === 'ume' ? r.ume : r.odres;
+    const cls = r.hlr ? 'hl-r' : r.hly ? 'hl-y' : '';
+    return `<tr class="${cls}"><td class="lbl">${r.lbl}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`;
+  }).join('');
+  $('funil-note').innerHTML = note;
+}
+
+function renderHeatmap() {
+  let groups;
+  if (period === 'fev_mar') {
+    groups = [
+      {label:`Fevereiro (${D.ts_fev.du} DU)`,    days: D.fev_days},
+      {label:`Março (${D.ts_mar.du} DU)`,         days: D.mar_days},
+    ];
+  } else {
+    groups = [
+      {label:`Fev (${D.n_eq} DU eq.)`,  days: D.fev_eq},
+      {label:`Mar (${D.n_eq} DU eq.)`,  days: D.mar_eq},
+      {label:`Abr (${D.ts_abr.du} DU)`, days: D.abr_days},
+    ];
+  }
+
+  // Summary cards
+  $('hm-sum').innerHTML = groups.map(g => {
+    const t = avg(g.days,'trab'), p = avg(g.days,'pausa'), f = avg(g.days,'falado');
+    const lig = g.days.reduce((a,d)=>a+d.lig,0);
+    const pViol = g.days.filter(d=>d.pausa!=null&&d.pausa>0.34).length;
+    return `<div class="hms">
+      <div class="hms-lbl">${g.label}</div>
+      <div class="hms-val">${fmtN(lig)}</div>
+      <div class="hms-sub">ligações totais</div>
+      <div class="hms-bars">
+        <div class="hms-bar ${hmClass('trab',t)}">Trab: ${pct(t)}</div>
+        <div class="hms-bar ${hmClass('pausa',p)}">Pausa: ${pct(p)} (${pViol}/${g.days.filter(d=>d.pausa!=null).length} dias &gt;34%)</div>
+        <div class="hms-bar ${hmClass('falado',f)}">Falado: ${pct(f)}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Table
+  const maxR = Math.max(...groups.map(g=>g.days.length));
+  const thCols = groups.map(g=>`<th colspan="3" style="text-align:center;background:var(--bg4);border:1px solid var(--border)">${g.label}</th>`).join('');
+  const thSub  = groups.map(()=>`<th>Trab%</th><th>Pausa%</th><th>Falado%</th>`).join('');
+  $('hmt-head').innerHTML = `<tr><th>DU</th>${thCols}</tr><tr><th></th>${thSub}</tr>`;
+
+  let rows = '';
+  for (let i=0;i<maxR;i++) {
+    let cells = `<td class="lbl">DU ${String(i+1).padStart(2,'0')}</td>`;
+    groups.forEach(g => {
+      const d = g.days[i];
+      if (!d) { cells += `<td class="hgr">—</td><td class="hgr">—</td><td class="hgr">—</td>`; return; }
+      cells += `
+        <td class="${hmClass('trab',d.trab)}" title="${d.data} ${d.dia}">${pct(d.trab)}</td>
+        <td class="${hmClass('pausa',d.pausa)}" title="Op:${d.op} · Lig:${fmtN(d.lig)}">${pct(d.pausa)}</td>
+        <td class="${hmClass('falado',d.falado)}">${pct(d.falado)}</td>`;
+    });
+    rows += `<tr>${cells}</tr>`;
+  }
+  $('hmt-body').innerHTML = rows;
+
+  // Note
+  let noteHTML = '<strong>Leitura por grupo:</strong> ';
+  groups.forEach(g => {
+    const p = avg(g.days,'pausa'), f = avg(g.days,'falado');
+    const pViol = g.days.filter(d=>d.pausa!=null&&d.pausa>0.34).length;
+    const pDen  = g.days.filter(d=>d.pausa!=null).length;
+    const pc = p>0.37?'var(--red)':p>0.34?'var(--yellow)':'var(--green)';
+    const fc = f<0.15?'var(--red)':f<0.19?'var(--yellow)':'var(--green)';
+    noteHTML += `<strong>${g.label}</strong>: pausa média <span style="color:${pc}">${pct(p)}</span> (${pViol}/${pDen} dias acima de 34%) · falado médio <span style="color:${fc}">${pct(f)}</span>. &nbsp;`;
+  });
+  $('hm-note').innerHTML = noteHTML;
+}
+
+function renderAlerts() {
+  const alerts = CONTENT[op].alerts;
+  $('alert-title').textContent = `Alertas — ${op==='ume'?'UME':'Odres'}`;
+  $('alerts-wrap').innerHTML = alerts.map(a => `
+    <div class="alert ${a.type}">
+      <div class="al-hd">
+        <div class="al-icon">${a.icon}</div>
+        <div>
+          <div class="al-title">${a.title}</div>
+          <div class="al-sub">${a.sub}</div>
+        </div>
+      </div>
+      <div class="fact">${a.fact}</div>
+      <div class="p5t">5 Porquês</div>
+      <ul class="p5">${a.p5.map(p=>`<li>${p}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+function renderPerf() {
+  const p = CONTENT[op].perf;
+  $('perf-head').innerHTML = `<tr>${p.head.map(h=>`<th>${h}</th>`).join('')}</tr>`;
+  $('perf-body').innerHTML = p.rows.map(r => `<tr>${r.map((c,i)=>`<td ${i===0?'class="lbl"':''}>${c}</td>`).join('')}</tr>`).join('');
+}
+
+function renderInsights() {
+  const ins = CONTENT[op].insights;
+  $('insights-wrap').innerHTML = ins.map(i => `
+    <div class="ins">
+      <div class="ins-hd">
+        <div class="ins-num ${i.t}">${i.n}</div>
+        <div class="ins-title">${i.title}</div>
+      </div>
+      <div class="ins-body">${i.body}</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// CHECKLIST
+// ─────────────────────────────────────────────
+let clState = {}; // {id: {checked, comment}}
+
+async function loadClState() {
+  try {
+    const r = await window.storage.get('checklist_state', true);
+    if (r && r.value) clState = JSON.parse(r.value);
+  } catch(e) { clState = {}; }
+}
+
+async function saveClState() {
+  try {
+    await window.storage.set('checklist_state', JSON.stringify(clState), true);
+  } catch(e) {}
+}
+
+function renderChecklist() {
+  const wrap = $('checklist-wrap');
+  wrap.innerHTML = '';
+  CHECKLIST.forEach(sec => {
+    const secDiv = document.createElement('div');
+    secDiv.className = 'cl-section';
+    secDiv.innerHTML = `<div class="sub-title">${sec.section}</div>`;
+    sec.items.forEach(item => {
+      const state = clState[item.id] || {checked:false, comment:''};
+      const div = document.createElement('div');
+      div.className = 'cl-item' + (state.checked?' done':'');
+      div.id = 'cl-wrap-'+item.id;
+
+      const tagMap = {u:'<span class="cl-tag u">Alta</span>', m:'<span class="cl-tag m">Média</span>', ok:'<span class="cl-tag ok">Baixa</span>'};
+      const hasComment = state.comment && state.comment.trim().length > 0;
+
+      div.innerHTML = `
+        <div class="cl-cb${state.checked?' checked':''}" id="cb-${item.id}" onclick="toggleCheck('${item.id}')"></div>
+        <div class="cl-text">
+          ${item.text}
+          <span style="color:var(--text3);font-size:11px;margin-left:8px">· ${item.resp} · ${item.prazo}</span>
+          ${tagMap[item.tag]||''}
+        </div>
+        <div class="cl-comment-wrap">
+          <div class="cl-comment-icon${hasComment?' has-comment':''}" id="icon-${item.id}" 
+               title="${hasComment?state.comment:''}"
+               onclick="togglePopover('${item.id}')">💬</div>
+          <div class="cl-popover" id="pop-${item.id}">
+            <div class="cl-popover-lbl">O que foi feito?</div>
+            ${hasComment && !state._editing
+              ? `<div class="cl-popover-text" id="ptxt-${item.id}">${state.comment}</div>
+                 <div class="cl-popover-actions">
+                   <button class="cl-cancel-btn" onclick="editComment('${item.id}')">✏️ Editar</button>
+                   <button class="cl-cancel-btn" onclick="closePopover('${item.id}')">Fechar</button>
+                 </div>`
+              : `<textarea class="cl-popover-input" id="pinput-${item.id}" placeholder="Descreva o que foi feito...">${state.comment||''}</textarea>
+                 <div class="cl-popover-actions">
+                   <button class="cl-cancel-btn" onclick="closePopover('${item.id}')">Cancelar</button>
+                   <button class="cl-save-btn" onclick="saveComment('${item.id}')">Salvar</button>
+                 </div>`
+            }
+          </div>
+        </div>`;
+      secDiv.appendChild(div);
+    });
+    wrap.appendChild(secDiv);
+  });
+
+  // Close popover on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.cl-comment-wrap')) {
+      document.querySelectorAll('.cl-popover.open').forEach(p => p.classList.remove('open'));
+    }
+  }, {capture:false});
+}
+
+async function toggleCheck(id) {
+  if (!clState[id]) clState[id] = {checked:false,comment:''};
+  clState[id].checked = !clState[id].checked;
+  await saveClState();
+
+  const wrap = $('cl-wrap-'+id);
+  const cb   = $('cb-'+id);
+  const icon = $('icon-'+id);
+
+  if (clState[id].checked) {
+    wrap.classList.add('done');
+    cb.classList.add('checked');
+    // auto-open comment popover
+    icon.classList.add('has-comment');
+    icon.style.display='flex';
+    openPopoverForEdit(id);
+  } else {
+    wrap.classList.remove('done');
+    cb.classList.remove('checked');
+    if (!clState[id].comment) icon.style.display='none';
+  }
+}
+
+function openPopoverForEdit(id) {
+  closeAllPopovers();
+  const pop = $('pop-'+id);
+  const state = clState[id]||{};
+  pop.innerHTML = `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <textarea class="cl-popover-input" id="pinput-${id}" placeholder="Descreva o que foi feito...">${state.comment||''}</textarea>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+      <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+    </div>`;
+  pop.classList.add('open');
+  setTimeout(()=>{ const t=$('pinput-'+id); if(t)t.focus(); },50);
+}
+
+function togglePopover(id) {
+  const pop = $('pop-'+id);
+  const isOpen = pop.classList.contains('open');
+  closeAllPopovers();
+  if (!isOpen) {
+    const state = clState[id]||{};
+    const hasComment = state.comment && state.comment.trim().length>0;
+    if (hasComment) {
+      pop.innerHTML = `
+        <div class="cl-popover-lbl">O que foi feito?</div>
+        <div class="cl-popover-text">${state.comment}</div>
+        <div class="cl-popover-actions">
+          <button class="cl-cancel-btn" onclick="editComment('${id}')">✏️ Editar</button>
+          <button class="cl-cancel-btn" onclick="closePopover('${id}')">Fechar</button>
+        </div>`;
+    } else {
+      pop.innerHTML = `
+        <div class="cl-popover-lbl">O que foi feito?</div>
+        <textarea class="cl-popover-input" id="pinput-${id}" placeholder="Descreva o que foi feito..."></textarea>
+        <div class="cl-popover-actions">
+          <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+          <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+        </div>`;
+    }
+    pop.classList.add('open');
+    setTimeout(()=>{ const t=$('pinput-'+id); if(t)t.focus(); },50);
+  }
+}
+
+function editComment(id) {
+  const state = clState[id]||{};
+  const pop = $('pop-'+id);
+  pop.innerHTML = `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <textarea class="cl-popover-input" id="pinput-${id}">${state.comment||''}</textarea>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Cancelar</button>
+      <button class="cl-save-btn" onclick="saveComment('${id}')">Salvar</button>
+    </div>`;
+  setTimeout(()=>{ const t=$('pinput-${id}'); if(t)t.focus(); },50);
+}
+
+async function saveComment(id) {
+  const input = $('pinput-'+id);
+  if (!input) return;
+  const val = input.value.trim();
+  if (!clState[id]) clState[id] = {checked:false, comment:''};
+  clState[id].comment = val;
+  await saveClState();
+  const icon = $('icon-'+id);
+  if (val) {
+    icon.classList.add('has-comment');
+    icon.title = val;
+    icon.style.display='flex';
+  } else {
+    icon.classList.remove('has-comment');
+  }
+  closePopover(id);
+  // Re-render popover to read-only mode
+  const pop = $('pop-'+id);
+  pop.innerHTML = val ? `
+    <div class="cl-popover-lbl">O que foi feito?</div>
+    <div class="cl-popover-text">${val}</div>
+    <div class="cl-popover-actions">
+      <button class="cl-cancel-btn" onclick="editComment('${id}')">✏️ Editar</button>
+      <button class="cl-cancel-btn" onclick="closePopover('${id}')">Fechar</button>
+    </div>` : '';
+}
+
+function closePopover(id) { const p=$('pop-'+id); if(p) p.classList.remove('open'); }
+function closeAllPopovers() { document.querySelectorAll('.cl-popover.open').forEach(p=>p.classList.remove('open')); }
+
+// ─────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────
+function setPeriod(p) {
+  period = p;
+  document.querySelectorAll('[id^="btn-fev"]').forEach(b=>b.classList.remove('active'));
+  $('btn-'+p.replace('_','-')).classList.add('active');
+  const notes = {
+    fev_mar:     'Fev: 20 DU · Mar: 22 DU — meses fechados completos',
+    fev_mar_abr: `Fev: ${D.n_eq} DU · Mar: ${D.n_eq} DU · Abr: ${D.n_eq} DU — mesmo período equiparado`,
+  };
+  $('period-note').textContent = notes[p];
+  renderAll();
+}
+
+function setOp(o) {
+  op = o;
+  $('btn-ume').classList.toggle('active', o==='ume');
+  $('btn-odres').classList.toggle('active', o==='odres');
+  renderAll();
+}
+
+function renderAll() {
+  renderExec();
+  renderSem();
+  renderBM();
+  renderFunil();
+  renderHeatmap();
+  renderAlerts();
+  renderPerf();
+  renderInsights();
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+(async () => {
+  await loadClState();
+  renderAll();
+  renderChecklist();
+})();
+
 </script>
 </body>
 </html>
