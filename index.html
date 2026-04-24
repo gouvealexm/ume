@@ -293,10 +293,10 @@ function buildCard(op,i,container,selSet,renderFn,mode){
   let valsHtml='';
   if(mode==='medias'){
     valsHtml=`<div class="cvals">
-      <span>Fev: <b style="color:#1a1a2e">${op.fev.total>0?fmt(op.fev.total):'—'}</b></span>
-      <span>Mar: <b style="color:#1a1a2e">${op.mar.total>0?fmt(op.mar.total):'—'}</b></span>
-      <span>Média/dia: <b style="color:#1a1a2e">${op.mediaDiaCons>0?fmt(op.mediaDiaCons):'—'}</b></span>
-      <span>Média/hora: <b style="color:#1a1a2e">${op.mediaHora>0?fmt(op.mediaHora):'—'}</b></span>
+      <span>Fev: <b style="color:#e6edf3">${op.fev.total>0?fmt(op.fev.total):'—'}</b></span>
+      <span>Mar: <b style="color:#e6edf3">${op.mar.total>0?fmt(op.mar.total):'—'}</b></span>
+      <span>Média/dia: <b style="color:#e6edf3">${op.mediaDiaCons>0?fmt(op.mediaDiaCons):'—'}</b></span>
+      <span>Média/hora: <b style="color:#e6edf3">${op.mediaHora>0?fmt(op.mediaHora):'—'}</b></span>
     </div>`;
   }
   div.innerHTML=`
