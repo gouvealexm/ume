@@ -5,74 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel Operacional</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f5f7; color: #1a1a2e; min-height: 100vh; }
-.container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59,130,246,0.15);
+  --green: #10b981;
+  --green-glow: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --red-glow: rgba(239,68,68,0.12);
+  --purple: #8b5cf6;
+}
+
+body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px 24px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.logo-wrap { margin-bottom: auto; }
+.logo-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.logo-text span { color: var(--accent); }
+.logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+.dev-credit { margin-top: 24px; font-size: 10px; color: var(--text-muted); line-height: 1.5; }
+.dev-credit a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+.dev-credit a:hover { color: #93c5fd; text-decoration: underline; }
+
+/* MAIN */
+.main { flex: 1; padding: 28px 24px; overflow: auto; }
+.container { max-width: 1100px; margin: 0 auto; }
 header { margin-bottom: 24px; }
-header h1 { font-size: 20px; font-weight: 600; color: #1a1a2e; }
-header p { font-size: 13px; color: #666; margin-top: 2px; }
-.nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; background: #fff; border-radius: 12px; padding: 10px; border: 1px solid #e8e8ee; }
-.nav-btn { background: transparent; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #666; cursor: pointer; transition: all 0.15s; }
-.nav-btn:hover { background: #f4f5f7; color: #1a1a2e; }
-.nav-btn.active { background: #1a56db; color: #fff; }
+header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
+header p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+.nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; background: var(--surface); border-radius: 12px; padding: 8px; border: 1px solid var(--border); }
+.nav-btn { background: transparent; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.nav-btn:hover { background: var(--surface2); color: var(--text); }
+.nav-btn.active { background: var(--accent); color: #fff; box-shadow: 0 0 12px var(--accent-glow); }
+
 .panel { display: none; }
 .panel.active { display: block; }
-.sec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin-bottom: 8px; margin-top: 16px; }
-.sec-sub { font-size: 11px; color: #aaa; margin-top: -6px; margin-bottom: 8px; }
+.sec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 8px; margin-top: 16px; }
+.sec-sub { font-size: 11px; color: var(--text-muted); margin-top: -6px; margin-bottom: 8px; opacity: 0.7; }
 .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px,1fr)); gap: 8px; margin-bottom: 8px; }
-.card { background: #fff; border: 1.5px solid #e8e8ee; border-radius: 12px; padding: 10px 12px; cursor: pointer; user-select: none; transition: all 0.15s; }
-.card:hover { border-color: #b0c4f8; box-shadow: 0 2px 8px rgba(26,86,219,0.07); }
-.card.selected { border: 2px solid #1a56db; background: #eef3ff; }
-.card.selected .cname { color: #1a56db; }
+
+.card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 12px; cursor: pointer; user-select: none; transition: all 0.15s; }
+.card:hover { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+.card.selected { border: 2px solid var(--accent); background: var(--surface2); box-shadow: 0 0 16px var(--accent-glow); }
+.card.selected .cname { color: #93c5fd; }
+
 .initials { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
-.cname { font-size: 12px; font-weight: 600; color: #1a1a2e; margin-bottom: 2px; line-height: 1.3; }
-.cvals { font-size: 11px; color: #888; line-height: 1.8; }
+.cname { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.3; }
+.cvals { font-size: 11px; color: var(--text-muted); line-height: 1.8; }
 .cvals span { display: block; }
 .ctag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-top: 5px; font-weight: 500; }
-.result-box { background: #fff; border: 1px solid #e8e8ee; border-radius: 12px; padding: 18px; margin-top: 8px; }
-.empty { color: #bbb; font-size: 13px; text-align: center; padding: 28px 0; }
+.result-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-top: 8px; }
+.empty { color: var(--text-muted); font-size: 13px; text-align: center; padding: 28px 0; }
+
 .g2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
 .g3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
 .g4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 12px; }
 .g5 { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
+
 .m { border-radius: 10px; padding: 11px 13px; }
 .m .ml { font-size: 11px; margin-bottom: 3px; font-weight: 500; }
 .m .mv { font-size: 17px; font-weight: 600; }
-.mr { background: #fff1f1; } .mr .ml { color: #c0392b; } .mr .mv { color: #922b21; }
-.mg { background: #eafaf1; } .mg .ml { color: #1e8449; } .mg .mv { color: #1a5e36; }
-.mn { background: #f4f5f7; } .mn .ml { color: #888; } .mn .mv { color: #1a1a2e; }
-.mb { background: #eef3ff; } .mb .ml { color: #1a56db; } .mb .mv { color: #1239a0; }
-.team-block { border: 1px solid #e8e8ee; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.mr { background: var(--red-glow); border: 1px solid rgba(239,68,68,0.2); } .mr .ml { color: #f87171; } .mr .mv { color: #fca5a5; }
+.mg { background: var(--green-glow); border: 1px solid rgba(16,185,129,0.2); } .mg .ml { color: #34d399; } .mg .mv { color: #6ee7b7; }
+.mn { background: var(--surface2); border: 1px solid var(--border); } .mn .ml { color: var(--text-muted); } .mn .mv { color: var(--text); }
+.mb { background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.2); } .mb .ml { color: #60a5fa; } .mb .mv { color: #93c5fd; }
+
+.team-block { border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; background: var(--surface); }
 .team-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
-.row-item { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #f0f0f5; font-size:12px; flex-wrap:wrap; gap:4px; }
+.row-item { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:12px; flex-wrap:wrap; gap:4px; }
 .row-item:last-child { border-bottom:none; }
-.row-name { color:#1a1a2e; font-weight:600; }
-.row-vals { display:flex; gap:12px; color:#888; flex-wrap:wrap; font-size:11px; }
-.row-vals b { color:#1a1a2e; font-weight:600; }
-.pct-bar-bg { background: #f0f0f5; border-radius:6px; height:7px; overflow:hidden; margin-top:4px; }
+.row-name { color:var(--text); font-weight:600; }
+.row-vals { display:flex; gap:12px; color:var(--text-muted); flex-wrap:wrap; font-size:11px; }
+.row-vals b { color:var(--text); font-weight:600; }
+.pct-bar-bg { background: var(--border); border-radius:6px; height:7px; overflow:hidden; margin-top:4px; }
 .pct-bar { height:7px; border-radius:6px; }
-.divider { border:none; border-top:1px solid #f0f0f5; margin:14px 0; }
+.divider { border:none; border-top:1px solid var(--border); margin:14px 0; }
+
 .day-card { border-radius:10px; padding:12px 8px; text-align:center; }
 .day-card .dl { font-size:11px; font-weight:600; margin-bottom:4px; }
 .day-card .dv { font-size:15px; font-weight:600; }
 .mini-bar { height:4px; border-radius:2px; margin-top:4px; }
+
 .op-table { width:100%; border-collapse:collapse; font-size:12px; }
-.op-table th { background:#f9f9fb; padding:8px 10px; text-align:center; font-weight:600; color:#888; font-size:11px; border-bottom:1px solid #eee; }
+.op-table th { background:var(--surface2); padding:8px 10px; text-align:center; font-weight:600; color:var(--text-muted); font-size:11px; border-bottom:1px solid var(--border); }
 .op-table th.left { text-align:left; }
-.op-table td { padding:8px 10px; text-align:right; border-bottom:1px solid #f4f5f7; color:#1a1a2e; }
+.op-table td { padding:8px 10px; text-align:right; border-bottom:1px solid var(--border); color:var(--text); }
 .op-table td.left { text-align:left; font-weight:600; }
 .op-table td.center { text-align:center; }
 .op-table tr:last-child td { border-bottom:none; }
-.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:#eafaf1; color:#1e8449; font-weight:600; }
-.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:#fff1f1; color:#c0392b; font-weight:600; }
-.badge-eq { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:#f4f5f7; color:#888; }
-.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:#fff1f1; color:#c0392b; font-weight:600; }
-.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:#eef3ff; color:#1a56db; font-weight:600; }
-.hslider-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; background:#f9f9fb; border-radius:10px; padding:10px 14px; }
-input[type=range] { accent-color: #1a56db; }
+.op-table tr:hover td { background: var(--surface2); }
+
+.badge-up { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--green-glow); color:#34d399; font-weight:600; border:1px solid rgba(16,185,129,0.2); }
+.badge-dn { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
+.badge-eq { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--surface2); color:var(--text-muted); border:1px solid var(--border); }
+.badge-desl { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--red-glow); color:#f87171; font-weight:600; border:1px solid rgba(239,68,68,0.2); }
+.badge-new { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; background:var(--accent-glow); color:#60a5fa; font-weight:600; border:1px solid rgba(59,130,246,0.2); }
+
+.hslider-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; background:var(--surface2); border-radius:10px; padding:10px 14px; border:1px solid var(--border); }
+input[type=range] { accent-color: var(--accent); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 </style>
 </head>
 <body>
+
+<aside class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-text">ume<span>.</span></div>
+    <div class="logo-sub">Painel Operacional</div>
+  </div>
+  <div class="dev-credit">
+    Desenvolvido por<br>
+    <a href="mailto:gustavo.pereira@ume.com.br">Gustavo Pereira</a>
+  </div>
+</aside>
+
+<div class="main">
 <div class="container">
   <header>
     <h1>Painel Operacional</h1>
@@ -89,11 +170,11 @@ input[type=range] { accent-color: #1a56db; }
   <!-- P1: PERDA -->
   <div class="panel active" id="panel-perda">
     <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione os operadores ausentes</div>
-    <div class="sec-label" style="color:#1a56db;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
-    <div class="sec-label" style="color:#1a56db;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
-    <div class="sec-label" style="color:#7f56d9;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
-    <div class="sec-label" style="color:#0d7a55;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
-    <div class="sec-label" style="color:#276749;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
+    <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p1-ume-disc"></div>
+    <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="sec-sub">Ter–Sex</div><div class="grid-cards" id="p1-ume-ja"></div>
+    <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p1-ume-wp"></div>
+    <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p1-odres-disc"></div>
+    <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p1-odres-wp"></div>
     <div class="hslider-row">
       <label style="font-size:13px;color:#555;">Horas ausente hoje:</label>
       <input type="range" min="0.5" max="8" step="0.5" value="8" id="hslider" style="width:130px;">
@@ -105,18 +186,18 @@ input[type=range] { accent-color: #1a56db; }
   <!-- P2: MÉDIAS -->
   <div class="panel" id="panel-medias">
     <div style="font-size:12px;color:#888;margin-bottom:10px;">Médias consolidadas Fevereiro + Março</div>
-    <div class="sec-label" style="color:#1a56db;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
-    <div class="sec-label" style="color:#1a56db;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
-    <div class="sec-label" style="color:#7f56d9;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
-    <div class="sec-label" style="color:#0d7a55;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
-    <div class="sec-label" style="color:#276749;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
+    <div class="sec-label" style="color:#60a5fa;">UME — Discador</div><div class="grid-cards" id="p2-ume-disc"></div>
+    <div class="sec-label" style="color:#60a5fa;">UME — Jovem Aprendiz</div><div class="grid-cards" id="p2-ume-ja"></div>
+    <div class="sec-label" style="color:#a78bfa;">UME — WhatsApp</div><div class="grid-cards" id="p2-ume-wp"></div>
+    <div class="sec-label" style="color:#34d399;">ODRES — Discador</div><div class="grid-cards" id="p2-odres-disc"></div>
+    <div class="sec-label" style="color:#6ee7b7;">ODRES — WhatsApp</div><div class="grid-cards" id="p2-odres-wp"></div>
   </div>
 
   <!-- P3: DIA DA SEMANA -->
   <div class="panel" id="panel-semana">
     <div style="font-size:12px;color:#888;margin-bottom:10px;">Selecione operadores para ver produção por dia da semana</div>
-    <div class="sec-label" style="color:#1a56db;">UME</div><div class="grid-cards" id="p3-ume"></div>
-    <div class="sec-label" style="color:#0d7a55;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
+    <div class="sec-label" style="color:#60a5fa;">UME</div><div class="grid-cards" id="p3-ume"></div>
+    <div class="sec-label" style="color:#34d399;">ODRES</div><div class="grid-cards" id="p3-odres"></div>
     <div class="result-box" id="p3-result"><div class="empty">Selecione um ou mais operadores acima</div></div>
   </div>
 
@@ -126,22 +207,23 @@ input[type=range] { accent-color: #1a56db; }
     <div id="p4-content"></div>
   </div>
 </div>
+</div> <!-- /main -->
 
 <script>
 const ops = [
-  { name:'Andressa Bruna',   initials:'AB', color:'#dbeafe', tc:'#1e40af', fev:{total:15291,dias:20},  mar:{total:15174.46,dias:21}, equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Raquel Moreira',   initials:'RM', color:'#dbeafe', tc:'#1e40af', fev:{total:8108,dias:20},   mar:{total:3882.26,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Rayara Danielle',  initials:'RD', color:'#dbeafe', tc:'#1e40af', fev:{total:5567,dias:20},   mar:{total:2670.92,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Vitória Ketelin',  initials:'VK', color:'#fee2e2', tc:'#991b1b', fev:{total:40069,dias:15},  mar:{total:4702.85,dias:5},   equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Pamela Moreira',   initials:'PM', color:'#fee2e2', tc:'#991b1b', fev:{total:8482,dias:15},   mar:{total:7336.73,dias:10},  equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
-  { name:'Kayke Araújo',     initials:'KA', color:'#bfdbfe', tc:'#1e3a8a', fev:{total:18786,dias:16},  mar:{total:9241.93,dias:17},  equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
-  { name:'Pamela Isabelle',  initials:'PI', color:'#bfdbfe', tc:'#1e3a8a', fev:{total:29052,dias:16},  mar:{total:14813.61,dias:17}, equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
-  { name:'Lauane Stephanie', initials:'LS', color:'#ede9fe', tc:'#5b21b6', fev:{total:0,dias:0},       mar:{total:1125.50,dias:10},  equipe:'UME',   sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-ume-wp',     p2:'p2-ume-wp',     p3:'p3-ume'   },
-  { name:'Adriano Correia',  initials:'AC', color:'#d1fae5', tc:'#065f46', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Beatriz Santos',   initials:'BS', color:'#d1fae5', tc:'#065f46', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Larissa Rosário',  initials:'LR', color:'#d1fae5', tc:'#065f46', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Simone Gama',      initials:'SG', color:'#fee2e2', tc:'#991b1b', fev:{total:36851,dias:15},  mar:{total:29875.64,dias:10}, equipe:'ODRES', sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
-  { name:'Talita Souza',     initials:'TS', color:'#d1fae5', tc:'#14532d', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
+  { name:'Andressa Bruna',   initials:'AB', color:'#bfdbfe', tc:'#93c5fd', fev:{total:15291,dias:20},  mar:{total:15174.46,dias:21}, equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Raquel Moreira',   initials:'RM', color:'#bfdbfe', tc:'#93c5fd', fev:{total:8108,dias:20},   mar:{total:3882.26,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Rayara Danielle',  initials:'RD', color:'#bfdbfe', tc:'#93c5fd', fev:{total:5567,dias:20},   mar:{total:2670.92,dias:21},  equipe:'UME',   sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Vitória Ketelin',  initials:'VK', color:'#3b0a0a', tc:'#fca5a5', fev:{total:40069,dias:15},  mar:{total:4702.85,dias:5},   equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Pamela Moreira',   initials:'PM', color:'#3b0a0a', tc:'#fca5a5', fev:{total:8482,dias:15},   mar:{total:7336.73,dias:10},  equipe:'UME',   sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-ume-disc',   p2:'p2-ume-disc',   p3:'p3-ume'   },
+  { name:'Kayke Araújo',     initials:'KA', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:18786,dias:16},  mar:{total:9241.93,dias:17},  equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
+  { name:'Pamela Isabelle',  initials:'PI', color:'#bfdbfe', tc:'#bfdbfe', fev:{total:29052,dias:16},  mar:{total:14813.61,dias:17}, equipe:'UME',   sub:'Jovem Aprendiz', tag:'J.A.',   ativo:true,  p1:'p1-ume-ja',     p2:'p2-ume-ja',     p3:'p3-ume'   },
+  { name:'Lauane Stephanie', initials:'LS', color:'#2e1065', tc:'#c4b5fd', fev:{total:0,dias:0},       mar:{total:1125.50,dias:10},  equipe:'UME',   sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-ume-wp',     p2:'p2-ume-wp',     p3:'p3-ume'   },
+  { name:'Adriano Correia',  initials:'AC', color:'#052e16', tc:'#6ee7b7', fev:{total:15910,dias:20},  mar:{total:5780.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Beatriz Santos',   initials:'BS', color:'#052e16', tc:'#6ee7b7', fev:{total:13736,dias:20},  mar:{total:7349.76,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Larissa Rosário',  initials:'LR', color:'#052e16', tc:'#6ee7b7', fev:{total:7792,dias:20},   mar:{total:7300.32,dias:21},  equipe:'ODRES', sub:'Discador',       tag:'Disc.',  ativo:true,  p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Simone Gama',      initials:'SG', color:'#3b0a0a', tc:'#fca5a5', fev:{total:36851,dias:15},  mar:{total:29875.64,dias:10}, equipe:'ODRES', sub:'Discador',       tag:'Desl.',  ativo:false, p1:'p1-odres-disc', p2:'p2-odres-disc', p3:'p3-odres' },
+  { name:'Talita Souza',     initials:'TS', color:'#052e16', tc:'#a7f3d0', fev:{total:2124,dias:20},   mar:{total:0,dias:0},         equipe:'ODRES', sub:'WhatsApp',       tag:'WP',     ativo:true,  p1:'p1-odres-wp',   p2:'p2-odres-wp',   p3:'p3-odres' },
 ];
 
 const rawMar = {
@@ -163,7 +245,7 @@ const rawMar = {
 const calendario = [[0],[1],[2],[3],[4],[0],[1],[2],[3],[4],[0],[2],[3],[4],[0],[1],[2],[3],[4],[0],[1]];
 const diasNome = ['Segunda','Terça','Quarta','Quinta','Sexta'];
 const diasCor  = ['#eff6ff','#f0fdf4','#f5f3ff','#fffbeb','#fff7ed'];
-const diasTxt  = ['#1e40af','#065f46','#5b21b6','#92400e','#9a3412'];
+const diasTxt  = ['#93c5fd','#6ee7b7','#c4b5fd','#92400e','#9a3412'];
 const diasBar  = ['#3b82f6','#22c55e','#8b5cf6','#f59e0b','#f97316'];
 
 function calcMediaDia(nome){
@@ -300,7 +382,7 @@ function renderP1(){
     </div>
     <hr class="divider">
     ${teamBlockP1('UME — Discador','#1a56db',uD)}
-    ${teamBlockP1('UME — Jovem Aprendiz','#1e40af',uJ)}
+    ${teamBlockP1('UME — Jovem Aprendiz','#93c5fd',uJ)}
     ${teamBlockP1('UME — WhatsApp','#7f56d9',uW)}
     ${teamBlockP1('ODRES — Discador','#0d7a55',oD)}
     ${teamBlockP1('ODRES — WhatsApp','#276749',oW)}
@@ -432,8 +514,8 @@ function renderP4(){
       <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#93c5fd;display:inline-block;"></span>Fevereiro</span>
       <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#6ee7b7;display:inline-block;"></span>Março</span>
     </div>
-    ${teamTable('UME','#1a56db',umeOps)}
-    ${teamTable('ODRES','#0d7a55',odresOps)}
+    ${teamTable('UME','#60a5fa',umeOps)}
+    ${teamTable('ODRES','#34d399',odresOps)}
   `;
 }
 </script>
