@@ -54,8 +54,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 /* ── APP PANELS ── */
 .main { flex: 1; overflow: auto; min-width: 0; }
-.app-panel { display: none; min-height: 100vh; }
-.app-panel.active { display: block; }
+.app-panel { display: none !important; min-height: 100vh; }
+.app-panel.active { display: block !important; }
 
 /* ── PAINEL OPERACIONAL CSS (scoped) ── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -76,7 +76,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   --red-glow: rgba(239,68,68,0.12);
   --purple: #8b5cf6;
 }
-#app-painel { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+#app-painel { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; }
 #app-painel /* SIDEBAR */
 .sidebar {
   width: 200px;
@@ -196,7 +196,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
   --purple:#a855f7;--pbg:#150d1f;--pbd:#4a1f7a;
   --r:10px;--rs:6px;
 }
-#app-discador {background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+#app-discador {font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;}
 #app-discador /* ── HEADER ── */
 .hdr {background:var(--bg2);border-bottom:1px solid var(--border);padding:0 36px;display:flex;align-items:center;gap:14px;height:56px;position:sticky;top:0;z-index:300}
 #app-discador .logo {font-size:21px;font-weight:700;letter-spacing:-.5px}
