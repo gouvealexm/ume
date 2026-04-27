@@ -1096,14 +1096,14 @@ const FUNIL = {
     cols_ume:   ['UME Fev (15 DU)','UME Mar (15 DU)','UME Abr (15 DU)'],
     cols_odres: ['Odres Mar (15 DU)','Odres Abr (15 DU)','Δ'],
     rows: [
-      {lbl:'Mailing',    ume:['442.376','471.998','509.401'],          odres:['77.287','94.558','<span class="cup">+22%</span>']},
-      {lbl:'Tentativas', ume:['~235k','~131k','~70k'],                 odres:['~10k','~10k','estável'], hlr:true},
-      {lbl:'Alô',        ume:['~7.100','~3.300','~1.700'],             odres:['~300','~220','<span class="cdn">−24%</span>'], hlr:true},
-      {lbl:'CPC',        ume:['~2.940 (~41%)','~1.340 (~41%)','~670 (~39%)'],odres:['~160 (53,5%)','~58 (26,3%)','<span class="cdn">−27pp🔴</span>'], hlr:true},
-      {lbl:'Conversão',  ume:['~1.380 (47%)','~515 (38%)','~195 (29%)']   ,odres:['~72 (45%)','~30 (52%)','<span class="cup">+7pp✅</span>'], hly:true},
-      {lbl:'Pagamento',  ume:['~900 · ~R$168k','~370 · ~R$73k','215 · R$39k'],odres:['~67 · ~R$11k','13 · R$2k','<span class="cdn">−87%</span>'], hlr:true},
+      {lbl:'Mailing',    ume:['442.376','471.998','509.401'],                                odres:['77.287','94.558','<span class="cup">+22%</span>']},
+      {lbl:'Tentativas', ume:['235.408','168.514','139.468'],                              odres:['—','—','—'], hlr:true},
+      {lbl:'Alô',        ume:['7.097 (41,4%)','3.989 (43,1%)','3.412 (39,4%)'],           odres:['—','—','—'], hlr:true},
+      {lbl:'CPC',        ume:['2.935 (41,4%)','1.720 (43,1%)','1.343 (39,4%)'],           odres:['—','—','—'], hlr:true},
+      {lbl:'Conversão',  ume:['1.379 (47,0%)','649 (37,7%)','512 (38,1%)'],               odres:['—','—','—'], hly:true},
+      {lbl:'Pagamento',  ume:['898 · R$168k','378 · R$74k <span class="cdn">−55,7%</span>','215 · R$39k <span class="cdn">−47,0%</span>'],odres:['—','—','—'], hlr:true},
     ],
-    note_ume:   '<strong>Comparativo equiparado (15 DU):</strong> A UME mostra queda progressiva em todo o funil de Fev→Mar→Abr. Em Abril, o headcount reduzido (3 operadoras ativas vs 6) é o principal driver da queda de volume.',
+    note_ume:   '<strong>Comparativo equiparado (15 DU · prorated):</strong> Fev→Mar: tentativas −28%, Alôs −44%, receita −56%. Mar→Abr: tentativas −17%, receita −47% — impacto do headcount reduzido (3 de 6 operadoras). Taxas de CPC estáveis (~40%) indicam que a queda é de <strong>volume</strong>, não de qualidade.',
     note_odres: '<strong>Comparativo equiparado (15 DU):</strong> A Odres em Abril sofreu colapso de CPC (53,5%→26,3%) por saturação de base. A conversão subiu — quem passou pelo filtro converte melhor — mas o volume total despencou.',
   },
 };
@@ -1540,11 +1540,25 @@ function renderAll() {
 // ─────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────
-(async () => {
-  await loadClState();
-  renderAll();
-  renderChecklist();
-})();
+// Init — called by switchApp
+  async function _discInit() {
+    await loadClState();
+    renderAll();
+    renderChecklist();
+  }
+  window._discInit = _discInit;
+  _discInit(); // also run on load so content is ready
+
+  // ── Expose to window for HTML onclick handlers ──
+  window.setPeriod      = setPeriod;
+  window.setOp          = setOp;
+  window.toggleCheck    = toggleCheck;
+  window.togglePopover  = togglePopover;
+  window.saveComment    = saveComment;
+  window.closePopover   = closePopover;
+  window.editComment    = editComment;
+
+
 
 })();
 </script>
