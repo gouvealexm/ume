@@ -1510,7 +1510,7 @@ function closeAllPopovers() { document.querySelectorAll('.cl-popover.open').forE
 function setPeriod(p) {
   period = p;
   document.querySelectorAll('[id^="btn-fev"]').forEach(b=>b.classList.remove('active'));
-  $('btn-'+p.replace('_','-')).classList.add('active');
+  $('btn-'+p.replaceAll('_','-')).classList.add('active');
   const notes = {
     fev_mar:     'Fev: 20 DU · Mar: 22 DU — meses fechados completos',
     fev_mar_abr: `Fev: ${D.n_eq} DU · Mar: ${D.n_eq} DU · Abr: ${D.n_eq} DU — mesmo período equiparado`,
